@@ -1,6 +1,19 @@
-# Bytecoil – Retro Snake 0.5.2
+# Bytecoil – Retro Snake 0.6.1
 
-Eine lokal spielbare Weiterentwicklung von 0.5: Retro Snake, klassisches Retro-Menü, monochromes LCD und virtuelles Telefon. Version 0.5.2 bietet ein kompaktes Smartphone-Layout und die Vorbereitung für eine freizugebende GitHub-Pages-Testveröffentlichung. Kein Konto, keine externen Assets, keine Laufzeit-Abhängigkeiten.
+Weiterentwicklung des veröffentlichten v0.5.2-Stands mit **Classic Snake, Zen Mode, Time Attack und drei Challenges**, lokalen Statistiken und getrennten Rekorden. Eine gemeinsame Engine, keine neuen Frameworks, keine Anmeldung und keine externen Laufzeitdienste. **0.6.1 korrigiert LCD-Clipping:** vier logische Pixel Randreserve, einheitliches 320 × 244-Canvas und ein vom Rahmen unabhängiges Seitenverhältnis. 26 × 17 Zellen, Spieltempo und Speicherformate bleiben erhalten. [Analyse und Randtests](docs/LCD.md).
+
+**Entwicklungsstand:** Branch `feature/v0.6-game-modes`, Ausgangscommit `059debfdb68502d668092df4c2c434be9333dd2d` aus `Sepp1092/Snake`. Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Die bestehende Website wird durch diesen lokalen Stand nicht verändert.
+
+[Spielmodi und Bedienung](docs/MODES.md) · [Speicherformat und Migration](docs/STORAGE.md) · [Tests](docs/TESTS.md) · [Neue Screenshots](docs/SCREENSHOTS.md)
+
+
+## Neue Spielmodi
+
+Hauptmenü → Spiele: **Classic Snake** behält die bisherigen Regeln; **Zen Mode** setzt die Schlange nach Kollision sicher zurück und erhält die Sitzungspunkte; **Time Attack** bietet 60/120/180 aktive Sekunden; **Challenge Mode** bietet Food Hunter, Survivor und Maze Master mit festen Regeln und lokalem Abschlussstatus. Vor dem Challenge-Start wird das Ziel erklärt.
+
+Hauptmenü → **Statistik**: Die erste Zeile wechselt zwischen Gesamt und den vier Modi. **Highscores** zeigt Classic, die drei Time-Attack-Rekorde und Challenge-Abschlüsse. Zen hat bewusst keine kompetitive Rangliste. Profile Classic/Modern und Handy/Vollbild betreffen weiterhin nur die Darstellung.
+
+Version-1-Spielstände aus v0.5.2 werden pausiert als Classic übernommen und beim nächsten Sichern in Version 2 geschrieben. Der alte Classic-Rekord bleibt unter `snake3310_best`. Eine stabile Sitzungs-ID und fortlaufende Checkpoints verhindern Doppelzählung beim Neuladen. Historische Gesamtstatistiken vor v0.6 können nicht nachträglich rekonstruiert werden.
 
 ## Starten
 
@@ -16,7 +29,7 @@ Die im Terminal ausgegebene Adresse öffnen, normalerweise `http://127.0.0.1:517
 Alternativ mit der mitgelieferten Lockdatei: `pnpm install --frozen-lockfile`, danach `pnpm dev`. `pnpm-workspace.yaml` erlaubt ausschließlich den esbuild-Buildschritt. Mit älteren pnpm-Versionen gegebenenfalls `pnpm approve-builds` für esbuild verwenden.
 
 ```sh
-npm test                 # 37 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
+npm test                 # 56 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
 npm run build            # TypeScript-Prüfung, Vite-Build, Offline-Cache
 npm run preview          # Fertigen Build lokal unter Port 4173 ansehen
 npm run test:browser     # Playwright: Desktop, Smartphone und Offline
@@ -93,11 +106,11 @@ TypeScript + Vite + Canvas, bewusst ohne React: Für dieses kleine Spiel genügt
 
 ## Speicherung
 
-Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte werden übernommen, **wenn dieselbe Origin verwendet wird**. Daten einer per `file://` geöffneten HTML-Datei oder einer anderen Adresse/Portnummer sind vom Browser getrennt und werden nicht automatisch übertragen. Rekord, Einstellungen und Spielstand bleiben lokal; gelöschte Browserdaten löschen auch diese Werte. Bei gesperrtem oder vollem Speicher bleibt das Spiel nutzbar, die Persistenz kann dann fehlen. Neue Optionen erhalten konservative Standardwerte. Details zu Schlüsseln, Snapshot-Version 1 und Validierungsregeln: [Speicherformat](docs/STORAGE.md).
+Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte werden übernommen, **wenn dieselbe Origin verwendet wird**. Daten einer per `file://` geöffneten HTML-Datei oder einer anderen Adresse/Portnummer sind vom Browser getrennt und werden nicht automatisch übertragen. Rekord, Einstellungen und Spielstand bleiben lokal; gelöschte Browserdaten löschen auch diese Werte. Bei gesperrtem oder vollem Speicher bleibt das Spiel nutzbar, die Persistenz kann dann fehlen. Neue Optionen erhalten konservative Standardwerte. Details zu Schlüsseln, Snapshot-Version 2, Migration aus Version 1 und Validierungsregeln: [Speicherformat](docs/STORAGE.md).
 
 ## Qualität und Veröffentlichung
 
-Ergebnis: **36 bestandene Unit-Tests, 29 bestandene Playwright-Szenarien** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chromium-Emulation wurden visuell geprüft. Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
+Ergebnis: **56 bestandene Unit-Tests, 49 Chrome-Szenarien plus 9 WebKit-Randprüfungen** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 
@@ -107,4 +120,10 @@ Eigenständiges Retro-Arcade-Spiel ohne Herstellerbezug. Historisch inspiriert, 
 
 Die App heißt jetzt **Bytecoil – Retro Snake**. Das gestaltete Handheld ist ein eigenständiges Fantasiegerät; Herstellerlogos und fremde Werbeslogans sind nicht Bestandteil der Benutzeroberfläche. Die alte Referenz-HTML und frühere Screenshots wurden aus dem aktuellen Projekt entfernt. Details: [Branding-Checkliste](docs/BRANDING.md). Die Browserdaten bleiben unter den bisherigen `snake3310_*`-Schlüsseln kompatibel; bitte nicht umbenennen.
 
-Vor Veröffentlichung sind Build-/Browsertests und neue Screenshots zu prüfen. Der Produktname muss noch in einschlägigen Markenregistern auf Verfügbarkeit untersucht werden.
+Der v0.6-Entwicklungsstand ist mit Build-/Browsertests und neuen Screenshots geprüft; vor einer Freigabe sind diese auf der Zielplattform zu bestätigen. Der Produktname muss noch in einschlägigen Markenregistern auf Verfügbarkeit untersucht werden.
+
+## Freigabe von v0.6
+
+Alle Arbeit erfolgt lokal auf `feature/v0.6-game-modes`. Keine Veröffentlichung, kein Merge und kein Deployment wurden ausgeführt. Empfohlen: Diff und Screenshots prüfen, anschließend den Entwicklungsbranch bewusst committen/pushen und als PR gegen `main` prüfen. Erst nach ausdrücklicher Freigabe mergen. Das GitHub-Pages-Deployment ist eine separate manuelle Freigabe; ein Push auf den Feature-Branch darf nicht die öffentliche v0.5.2 ersetzen. Der Workflow veröffentlicht außerdem nur vom Standardbranch und nach gesetztem Freigabefeld.
+
+Lokale Vorschau kann mit `pnpm run preview --port 4174` vom älteren Checkout getrennt gestartet werden. Ein anderer Port ist eine andere Origin und besitzt eigene Browserdaten; die spätere Übernahme bestehender Daten wird unter derselben veröffentlichten Adresse geprüft.

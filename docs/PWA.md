@@ -107,3 +107,16 @@ Die aktuelle HTML-Datei enthält einen kleinen, von den Spielmodulen unabhängig
 Lokale Vite-Builds behalten bereits vorhandene gehashte Assets, damit noch offene ältere Dokumente weiterhin passende Dateien finden. Der Offline-Build verwendet das aktuelle Vite-Manifest, sodass ältere Dateien nicht zusätzlich in den neuen Offline-Cache aufgenommen werden. Frische GitHub-Runner besitzen keinen vorherigen dist-Ordner; dort schützt weiterhin der zur aktiven Version passende vollständige Service-Worker-Cache.
 
 Diese zwei Fehlerfälle sind mit blockierten CSS-/JS-Anfragen und anschließender erfolgreicher Wiederherstellung im Browser getestet.
+
+## v0.6 – Modusdaten und Offline-Betrieb
+
+Zen, Time Attack, Challenges, Rekorde und Statistiken verwenden ausschließlich vorhandenen lokalen Speicher. Keine PWA-/Hosting-Neuarchitektur und keine neue externe Abhängigkeit. Das vorhandene relative Manifest mit Bytecoil-Identität, Icons, der scopebezogene Worker und sein wartendes Update-Verhalten bleiben erhalten.
+
+Die Produktions-Browserabnahme wurde erneut vollständig ausgeführt. Zusätzlich werden Time-Attack-Partien aller drei Dauern offline geladen, mit unverändertem gespeicherten aktiven Zeitwert pausiert wiederhergestellt und bis zum regulären Timeout fortgesetzt. Die Version-1-Migration aus v0.5.2 und idempotente Statistikzählung sind automatisiert geprüft. Physische Smartphones und Safari bleiben Teil der Freigabeprüfung.
+
+Die lokale Entwicklungsvorschau läuft getrennt auf Port 4174. Ein anderer Port bedeutet einen anderen Browser-Speicherbereich; die öffentliche v0.5.2 und ihre Daten werden dadurch nicht verändert. Kein Push, Merge oder Deployment wurde ausgeführt. Das empfohlene Freigabeverfahren steht in [GITHUB_PAGES.md](GITHUB_PAGES.md).
+
+
+## 0.6.1 – LCD-Randreserve
+
+Renderer und Styles sind für Browser und Standalone identisch. `viewport-fit=cover`, Safe Areas, Offline-Cache und sämtliche Speicherschlüssel bleiben erhalten. Der Build erzeugt einen neuen Cache-Fingerabdruck; das bestehende sichere Updateverfahren bleibt bestehen. Chrome-PWA-Regression mit Offline-Fortsetzen nach echtem Browser-Neustart erneut erfolgreich. Zusätzlich wurde die LCD-Geometrie in WebKit mit drei Viewports und DPR 1/2/3 geprüft. Dies ist kein Test einer tatsächlich auf iOS installierten PWA: vor Veröffentlichung Safari und „Zum Home-Bildschirm“ auf einem echten iPhone prüfen. [Details](LCD.md).

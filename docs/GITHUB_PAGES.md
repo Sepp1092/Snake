@@ -1,3 +1,21 @@
+# Entwicklungsfreigabe v0.6
+
+Der lokale Entwicklungscheckout basiert auf `Sepp1092/Snake` Commit `059debfdb68502d668092df4c2c434be9333dd2d`. Alle Änderungen liegen auf `feature/v0.6-game-modes`; sie wurden nicht auf GitHub gepusht, nicht mit `main` zusammengeführt und nicht veröffentlicht. Die öffentliche v0.5.2 bleibt unverändert.
+
+Empfohlene Reihenfolge:
+
+1. Lokalen Diff, Modus-/Statistik-Screenshots und Testbericht prüfen. Auf echten Smartphones und Safari kurz spielen; eine kopierte v0.5.2-Partie in einer Testumgebung migrieren.
+2. Den Feature-Stand bewusst committen und den Feature-Branch pushen; einen Review-PR gegen `main` eröffnen. Ein Push führt im vorhandenen Workflow nur Prüfungen aus.
+3. Tests im GitHub-Runner bestätigen. Erst nach ausdrücklicher Freigabe den PR mergen.
+4. Veröffentlichung separat freigeben: manueller Pages-Workflow vom Standardbranch mit gesetztem Veröffentlichungsfeld. Der Workflow selbst blieb unverändert; ein Feature-Branch kann damit nicht veröffentlichen.
+5. Nach Freigabe auf der endgültigen HTTPS-Adresse Modusauswahl, Statistik, Offline-Start und Migration prüfen. Dasselbe Origin beibehalten; vorhandene App-Tabs regulär schließen, bevor ein wartendes Update übernimmt.
+
+Snapshot-Version 2 wird von v0.5.2 nicht unterstützt. Ein bewusstes Rollback sollte deshalb erst nach Beenden einer aktiven v0.6-Partie erfolgen. Datenformat und Grenzen: [STORAGE.md](STORAGE.md).
+
+Die folgende Anleitung beschreibt den bestehenden Pages-Ablauf aus v0.5.2 und ist kein ausgeführtes Deployment.
+
+---
+
 # GitHub Pages – Freigabe und erste Testveröffentlichung
 
 Version 0.5.2 ist als Quellprojekt für einen erneuten Build und die GitHub-Pages-Freigabe vorbereitet. Das bestehende GitHub-Repository ist `Sepp1092/Snake`; die folgende Anleitung beschreibt das Update über GitHub Desktop.

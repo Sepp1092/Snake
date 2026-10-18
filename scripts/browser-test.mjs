@@ -1,11 +1,13 @@
-import { chromium } from '@playwright/test';
+import { chromium, webkit } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile, mkdtemp, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { Game } from '../src/engine.ts';
+import { GameSession } from '../src/modes.ts';
 import { capture } from '../src/snapshot.ts';
+import { testEdges } from './edge-test.mjs';
 
 await mkdir('test-results', { recursive: true });
 const root = path.resolve('dist');
@@ -34,7 +36,27 @@ let failed = null;
 const check = async (name, callback) => { try { await callback(); results.push(name); console.log('PASS ' + name); } catch (e) { failed = { name, message: String(e) }; throw e; } };
 const snapshot = page => page.evaluate(() => JSON.parse(localStorage.getItem('snake3310_snapshot') ?? 'null'));
 const fixture = (options = {}) => { const game = new Game({ level: 3, maze: 0, walls: 'wrap', ...options }, () => .8); game.reset(); return capture(game); };
+const assertBoardMatches = (actual, expected) => { const { run: ignoredRun, version: ignoredVersion, gameMode: ignoredMode, ...a } = actual; const { run: bRun, version: bVersion, gameMode: bMode, ...b } = expected; assert.deepEqual(a, b); };
 const blurButton = page => page.evaluate(() => document.activeElement?.blur());
+const modeFixture = (mode, duration = 120, challenge = 'hunter') => {
+  const game = new GameSession({ level: 3, maze: 0, walls: 'solid' }, () => .8, () => 0);
+  game.start(mode, duration, challenge, game.options); game.pause(); return capture(game);
+};
+async function frozenPage(context, seed) {
+  if (seed) await context.addInitScript(s => {
+    if (!sessionStorage.getItem('mode-seeded')) {
+      localStorage.setItem('snake3310_snapshot', JSON.stringify(s));
+      localStorage.setItem('snake3310_gameMode', s.gameMode);
+      localStorage.setItem('snake3310_duration', String(s.run.duration));
+      localStorage.setItem('snake3310_challenge', s.run.challenge);
+      sessionStorage.setItem('mode-seeded', 'true');
+    }
+  }, seed);
+  const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
+  await page.clock.install({ time: new Date('2026-10-19T12:00:00Z') });
+  await page.clock.pauseAt(new Date('2026-10-19T12:00:01Z'));
+  await page.goto(url + '/Snake/'); await page.clock.runFor(1800); return page;
+}
 try {
   browser = await chromium.launch({ headless: true, channel });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
@@ -49,9 +71,9 @@ try {
     await page.locator('.standby').waitFor();
     await page.screenshot({ path: 'test-results/desktop-standby.png', fullPage: true });
   });
-  await check('Keyboard: main → games → Retro Snake → level 9 and back', async () => {
+  await check('Keyboard: main → games → Classic Snake → level 9 and back', async () => {
     for (let i = 0; i < 3; i++) await page.keyboard.press('Enter');
-    assert.equal(await page.locator('.lcd-top strong').textContent(), 'Retro Snake');
+    assert.equal(await page.locator('.lcd-top strong').textContent(), 'Classic Snake');
     await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
     await page.keyboard.press('ArrowUp');
     assert.match(await page.locator('.menu-item.selected').textContent(), /Stufe 9/);
@@ -68,7 +90,7 @@ try {
     await page.keyboard.press('ArrowUp'); await page.keyboard.press('ArrowLeft');
     await page.clock.runFor(220);
     // The head has moved up, not left: only one queued turn consumed this tick.
-    const pixel = await page.locator('canvas').evaluate(c => Array.from(c.getContext('2d').getImageData(4 * 12 + 4, 32 + 7 * 12 + 3, 1, 1).data));
+    const pixel = await page.locator('canvas').evaluate(c => Array.from(c.getContext('2d').getImageData(4 + 4 * 12 + 4, 4 + 32 + 7 * 12 + 3, 1, 1).data));
     assert.deepEqual(pixel, [182, 201, 145, 255]);
     await page.clock.runFor(220);
     await page.keyboard.press('Space');
@@ -195,11 +217,11 @@ try {
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x + 3, y: y - 4 }] });
     await phone.clock.runFor(220);
-    const straight = await phone.locator('canvas').evaluate(c => Array.from(c.getContext('2d').getImageData(5 * 12 + 7, 32 + 8 * 12 + 4, 1, 1).data));
+    const straight = await phone.locator('canvas').evaluate(c => Array.from(c.getContext('2d').getImageData(4 + 5 * 12 + 7, 4 + 32 + 8 * 12 + 4, 1, 1).data));
     assert.deepEqual(straight, [223, 193, 123, 255]);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - 35 }] });
     await phone.clock.runFor(220);
-    const pixel = await phone.locator('canvas').evaluate(c => Array.from(c.getContext('2d').getImageData(5 * 12 + 4, 32 + 7 * 12 + 3, 1, 1).data));
+    const pixel = await phone.locator('canvas').evaluate(c => Array.from(c.getContext('2d').getImageData(4 + 5 * 12 + 4, 4 + 32 + 7 * 12 + 3, 1, 1).data));
     assert.deepEqual(pixel, [223, 193, 123, 255]);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     assert.equal(await phone.evaluate(() => scrollY), scroll);
@@ -256,7 +278,7 @@ try {
       }
     }, doomed);
     await repair.reload(); await repair.clock.runFor(1800);
-    assert.deepEqual(await snapshot(repair), doomed);
+    assertBoardMatches(await snapshot(repair), doomed);
     await repair.locator('#resume').click();
     await repair.clock.runFor(220);
     assert.equal(await repair.locator('#lcd').getAttribute('data-phase'), 'over'); assert.equal(await snapshot(repair), null);
@@ -437,11 +459,144 @@ try {
       await page.locator('.boot').waitFor();
       await page.waitForFunction(() => document.querySelector('#lcd')?.dataset.phase === 'paused');
       assert.equal(await page.locator('#load-error').count(), 0);
-      assert.deepEqual(await snapshot(page), saved);
+      assertBoardMatches(await snapshot(page), saved);
       assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_best')), '510');
       assert.equal(await page.locator('.lcd').evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(170, 189, 131)');
       await context.close();
     });
+  }
+  await check('Modes: keyboard selection, Zen collision respawn, statistics and reload without double counting', async () => {
+    const context = await browser.newContext({ viewport: { width: 1200, height: 950 }, reducedMotion: 'reduce' });
+    await context.addInitScript(() => { localStorage.setItem('snake3310_walls','solid'); if (!localStorage.getItem('snake3310_best')) localStorage.setItem('snake3310_best','100'); });
+    const page = await frozenPage(context);
+    await page.keyboard.press('Enter'); await page.keyboard.press('Enter');
+    assert.deepEqual(await page.locator('.menu-item').allTextContents(), ['› Classic Snake', '› Zen Mode', '› Time Attack', '› Challenge Mode']);
+    await page.screenshot({ path: 'test-results/v06-modes-desktop.png', fullPage: true });
+    await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter'); await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#lcd').getAttribute('data-game-mode'), 'zen');
+    await page.clock.runFor(4600);
+    assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
+    await page.screenshot({ path: 'test-results/v06-zen-desktop.png', fullPage: true });
+    await page.locator('#pause').click(); const before = await snapshot(page); assert.ok(before.run.collisions >= 1);
+    assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_best')), '100');
+    const stats = await page.evaluate(() => JSON.parse(localStorage.getItem('snake3310_records_v1')));
+    assert.equal(stats.modes.zen.games, 1); assert.ok(stats.modes.zen.collisions >= 1);
+    for (let n = 0; n < 3; n++) { await page.reload(); await page.clock.runFor(1800); assert.deepEqual(await snapshot(page), before); }
+    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('snake3310_records_v1')).modes.zen.games), 1);
+    await page.locator('#menu').click(); await page.locator('.menu-item').filter({ hasText: 'Statistik' }).click();
+    await page.screenshot({ path: 'test-results/v06-statistics-classic.png', fullPage: true });
+    await page.locator('.menu-item').first().click(); await page.locator('.menu-item').first().click();
+    assert.match(await page.locator('.menu-item').first().textContent(), /Zen Mode/);
+    await context.close();
+  });
+  for (const duration of [60,120,180]) {
+    await check(`Time Attack ${duration}s: exact pause, persisted remainder, offline restore and timeout record`, async () => {
+      const seed = modeFixture('timeAttack', duration); seed.run.elapsedMs = duration * 1000 - 1500.25; seed.score = duration;
+      const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
+      const page = await frozenPage(context, seed);
+      await page.locator('#resume').click(); await page.clock.runFor(200); await page.locator('#pause').click();
+      const before = await snapshot(page); assert.equal(before.run.elapsedMs, seed.run.elapsedMs + 200);
+      await page.clock.runFor(10000); assert.deepEqual(await snapshot(page), before);
+      await page.evaluate(async () => navigator.serviceWorker.ready); await page.reload(); await page.clock.runFor(1800);
+      await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+      await context.setOffline(true); await page.reload(); await page.clock.runFor(1800);
+      assert.deepEqual(await snapshot(page), before); assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
+      await page.locator('#profile').click(); await page.locator('#view').click();
+      await page.screenshot({ path: `test-results/v06-time-${duration}-mobile.png`, fullPage: true });
+      await page.locator('#pause').click(); await page.clock.runFor(2000);
+      assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'over'); assert.equal(await snapshot(page), null);
+      const records = await page.evaluate(() => JSON.parse(localStorage.getItem('snake3310_records_v1')));
+      assert.equal(records.timeBest[duration], duration); assert.equal(records.modes.timeAttack.games, 1);
+      await context.setOffline(false); await context.close();
+    });
+  }
+  for (const id of ['hunter','survivor','maze']) {
+    await check(`Challenge ${id}: fixed rules, progress, success and persistent completion`, async () => {
+      const seed = modeFixture('challenge', 120, id);
+      if (id === 'survivor') { seed.run.steps = 99; seed.beat = 99; }
+      else { seed.run.food = id === 'hunter' ? 9 : 4; seed.score = seed.run.food * 10; seed.beat = seed.run.food; seed.food = { x: 5, y: 8 }; }
+      const context = await browser.newContext({ viewport: { width: 1100, height: 950 }, reducedMotion: 'reduce' });
+      const page = await frozenPage(context, seed); await page.locator('#resume').click(); await page.clock.runFor(200);
+      assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'won'); assert.equal(await snapshot(page), null);
+      assert.equal(await page.evaluate(id => JSON.parse(localStorage.getItem('snake3310_records_v1')).completed[id], id), true);
+      await page.screenshot({ path: `test-results/v06-challenge-${id}-success.png`, fullPage: true });
+      await page.reload(); await page.clock.runFor(1800);
+      assert.equal(await page.evaluate(id => JSON.parse(localStorage.getItem('snake3310_records_v1')).completed[id], id), true);
+      await context.close();
+    });
+  }
+  await check('Mobile modes and challenge description: touch, failed challenge and immediate retry', async () => {
+    const context = await browser.newContext({ viewport: { width: 320, height: 568 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
+    await context.addInitScript(() => { localStorage.setItem('snake3310_profile','modern'); localStorage.setItem('snake3310_full','true'); });
+    const page = await frozenPage(context);
+    await page.locator('#menu').tap(); await page.locator('.menu-item').filter({ hasText: 'Spiele' }).tap();
+    await page.screenshot({ path: 'test-results/v06-modes-mobile.png', fullPage: true });
+    await page.locator('.menu-item').filter({ hasText: 'Challenge Mode' }).tap();
+    await page.locator('.menu-item').filter({ hasText: 'Neues Spiel' }).tap();
+    await page.locator('#challenge-intro').waitFor({ state: 'visible' }); assert.match(await page.locator('#challenge-goal').textContent(), /10 Futter/);
+    await page.screenshot({ path: 'test-results/v06-challenge-goal-mobile.png', fullPage: true });
+    await page.locator('#challenge-start').tap(); await page.clock.runFor(4400);
+    assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'over');
+    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('snake3310_records_v1')).completed.hunter), false);
+    await page.locator('#more').tap(); await page.locator('#more-restart').tap();
+    assert.equal(await page.locator('#challenge-intro').isVisible(), false);
+    assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
+    assert.equal((await snapshot(page)).run.food, 0);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1));
+    await page.locator('#pause').tap(); await page.locator('#menu').tap(); await page.locator('.menu-item').filter({ hasText: 'Statistik' }).tap();
+    await page.screenshot({ path: 'test-results/v06-statistics-mobile.png', fullPage: true });
+    await context.close();
+  });
+  await check('Legacy v0.5.2 Classic migration preserves record and board and is idempotent across reloads', async () => {
+    const context = await browser.newContext();
+    const page = await frozenPage(context); const old = fixture({ maze: 1, walls: 'solid' }); old.score = 80; old.beat = 15;
+    await page.evaluate(old => { localStorage.setItem('snake3310_snapshot', JSON.stringify(old)); localStorage.setItem('snake3310_best', '300'); }, old);
+    await page.reload(); await page.clock.runFor(1800);
+    const migrated = await snapshot(page); assert.equal(migrated.version, 2); assert.equal(migrated.gameMode, 'classic'); assertBoardMatches(migrated, old);
+    for (let n = 0; n < 4; n++) { await page.reload(); await page.clock.runFor(1800); }
+    const data = await page.evaluate(() => JSON.parse(localStorage.getItem('snake3310_records_v1')));
+    assert.equal(data.modes.classic.games, 1); assert.equal(data.modes.classic.points, 80); assert.equal(data.classicBest, 300);
+    await context.close();
+  });
+  await check('Virtual handheld keys select Time Attack and its duration without changing the display profile', async () => {
+    const context = await browser.newContext({ viewport: { width: 1000, height: 1000 }, hasTouch: true, reducedMotion: 'reduce' });
+    const page = await frozenPage(context);
+    const select = () => page.getByRole('button', { name: '5 Auswählen', exact: true }).tap();
+    const down = () => page.getByRole('button', { name: '8 Nach unten', exact: true }).tap();
+    await select(); await select(); await down(); await down(); await select();
+    assert.equal(await page.locator('.lcd-top strong').textContent(), 'Time Attack');
+    await down(); await select(); assert.equal(await page.locator('.lcd-top strong').textContent(), 'Zeitlimit');
+    await select(); assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_duration')), '60');
+    await page.getByRole('button', { name: '2 Nach oben', exact: true }).tap(); await select();
+    assert.equal(await page.locator('#lcd').getAttribute('data-game-mode'), 'timeAttack');
+    assert.equal((await snapshot(page)).run.duration, 60);
+    assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'false');
+    assert.equal(await page.locator('#view').getAttribute('aria-pressed'), 'false');
+    await context.close();
+  });
+  await check('Web Audio: real oscillator scheduling, mute, persistence and re-enable', async () => {
+    const context = await browser.newContext();
+    await context.addInitScript(() => {
+      window.audioStarts = 0;
+      const original = OscillatorNode.prototype.start;
+      OscillatorNode.prototype.start = function (...args) { window.audioStarts++; return original.apply(this, args); };
+    });
+    const page = await frozenPage(context);
+    await page.locator('#start').click();
+    const count = await page.evaluate(() => window.audioStarts); assert.ok(count > 0);
+    await page.locator('#sound').click(); await page.locator('#pause').click();
+    assert.equal(await page.evaluate(() => window.audioStarts), count);
+    await page.reload(); await page.clock.runFor(1800);
+    assert.equal(await page.locator('#sound').getAttribute('aria-pressed'), 'false');
+    await page.locator('#resume').click(); assert.equal(await page.evaluate(() => window.audioStarts), 0);
+    await page.locator('#sound').click(); assert.ok(await page.evaluate(() => window.audioStarts > 0));
+    await context.close();
+  });
+  await testEdges({ browser, check, frozenPage, modeFixture, layouts });
+  if (process.env.TEST_WEBKIT === 'true' || process.argv.includes('--webkit')) {
+    const safari = await webkit.launch({ headless: true });
+    try { await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' }); }
+    finally { await safari.close(); }
   }
   assert.deepEqual(errors, []);
 } finally {

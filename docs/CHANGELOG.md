@@ -1,3 +1,36 @@
+# Changelog – Bytecoil – Retro Snake
+
+## 0.6.1 – LCD-Randkorrektur (19. Oktober 2026, lokal)
+
+- Weiterentwicklung des vorhandenen v0.6-Stands auf `feature/v0.6-game-modes`, ausschließlich im Checkout `bytecoil-v06`.
+- LCD-Canvas von 312 × 236 auf 320 × 244 logische Pixel erweitert: vier Pixel Reserve rund um die bisherige Darstellung. Die Engine behält 26 × 17 Zellen à 12 Pixel und den 32-Pixel-Statusbereich.
+- LCD-Seitenverhältnis beschreibt jetzt die **Innenfläche**, der 3-Pixel-CSS-Rahmen liegt außerhalb. Canvas-Höhe proportional/automatisch; Menüs behalten bei verborgenem Canvas ihre Fläche. Gehäuse-Transform entfällt, `pixelated` hat Vorrang und Glättung bleibt ausgeschaltet.
+- Vollbild-Breitenformeln angepasst. Kompaktes Modern-Gehäuse auf kurzen Hochformatdisplays um acht CSS-Pixel schmaler, damit die gesamte Tastatur weiterhin ohne Scrollen passt.
+- Zwei Geometrietests und eine reproduzierbare Randschlange über alle vier Ecken und die gesamte unterste Reihe. Canvas-Raster, CSS-Grenzen und sichtbare Screenshot-Pixel werden gemeinsam geprüft: drei Viewports × drei DPR × zwei Profile × zwei Ansichten, in Chrome und WebKit.
+- Web-Audio-Regression prüft echte Oszillatorstarts, Stummschaltung und gespeicherte Sound-Einstellung. Alle bisherigen Modus-, Statistik-, Highscore-, Speicher-, Touch- und Offline-Tests erneut ausgeführt.
+- Ergebnis: 56 Unit-Tests, Produktionsbuild und 58 Browser-Szenarien mit optionaler WebKit-Matrix erfolgreich. Details und Geräte-Grenzen: [Tests](TESTS.md), [LCD](LCD.md), [Screenshots](SCREENSHOTS.md).
+- Bytecoil-Branding und vorhandene Speicherschlüssel unverändert. Kein Push, Merge, öffentliches Release oder GitHub-Pages-Deployment.
+
+
+## 0.6.0 – Spielmodi, Statistik und getrennte Rekorde
+
+Ausgangsbasis: Bytecoil v0.5.2, Commit `059debfdb68502d668092df4c2c434be9333dd2d`, lokaler Branch `feature/v0.6-game-modes`.
+
+- Classic Snake nutzt unverändert die bestehende Bewegungs-/Kollisionsengine. Ein zusätzlicher Sitzungswrapper ergänzt aktive Zeit, Ziele und Fortschritt; es gibt keine zweite unabhängige Engine.
+- Zen Mode: sicherer Respawn nach Kollision und bei vollem Feld; Sitzungspunkte und Fortschritt bleiben erhalten, Kollisionen werden gezählt. Keine Zen-Rangliste.
+- Time Attack: 60/120/180 Sekunden, monotone aktive Zeit, genaue pausierte Wiederherstellung und getrennte Rekorde. Kollision und Timeout beenden die Runde.
+- Challenges: Food Hunter, Survivor und Maze Master, verbindliche Ziel-/Kartenregeln, Ziel-Dialog, Fortschritt und Retro-Erfolgsbildschirm. Sofortige Wiederholung ohne erneute Einführung nach abgeschlossenem Versuch.
+- Modusauswahl unter Spiele; Statistik und Highscores im Hauptmenü. Profile bleiben unabhängig. Keine zusätzliche permanente Smartphone-Menüfläche.
+- Statistik-Format 1 mit Sitzungs-Checkpoints: gestartete Partien, aktive Zeit, Futter, Punkte, maximale Länge und Kollisionen je Modus. Challenge-Status separat je ID, Rekorde für jede Zeitvariante. Wiederherstellung zählt dieselbe Sitzung nicht erneut.
+- Snapshot-Format 2 enthält Modus und Sitzungsfortschritt. Version-1-Partien werden ohne Änderung des Spielfelds als Classic übernommen. Bestehende Einstellungen und `snake3310_best` bleiben kompatibel.
+- Neue Module: `src/modes.ts`, `src/records.ts`; neue Tests: `tests/modes-records.test.ts`; neue Dokumentation: `docs/MODES.md`.
+- Erweitert: `main.ts`, `menu.ts`, `render.ts`, `snapshot.ts`, `storage.ts`, `index.html`, `package.json`, Browser-/Menütests und Dokumentation. Neue Bytecoil-Screenshots unter `docs/screenshots/`. `engine.ts`, LCD-Themen, Eingabepuffer, Audio und PWA-Grundlage bleiben unverändert.
+- 54 Unit-Tests, 39 Browser-Szenarien und TypeScript-/Produktionsbuild geprüft; siehe [Testbericht](TESTS.md).
+
+Bekannte Grenzen: keine Tests auf physischen Android-/iOS-Geräten oder Safari; kein Mehrtab-Schreib-Lock; ein harter Abbruch kann ungesicherte Fortschritte verlieren. Die vorhandenen historischen Daten erlauben keine rückwirkende Gesamtspielzeit-/Futterstatistik. Es wurde weder gepusht noch gemergt oder veröffentlicht. Die öffentliche v0.5.2 bleibt unberührt.
+
+---
+
 # Version 0.5.2 – Bytecoil-Rebranding
 
 - Neuer öffentlicher Spielname: **Bytecoil – Retro Snake**.

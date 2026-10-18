@@ -1,6 +1,7 @@
 import { Game, COLS, ROWS, mazeCells, point, type Options, type Point } from './engine.ts';
+import { GameSession, freshRun, validateRun, challenges, type RunState, type GameMode } from './modes.ts';
 
-export interface Snapshot {
+export interface LegacySnapshot {
   version: 1;
   gameMode: 'snake2';
   phase: 'paused';
@@ -13,6 +14,8 @@ export interface Snapshot {
   beat: number;
   options: Options;
 }
+export interface ModeSnapshot extends Omit<LegacySnapshot, 'version' | 'gameMode'> { version: 2; gameMode: GameMode; run: RunState }
+export type Snapshot = LegacySnapshot | ModeSnapshot;
 const record = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const integer = (v: unknown, min: number, max: number): v is number => Number.isSafeInteger(v) && (v as number) >= min && (v as number) <= max;
 const coordinate = (v: unknown): v is Point => record(v) && integer(v.x, 0, COLS - 1) && integer(v.y, 0, ROWS - 1);
@@ -21,12 +24,19 @@ const copy = (p: Point): Point => ({ x: p.x, y: p.y });
 
 /** Treat disk data as untrusted. No Object.assign of persisted objects into the engine. */
 export function validateSnapshot(value: unknown): Snapshot | null {
-  if (!record(value) || value.version !== 1 || value.gameMode !== 'snake2' || value.phase !== 'paused') return null;
+  if (!record(value) || ![1, 2].includes(value.version as number) || value.phase !== 'paused') return null;
+  const run = value.version === 2 ? validateRun(value.run) : null;
+  if (value.version === 1 ? value.gameMode !== 'snake2' : !run || value.gameMode !== run.mode) return null;
   const o = value.options;
   if (!record(o) || !integer(o.level, 1, 9) || !integer(o.maze, 0, 2) || (o.walls !== 'solid' && o.walls !== 'wrap')) return null;
   if (!Array.isArray(value.snake) || value.snake.length < 2 || value.snake.length >= COLS * ROWS || !value.snake.every(coordinate)) return null;
   if (!direction(value.dir) || !coordinate(value.food) || (value.bonus !== null && !coordinate(value.bonus))) return null;
-  if (!integer(value.score, 0, COLS * ROWS * 25) || value.score % 5 !== 0 || !integer(value.beat, 0, Number.MAX_SAFE_INTEGER)) return null;
+  if (!integer(value.score, 0, value.version === 2 ? 1e12 : COLS * ROWS * 25) || value.score % 5 !== 0 || !integer(value.beat, 0, Number.MAX_SAFE_INTEGER)) return null;
+  if (run && (run.longest < value.snake.length || run.steps > value.beat || run.food > value.beat || run.collisions > value.beat)) return null;
+  if (run?.mode === 'challenge') {
+    const c = challenges[run.challenge];
+    if (o.level !== c.options.level || o.maze !== c.options.maze || o.walls !== c.options.walls || (c.metric === 'food' ? run.food : run.steps) >= c.target) return null;
+  }
   if (!integer(value.bonusSteps, 0, 55) || (value.bonus === null ? value.bonusSteps !== 0 : value.bonusSteps < 1)) return null;
   const obstacles = mazeCells(o.maze), occupied = new Set<string>();
   for (let i = 0; i < value.snake.length; i++) {
@@ -49,22 +59,34 @@ export function validateSnapshot(value: unknown): Snapshot | null {
     if (occupied.has(key) || obstacles.has(key)) return null;
     occupied.add(key);
   }
-  return { version: 1, gameMode: 'snake2', phase: 'paused', snake: value.snake.map(copy), dir: copy(value.dir),
+  const board: LegacySnapshot = { version: 1, gameMode: 'snake2', phase: 'paused', snake: value.snake.map(copy), dir: copy(value.dir),
     food: copy(value.food), bonus: value.bonus ? copy(value.bonus) : null, bonusSteps: value.bonusSteps,
     score: value.score, beat: value.beat, options: { level: o.level, maze: o.maze, walls: o.walls } };
+  return run ? { ...board, version: 2, gameMode: run.mode, run } : board;
 }
 export function capture(game: Game): Snapshot | null {
   if ((game.phase !== 'playing' && game.phase !== 'paused') || !game.food) return null;
-  return { version: 1, gameMode: 'snake2', phase: 'paused', snake: game.snake.map(copy), dir: copy(game.dir),
+  const board: LegacySnapshot = { version: 1, gameMode: 'snake2', phase: 'paused', snake: game.snake.map(copy), dir: copy(game.dir),
     food: copy(game.food), bonus: game.bonus ? copy(game.bonus) : null, bonusSteps: game.bonus ? game.bonusSteps : 0,
     score: game.score, beat: game.beat, options: { ...game.options } };
+  return game instanceof GameSession ? { ...board, version: 2, gameMode: game.run.mode, run: { ...game.run } } : board;
 }
 export function restore(game: Game, data: unknown): boolean {
   const s = validateSnapshot(data);
   if (!s) return false;
+  if (s.version === 2 && !(game instanceof GameSession)) return false;
   game.options = s.options; game.obstacles = mazeCells(s.options.maze);
   game.snake = s.snake; game.dir = s.dir; game.food = s.food; game.bonus = s.bonus;
   game.bonusSteps = s.bonusSteps; game.score = s.score; game.beat = s.beat;
   game.best = Math.max(game.best, s.score); game.queue = []; game.phase = 'paused';
+  if (game instanceof GameSession) {
+    if (s.version === 2) game.loadRun(s.run);
+    else {
+      // Stable migration ID: repeated imports of the same legacy save cannot double-count it.
+      let hash = 2166136261;
+      for (const character of JSON.stringify(s)) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619) >>> 0;
+      game.loadRun({ ...freshRun(), id: `legacy-${hash.toString(16)}`, longest: game.snake.length, steps: s.beat });
+    }
+  }
   return true;
 }

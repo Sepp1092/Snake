@@ -1,63 +1,80 @@
-# Lokale Daten in Version 0.5
+# Datenspeicherung – Bytecoil 0.6
 
-Es werden keine Daten übertragen. localStorage ist an die Origin (Protokoll, Host, Port) gebunden. Ein neuer Build oder ein Service-Worker-Update löscht localStorage nicht. Pro Origin existieren ein aktueller Spielstand und ein Rekord; mehrere gleichzeitig spielende Tabs können denselben Speicher überschreiben. Unterverzeichnisse teilen sich diese Daten, haben aber getrennte Offline-Caches.
+Alle Daten liegen ausschließlich im lokalen Browser. Die bisherigen `snake3310_*`-Schlüssel bleiben kompatibel. Es gibt keine Datenübertragung, Anmeldung oder Cloud. Eine Origin besteht aus Protokoll, Host und Port; `127.0.0.1:4174` und die veröffentlichte GitHub-Pages-Adresse sind verschiedene Speicherbereiche.
 
-## Einstellungen
+## Bestehende und neue Schlüssel
 
-Jeder Name verwendet den Präfix `snake3310_`. Die bisherigen Einzelwerte aus 0.3/0.4 bleiben kompatibel; keine Massenlöschung oder Neuanlage des Speichers.
+| Schlüssel | Bedeutung |
+| --- | --- |
+| `snake3310_best` | Historischer Classic-Rekord; weiterhin gelesen und bei Classic-Rekorden fortgeschrieben |
+| `snake3310_level`, `maze`, `walls` | Standardregeln für Classic, Zen und Time Attack |
+| `snake3310_profile`, `full`, `lcd`, `control` | Darstellungsprofil, Handy/Vollbild, Palette, Eingaben |
+| `snake3310_sound`, `volume`, `vibration` | Vorhandene Feedback-Einstellungen |
+| `snake3310_gameMode` | Neu: classic / zen / timeAttack / challenge; Standard classic |
+| `snake3310_duration` | Neu: 60 / 120 / 180; Standard 120 |
+| `snake3310_challenge` | Neu: hunter / survivor / maze; Standard hunter |
+| `snake3310_snapshot` | Aktuelle pausiert wiederherstellbare Partie, Snapshot-Version 2; Version 1 wird übernommen |
+| `snake3310_records_v1` | Neue Statistik-/Rekordstruktur mit Formatversion 1 und Sitzungs-Checkpoints |
 
-| Schlüssel | Werte | Standard |
-| --- | --- | --- |
-| level | Ganzzahl 1–9 | 3 |
-| maze | 0 Frei, 1 Box, 2 Kreuz | 0 |
-| walls | wrap / solid | wrap |
-| sound | true / false | true |
-| full | true / false | false |
-| lcd | olive / silver / amber / dark / contrast | olive |
-| control | both / swipe / keys | both |
-| profile | classic / modern | classic |
-| volume | Ganzzahl 0–4 | 2 |
-| vibration | true / false | false |
-| best | Nichtnegative sichere Ganzzahl | 0 |
+Das Zurücksetzen der Einstellungen verändert ausschließlich Einstellungsfelder. Rekorde, Statistiken und gespeicherte Partie bleiben erhalten. Unbekannte vorhandene Schlüssel werden nicht gelöscht. Ein Statistik-Reset wurde bewusst nicht hinzugefügt.
 
-Unbekannte oder ungültige Einstellungswerte fallen auf Standardwerte zurück. Ein Reset schreibt ausschließlich die bekannten Einstellungsfelder neu. `best`, `snapshot` und unbekannte Schlüssel, etwa vorhandene Statistikdaten, bleiben unberührt. Version 0.5 führt selbst keine Statistikfunktion ein.
+## Snapshot Version 2
 
-## Snapshot Version 1
-
-Ein JSON-Dokument unter **`snake3310_snapshot`**. Beispiel für eine valide begonnene Runde:
+Die bestehenden Felder `snake`, `dir`, `food`, `bonus`, `bonusSteps`, `score`, `beat`, `options` und `phase: paused` bleiben. Neu sind `version: 2`, der tatsächliche `gameMode` und `run`:
 
 ```json
 {
-  "version": 1,
-  "gameMode": "snake2",
+  "version": 2,
+  "gameMode": "classic",
   "phase": "paused",
-  "snake": [{ "x": 4, "y": 8 }, { "x": 3, "y": 8 }, { "x": 2, "y": 8 }],
-  "dir": { "x": 1, "y": 0 },
-  "food": { "x": 20, "y": 10 },
+  "snake": [{"x":4,"y":8},{"x":3,"y":8},{"x":2,"y":8}],
+  "dir": {"x":1,"y":0},
+  "food": {"x":20,"y":10},
   "bonus": null,
   "bonusSteps": 0,
   "score": 0,
   "beat": 0,
-  "options": { "level": 3, "maze": 0, "walls": "wrap" }
+  "options": {"level":3,"maze":0,"walls":"wrap"},
+  "run": {
+    "id":"example-run-1", "mode":"classic", "duration":120,
+    "challenge":"hunter", "elapsedMs":0, "food":0, "steps":0,
+    "collisions":0, "longest":3, "outcome":"active"
+  }
 }
 ```
 
-`gameMode` beschreibt die Spielregeln, nicht das unabhängige Darstellungsprofil. `beat` ist der bisherige Spielschrittzähler. `options` sind die **aktiven Regeln der Partie** und müssen nicht den inzwischen gewählten Einstellungen für das nächste Spiel entsprechen. Hindernisse werden deterministisch aus `maze` rekonstruiert. Der Eingabepuffer wird absichtlich nicht gespeichert. Beim Wiederherstellen ist er leer und die Engine pausiert.
+`run.id` ist eine zufällige lokale Sitzungskennung. Sie dient nur der Doppelzählungsvermeidung, enthält keine Benutzerkennung und wird nie übertragen. `elapsedMs` speichert aktive Zeit einschließlich Bruchteilen einer Millisekunde. Time Attack leitet die Restzeit aus `duration * 1000 - elapsedMs` ab. Ein monotoner Zeitanker wird nicht gespeichert: Erst bewusstes Fortsetzen setzt ihn auf die aktuelle `performance.now()`-Zeit.
 
-Prüfung vor Wiederherstellung:
+`steps` zählt erfolgreiche Bewegungen, `beat` die bisherigen Engine-Ticks einschließlich Kollisionsversuchen. `food` zählt reguläre und Bonusobjekte, `longest` die historische maximale Körperlänge der Sitzung. `outcome` ist bei fortsetzbaren Partien immer active. Finale Zustände werden in Statistik/Challenge-Status gesichert, nicht als laufende Partie gespeichert.
 
-- Nur bekannte Version 1, Modus snake2 und Zustand paused.
-- Sichere Ganzzahlen, gültige Geschwindigkeit, Labyrinth und Randmodus.
-- Mindestens zwei zusammenhängende Schlangensegmente innerhalb des 26×17-Feldes; keine doppelten Zellen oder Hindernisüberlappungen.
-- Nachbarschaft berücksichtigt Randdurchgang; Kopfbewegung muss zur Position des Halses passen.
-- Futter und optionaler Bonus dürfen weder Körper noch Wände noch einander überlappen.
-- Bonuslaufzeit 1–55 bei vorhandenem Bonus, sonst 0; Punkte und Fortschritt mit definierten Wertebereichen.
-- Maximal 24 KB Eingabetext vor dem JSON-Parsing. Nur explizit erlaubte Felder werden kopiert.
+Validierung: erlaubte Version/Modi/IDs und Dauern, endliche nichtnegative Zähler, gültige zusammenhängende Schlange und Richtung, kein Hindernis-/Futter-/Bonus-Überlappen, sichere Zahlenbereiche. Bei Challenges müssen die gespeicherten Optionen exakt der Definition entsprechen; ein bereits erfülltes Ziel gilt nicht als laufender Snapshot. Abgelaufene Time-Attack-Partien werden nicht als aktiv akzeptiert. Der Eingabepuffer bleibt absichtlich ungespeichert und wird beim Laden geleert.
 
-Beschädigte, unbekannte oder veraltete Versionen werden verworfen. 0.4 hatte keine gespeicherten Partien, daher ist keine Snapshot-Migration aus 0.4 erforderlich. Eine künftige Formatänderung braucht einen expliziten Migrationspfad; bloßes Ändern der Versionsnummer genügt nicht.
+## Migration aus v0.5.2
+
+Snapshot-Version 1 mit `gameMode: snake2` ist weiterhin valide. Sie wird beim Wiederherstellen als Classic übernommen: identisches Spielfeld, Richtung, Punkte, Bonus, Spielstufe, Labyrinth und Randmodus. Der Zustand bleibt pausiert. Eine deterministische Kennung `legacy-<Hash des validierten Spielstands>` verhindert Mehrfachzählung desselben alten Spielstands. Das nächste Speichern schreibt Version 2; vorhandene Einstellungen und `snake3310_best` werden dabei nicht entfernt.
+
+Alte Spielstände enthalten keine historische aktive Zeit oder Anzahl gegessener Objekte. Diese Werte werden nicht erfunden: importierte aktive Zeit und Futterzahl beginnen bei null; vorhandene Punkte, Engine-Schritte und Länge sind bekannt und werden einmalig berücksichtigt. Frühere abgeschlossene Partien können nicht rückwirkend statistisch rekonstruiert werden. Ohne gespeicherte Partie startet die neue Statistik bei null; der Classic-Rekord wird unabhängig davon übernommen.
+
+Unbekannte/beschädigte Versionen werden sicher verworfen. Ein Downgrade zu einer alten App-Version kann Version 2 nicht interpretieren; laufende v0.6-Partien vor einem bewussten Rollback beenden oder lokal sichern. Normale Vorwärtsupdates bleiben kompatibel.
+
+## Statistik und Rekorde
+
+`snake3310_records_v1` enthält:
+
+- `version: 1`.
+- `modes`: classic, zen, timeAttack, challenge mit `games`, `activeMs`, `food`, `points`, `longest`, `collisions`.
+- `classicBest` und getrennte `timeBest`-Felder für 60, 120 und 180 Sekunden.
+- `completed`: je ein boolescher Abschlussstatus für hunter, survivor und maze.
+- `receipts`: Checkpoints nach Sitzungs-ID mit zuletzt gezählter Zeit, Futter, Punkten, Länge, Kollisionen und `done`.
+
+Partien werden bei ihrem ersten Checkpoint einmal gezählt. Abgebrochene beziehungsweise durch eine neue Partie ersetzte Sitzungen zählen damit als gestartete Partien. Jeder weitere Checkpoint addiert ausschließlich den positiven Fortschritt gegenüber dem letzten Wasserstand. Die längste Schlange ist ein Maximum, keine Summe. Challenge-Abschlüsse zählen als Zahl verschiedener erledigter Ziele (0–3), nicht als Rangliste. Zen schreibt keinen kompetitiven Rekord.
+
+Ein Snapshot wird **nach** der Statistik gesichert. Ist nach einem Abbruch die Statistik weiter als der Snapshot, bleiben ihre höheren Wasserstände bestehen; beim erneuten Spielen werden diese Werte nicht noch einmal gezählt. Ein finalisierter Checkpoint verhindert außerdem das Wiederbeleben einer bereits abgeschlossenen Sitzung, falls das Löschen eines älteren Snapshots noch nicht erfolgt war. Es werden keine monotonen Zeitanker oder Browser-Daten übertragen.
+
+Die Daten werden auf Struktur, ID-Form, Modus, Endlichkeit und plausible Werte geprüft. Beschädigte Statistiken fallen auf eine leere Struktur zurück; der separate historische Classic-Rekord wird erneut übernommen. Checkpoints werden für Doppelzählungsschutz aufbewahrt. Sehr viele Sitzungen vergrößern daher diesen lokalen Datensatz; der Parser begrenzt ihn auf 4 MB. Speichererschöpfung bleibt ein Browserlimit.
 
 ## Schreibstrategie und Grenzen
 
-Speichern beim Start, bei Futter/Bonus, Pause und `pagehide`, außerdem während der Bewegung frühestens nach einer Sekunde seit dem letzten Speichern. `visibilitychange`/`blur` pausiert und speichert unmittelbar. Kein localStorage-Zugriff in jedem Animationsframe. Game Over/Sieg entfernt den aktuellen Snapshot; der Rekord wird unabhängig gespeichert.
+Keine synchronen Speicherzugriffe in jedem Animationsframe. Checkpoints beim Start, Futter/Bonus, Pause, Hintergrundwechsel und Abschluss; während des aktiven Spiels etwa einmal pro Sekunde. Das Canvas und HUD werden bei Bewegung und nötigen Zeit-/Zustandsänderungen aktualisiert; Statistik-Menülisten werden nur bei geöffnetem Menü aufgebaut.
 
-Bei einem harten Browser-/Geräteabbruch kann ungefähr die letzte Sekunde fehlen; auch Ereignisbehandlung beim Schließen wird vom Betriebssystem nicht garantiert. Bei Speicherverweigerung oder -erschöpfung bleibt die aktuelle Runde spielbar, aber Speichern beziehungsweise Löschen kann fehlschlagen. Alte Daten können dann bestehen bleiben. Das Modern-Profil zeigt erkannte Speicherprobleme an. Keine Garantie gegen gelöschte Browserdaten oder gleichzeitige Änderungen durch andere Tabs.
+Ein harter Abbruch kann Fortschritt seit dem letzten Checkpoint verlieren. Exakt wiederhergestellt wird der gespeicherte aktive Zeitwert, nicht ein eventuell ungesicherter letzter Frame. Fehlender/voller localStorage unterbricht das Spiel nicht, verhindert aber verlässliche Persistenz. Betriebssystem-Speicherbereinigung und manuell gelöschte Daten sind nicht abzusichern. Mehrere gleichzeitig spielende Tabs besitzen keinen atomaren Schreib-Lock; zuletzt gespeicherter Zustand kann konkurrierende Änderungen überschreiben. Diese Version verspricht keine Mehrtab-Synchronisierung.
