@@ -13,7 +13,7 @@ let workerRevision = 0;
 const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
 const server = createServer(async (req, res) => {
   try {
-    const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname).replace(/^\/(?:snake|snake-3310)\//, '/');
+    const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname).replace(/^\/(?:snake|Snake)\//, '/');
     if (pathname === '/probe.html') { res.setHeader('Content-Type', 'text/html'); res.end('<!doctype html><title>Test probe</title>'); return; }
     const file = path.resolve(root, '.' + pathname.replace(/\/$/, '/index.html'));
     if (!file.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
@@ -42,16 +42,16 @@ try {
   page.on('pageerror', e => errors.push(e.message));
   await page.clock.install();
   await page.goto(url);
-  await check('Desktop: boot and Nokia standby', async () => {
+  await check('Desktop: boot and Bytecoil standby', async () => {
     await page.locator('.boot strong').waitFor();
-    assert.equal(await page.locator('.boot strong').textContent(), 'NOKIA');
+    assert.equal(await page.locator('.boot strong').textContent(), 'BYTECOIL');
     await page.clock.runFor(1800);
     await page.locator('.standby').waitFor();
     await page.screenshot({ path: 'test-results/desktop-standby.png', fullPage: true });
   });
-  await check('Keyboard: main → games → Snake II → level 9 and back', async () => {
+  await check('Keyboard: main → games → Retro Snake → level 9 and back', async () => {
     for (let i = 0; i < 3; i++) await page.keyboard.press('Enter');
-    assert.equal(await page.locator('.lcd-top strong').textContent(), 'Snake II');
+    assert.equal(await page.locator('.lcd-top strong').textContent(), 'Retro Snake');
     await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
     await page.keyboard.press('ArrowUp');
     assert.match(await page.locator('.menu-item.selected').textContent(), /Stufe 9/);
@@ -322,7 +322,7 @@ try {
       const context = await browser.newContext({ viewport: { width, height }, isMobile: small, hasTouch: small, reducedMotion: 'reduce' });
       await context.addInitScript(() => { localStorage.setItem('snake3310_profile', 'modern'); localStorage.setItem('snake3310_full', 'true'); });
       const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
-      await page.clock.install(); await page.goto(url + '/snake-3310/'); await page.clock.runFor(1800);
+      await page.clock.install(); await page.goto(url + '/Snake/'); await page.clock.runFor(1800);
       await page.keyboard.press('*');
       const metrics = await page.evaluate(() => {
         const box = e => { const b = e.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height, right: b.right, bottom: b.bottom }; };
@@ -344,11 +344,11 @@ try {
       assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'true');
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       if (small && height > width) {
-        assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1), `Nokia portrait height at ${width}×${height}`);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1), `Handy portrait height at ${width}×${height}`);
         for (const label of ['2 Nach oben', '4 Nach links', '6 Nach rechts', '8 Nach unten']) {
           const b = await page.getByRole('button', { name: label, exact: true }).boundingBox(); assert.ok(b.y >= 0 && b.y + b.height <= height);
         }
-        await page.screenshot({ path: `test-results/modern-nokia-${width}x${height}.png`, fullPage: true });
+        await page.screenshot({ path: `test-results/modern-handheld-${width}x${height}.png`, fullPage: true });
       }
       await page.locator('#view').click(); assert.deepEqual(await snapshot(page), before);
       if (small) {
@@ -379,15 +379,15 @@ try {
   await check('GitHub Pages subpath: manifest, icons, scripts and styles', async () => {
     const context = await browser.newContext(); const page = await context.newPage();
     const responses = []; page.on('response', r => responses.push({ url: r.url(), status: r.status() }));
-    await page.goto(url + '/snake-3310/'); await page.evaluate(async () => navigator.serviceWorker.ready);
+    await page.goto(url + '/Snake/'); await page.evaluate(async () => navigator.serviceWorker.ready);
     const manifestUrl = await page.locator('link[rel=manifest]').evaluate(e => e.href);
-    assert.equal(new URL(manifestUrl).pathname, '/snake-3310/manifest.webmanifest');
+    assert.equal(new URL(manifestUrl).pathname, '/Snake/manifest.webmanifest');
     const manifest = await (await context.request.get(manifestUrl)).json();
-    assert.equal(manifest.display, 'standalone'); assert.equal(new URL(manifest.scope, manifestUrl).pathname, '/snake-3310/');
-    assert.equal(new URL(manifest.start_url, manifestUrl).pathname, '/snake-3310/');
+    assert.equal(manifest.display, 'standalone'); assert.equal(new URL(manifest.scope, manifestUrl).pathname, '/Snake/');
+    assert.equal(new URL(manifest.start_url, manifestUrl).pathname, '/Snake/');
     for (const icon of manifest.icons) assert.equal((await context.request.get(new URL(icon.src, manifestUrl).href)).status(), 200);
-    assert.ok(responses.some(r => /\/snake-3310\/assets\/.*\.js$/.test(r.url) && r.status === 200));
-    assert.ok(responses.some(r => /\/snake-3310\/assets\/.*\.css$/.test(r.url) && r.status === 200));
+    assert.ok(responses.some(r => /\/Snake\/assets\/.*\.js$/.test(r.url) && r.status === 200));
+    assert.ok(responses.some(r => /\/Snake\/assets\/.*\.css$/.test(r.url) && r.status === 200));
     assert.ok(responses.every(r => new URL(r.url).origin === url && r.status < 400));
     await context.close();
   });
@@ -396,7 +396,7 @@ try {
     let persistent;
     try {
       persistent = await chromium.launchPersistentContext(profileDir, { headless: true, channel, viewport: { width: 390, height: 844 } });
-      let page = persistent.pages()[0]; await page.clock.install(); await page.goto(url + '/snake-3310/'); await page.clock.runFor(1800);
+      let page = persistent.pages()[0]; await page.clock.install(); await page.goto(url + '/Snake/'); await page.clock.runFor(1800);
       await page.locator('#start').click(); await page.clock.runFor(440); await page.locator('#pause').click();
       await page.evaluate(() => localStorage.setItem('snake3310_best', '410')); const before = await snapshot(page);
       await page.evaluate(async () => navigator.serviceWorker.ready); await page.reload(); await page.clock.runFor(1800);
@@ -405,11 +405,11 @@ try {
       const cdp = await persistent.newCDPSession(page);
       const install = await cdp.send('Page.getInstallabilityErrors');
       assert.deepEqual(install.installabilityErrors, []);
-      const manifest = await (await persistent.request.get(url + '/snake-3310/manifest.webmanifest')).json();
+      const manifest = await (await persistent.request.get(url + '/Snake/manifest.webmanifest')).json();
       await writeFile('test-results/installability.json', JSON.stringify({ manifest, ...install }, null, 2));
       await persistent.close(); persistent = null;
       persistent = await chromium.launchPersistentContext(profileDir, { headless: true, channel, viewport: { width: 390, height: 844 } });
-      await persistent.setOffline(true); page = persistent.pages()[0]; await page.clock.install(); await page.goto(url + '/snake-3310/'); await page.clock.runFor(1800);
+      await persistent.setOffline(true); page = persistent.pages()[0]; await page.clock.install(); await page.goto(url + '/Snake/'); await page.clock.runFor(1800);
       assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
       assert.deepEqual(await snapshot(page), before);
       assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_best')), '410');
@@ -431,7 +431,7 @@ try {
         localStorage.setItem('snake3310_best', '510');
       }, saved);
       await page.route(new RegExp(`/assets/[^/]+\\.${extension}$`), route => route.abort(), { times: 1 });
-      await page.goto(url + '/snake-3310/');
+      await page.goto(url + '/Snake/');
       await page.locator('#load-error').waitFor({ state: 'visible' });
       await page.getByRole('button', { name: 'App neu laden', exact: true }).click();
       await page.locator('.boot').waitFor();

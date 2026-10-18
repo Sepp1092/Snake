@@ -25,7 +25,7 @@ export function draw(canvas: HTMLCanvasElement, game: Game, settings: Settings) 
   if (backgroundTheme !== settings.lcd || backgroundObstacles !== game.obstacles) {
   ctx = background.getContext('2d')!;
   rect(0, 0, W, H, paper); rect(0, 0, W, TOP, light); rect(0, TOP - 2, W, 2, mid);
-  txt('SNAKE II', 7, 14); for (let i = 0; i < 4; i++) rect(117 + i * 5, 12 - i * 2, 3, 3, ink);
+  txt('BYTECOIL', 7, 14); for (let i = 0; i < 4; i++) rect(117 + i * 5, 12 - i * 2, 3, 3, ink);
   ctx.strokeStyle = ink; ctx.lineWidth = 1; ctx.strokeRect(144.5, 4.5, 15, 8); rect(160, 7, 2, 3, ink); rect(146, 6, 11, 5, ink);
   for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) rect(x * CELL + 5, TOP + y * CELL + 5, 1, 1, grid);
   for (const p of game.obstacles) { const [x, y] = p.split(',').map(Number); cell(x, y, mid); rect(x * CELL + 3, TOP + y * CELL + 3, 6, 6, ink); }

@@ -92,9 +92,9 @@ Offizielle Anleitungen: [Google Chrome – Web-Apps verwenden](https://support.g
 
 Der automatisierte Browserlauf prüft dieses Prinzip mit einem vollständigen Chromium-Prozessneustart, demselben temporären Benutzerprofil und ausgeschaltetem Netzwerk. Er ersetzt keine physische Homescreen-Installation auf Android/iOS. Browserdaten nicht löschen und die App nicht deinstallieren, wenn Rekorde und Spielstand erhalten bleiben sollen.
 
-## Release-Status 0.5.1
+## Release-Status 0.5.2
 
-Manifest, Icons, relativer Basis-/Worker-Pfad und versionierter Cache waren bereits vorhanden und wurden erhalten. Unter `/snake-3310/` werden Manifest, beide Icons, CSS und JavaScript erfolgreich geladen. Chrome meldete im regulären lokalen Profil keine Installierbarkeitsfehler. Die Inkognito-Testkontexte werden dafür bewusst nicht verwendet.
+Manifest, Icons, relativer Basis-/Worker-Pfad und versionierter Cache waren bereits vorhanden und wurden erhalten. Unter `/Snake/` werden Manifest, beide Icons, CSS und JavaScript erfolgreich geladen. Chrome meldete im regulären lokalen Profil keine Installierbarkeitsfehler. Die Inkognito-Testkontexte werden dafür bewusst nicht verwendet.
 
 Die GitHub-Actions-Veröffentlichung ist vorbereitet, aber nicht ausgeführt. Pushes/PRs prüfen nur. Erst nach ausdrücklicher Freigabe den manuellen Release-Workflow mit aktivierter Veröffentlichung starten. Der Workflow ist anhand der [offiziellen GitHub-Pages-Anleitung](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) aufgebaut. Eine tatsächliche GitHub-Runner-Ausführung und die HTTPS-Adresse sind erst nach Einrichten des Repositories prüfbar.
 

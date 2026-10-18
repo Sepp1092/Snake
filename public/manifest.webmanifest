@@ -1,6 +1,6 @@
 {
-  "id": "./", "name": "Snake 3310 – Retro Edition", "short_name": "Snake 3310",
-  "description": "Snake II im Stil des Nokia 3310", "lang": "de", "start_url": "./", "scope": "./",
+  "id": "./", "name": "Bytecoil – Retro Snake", "short_name": "Bytecoil",
+  "description": "Eigenständiges Retro-Snake-Spiel mit Pixel-LCD und Offline-Modus", "lang": "de", "start_url": "./", "scope": "./",
   "display": "standalone", "background_color": "#101b24", "theme_color": "#263750",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

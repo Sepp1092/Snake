@@ -1,6 +1,6 @@
-# Snake 3310 – Retro Edition 0.5.1
+# Bytecoil – Retro Snake 0.5.2
 
-Eine lokal spielbare Weiterentwicklung von 0.5: Snake II, klassisches Nokia-Menü, monochromes LCD und virtuelles Telefon. Version 0.5.1 bietet ein kompaktes Smartphone-Layout und die Vorbereitung für eine freizugebende GitHub-Pages-Testveröffentlichung. Kein Konto, keine externen Assets, keine Laufzeit-Abhängigkeiten.
+Eine lokal spielbare Weiterentwicklung von 0.5: Retro Snake, klassisches Retro-Menü, monochromes LCD und virtuelles Telefon. Version 0.5.2 bietet ein kompaktes Smartphone-Layout und die Vorbereitung für eine freizugebende GitHub-Pages-Testveröffentlichung. Kein Konto, keine externen Assets, keine Laufzeit-Abhängigkeiten.
 
 ## Starten
 
@@ -16,7 +16,7 @@ Die im Terminal ausgegebene Adresse öffnen, normalerweise `http://127.0.0.1:517
 Alternativ mit der mitgelieferten Lockdatei: `pnpm install --frozen-lockfile`, danach `pnpm dev`. `pnpm-workspace.yaml` erlaubt ausschließlich den esbuild-Buildschritt. Mit älteren pnpm-Versionen gegebenenfalls `pnpm approve-builds` für esbuild verwenden.
 
 ```sh
-npm test                 # 36 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
+npm test                 # 37 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
 npm run build            # TypeScript-Prüfung, Vite-Build, Offline-Cache
 npm run preview          # Fertigen Build lokal unter Port 4173 ansehen
 npm run test:browser     # Playwright: Desktop, Smartphone und Offline
@@ -26,9 +26,9 @@ Der Browsertest nutzt unter Windows vorhandenes Chrome, sonst Playwright Chromiu
 
 ## Spielen
 
-Nach dem Startbildschirm: **Menü → Spiele → Snake II → Neues Spiel**. Die obere Schaltfläche „Neues Spiel“ startet direkt. Menüeinträge sind auch antippbar.
+Nach dem Startbildschirm: **Menü → Spiele → Retro Snake → Neues Spiel**. Die obere Schaltfläche „Neues Spiel“ startet direkt. Menüeinträge sind auch antippbar.
 
-Im mobilen Modern-Profil: **Mehr → Neues Spiel / Neustart**. Pause/Weiter, Menü und Nokia-/Vollbildwechsel stehen immer in einer einzigen Toolbar-Zeile bereit.
+Im mobilen Modern-Profil: **Mehr → Neues Spiel / Neustart**. Pause/Weiter, Menü und Handy-/Vollbildwechsel stehen immer in einer einzigen Toolbar-Zeile bereit.
 
 | Eingabe | Funktion |
 | --- | --- |
@@ -49,21 +49,21 @@ Neun Spielstufen, drei Labyrinthe (Frei, Box, Kreuz), Durchgang oder tödliche R
 
 „Vollbildansicht“ bezeichnet wie in 0.3 eine große Spielfeldansicht mit Bildschirmsteuerung, nicht die Browser-Fullscreen-API.
 
-## Neu in 0.5.1
+## Neu in 0.5.2
 
-**Smartphones:** Die Modern-Toolbar belegt eine Zeile mit vier direkt erreichbaren Aktionen. Profilwechsel, Neustart und Einstellungen stehen unter „Mehr“; das Öffnen pausiert die Partie. Kopfbereich, Fußtexte und doppelte Aktionen entfallen auf kleinen Displays. In der großen Spielansicht passen Spielfeld und vier 48-Pixel-Richtungstasten gemeinsam in das Fenster. Im Querformat stehen sie nebeneinander. Safe Areas und dynamische Viewport-Höhen sind berücksichtigt. Klassische Nokia-Optik und Zahlentasten bleiben verfügbar.
+**Smartphones:** Die Modern-Toolbar belegt eine Zeile mit vier direkt erreichbaren Aktionen. Profilwechsel, Neustart und Einstellungen stehen unter „Mehr“; das Öffnen pausiert die Partie. Kopfbereich, Fußtexte und doppelte Aktionen entfallen auf kleinen Displays. In der großen Spielansicht passen Spielfeld und vier 48-Pixel-Richtungstasten gemeinsam in das Fenster. Im Querformat stehen sie nebeneinander. Safe Areas und dynamische Viewport-Höhen sind berücksichtigt. Klassische Retro-Handy-Optik und Zahlentasten bleiben verfügbar.
 
-**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die Modern-Vollbildansicht benötigt bei diesen Größen keinen horizontalen oder vertikalen Bildlauf. Die Modern-Nokia-Ansicht passt ebenfalls in die geprüften Hochformat-Smartphones. Im schmalen Querformat darf das vollständige Handygehäuse scrollen; dort die direkt erreichbare Vollbildansicht nutzen. [Screenshots und Messwerte](docs/SCREENSHOTS.md).
+**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die Modern-Vollbildansicht benötigt bei diesen Größen keinen horizontalen oder vertikalen Bildlauf. Die Modern-Handy-Ansicht passt ebenfalls in die geprüften Hochformat-Smartphones. Im schmalen Querformat darf das vollständige Handygehäuse scrollen; dort die direkt erreichbare Vollbildansicht nutzen. [Screenshots und Messwerte](docs/SCREENSHOTS.md).
 
-**PWA-Release vorbereitet:** [.github/workflows/pages.yml](.github/workflows/pages.yml) installiert reproduzierbar per Lockdatei, prüft Unit-Tests, TypeScript, Build und Browser-/Offline-Tests. Pushes und Pull Requests veröffentlichen nichts. Erst ein manuell gestarteter Workflow mit ausdrücklich aktivierter Veröffentlichung lädt ausschließlich `dist/` zu GitHub Pages. Es wurde noch keine öffentliche Website erstellt. [Schritt-für-Schritt-Anleitung](docs/GITHUB_PAGES.md) und [Installation auf Android, iPhone und Windows](docs/PWA.md#installation-auf-android-iphone-und-windows).
+**PWA-Release vorbereitet:** [.github/workflows/pages.yml](.github/workflows/pages.yml) installiert reproduzierbar per Lockdatei, prüft Unit-Tests, TypeScript, Build und Browser-/Offline-Tests. Pushes und Pull Requests veröffentlichen nichts. Erst ein manuell gestarteter Workflow mit ausdrücklich aktivierter Veröffentlichung lädt ausschließlich `dist/` zu GitHub Pages. Die GitHub-Pages-Bereitstellung erfordert eine gesonderte Freigabe; vorhandene Bereitstellungen müssen nach einem Commit aktualisiert werden. [Schritt-für-Schritt-Anleitung](docs/GITHUB_PAGES.md) und [Installation auf Android, iPhone und Windows](docs/PWA.md#installation-auf-android-iphone-und-windows).
 
 ## Neu in 0.5
 
-**Fortsetzen:** Eine laufende Runde wird etwa einmal pro Sekunde sowie bei Futter, Pause und Hintergrundwechsel gespeichert. Nach dem Öffnen erscheint sie nach dem Startbildschirm **pausiert**. Fortsetzen über Enter/5, die Weiter-Schaltfläche oder **Spiele → Snake II → Spiel fortsetzen**. Beim Überschreiben einer begonnenen Partie erscheint eine Bestätigung; Abbrechen lässt sie pausiert erhalten. Nach Game Over/Sieg wird der Fortsetzungsstand entfernt, der Rekord bleibt erhalten. Es gibt einen lokalen Speicherplatz für die aktuelle Runde.
+**Fortsetzen:** Eine laufende Runde wird etwa einmal pro Sekunde sowie bei Futter, Pause und Hintergrundwechsel gespeichert. Nach dem Öffnen erscheint sie nach dem Startbildschirm **pausiert**. Fortsetzen über Enter/5, die Weiter-Schaltfläche oder **Spiele → Retro Snake → Spiel fortsetzen**. Beim Überschreiben einer begonnenen Partie erscheint eine Bestätigung; Abbrechen lässt sie pausiert erhalten. Nach Game Over/Sieg wird der Fortsetzungsstand entfernt, der Rekord bleibt erhalten. Es gibt einen lokalen Speicherplatz für die aktuelle Runde.
 
 **Zuverlässige Eingaben:** Genau zwei zukünftige Richtungswechsel werden angenommen. W → D im selben Takt bleibt erhalten. Bei vollem Puffer wird die nächste Eingabe verworfen, nicht eine bereits angenommene ersetzt. Pro Tick höchstens ein Richtungswechsel; Pause, Wiederherstellung und Game Over leeren die Warteschlange. Wischen benötigt mindestens 14 Pixel und eine erkennbare Hauptachse; winzige/diagonale Fingerbewegungen erzeugen keine Richtungswechsel.
 
-**Classic und Modern:** Über „Profil“ oder das Einstellungsmenü umschalten. Classic behält das Nokia-Menü. Modern vergrößert Bedienelemente, zeigt Spielinformationen und bietet direkten Zugriff auf Neustart und Einstellungen sowie scrollbare Touch-Menüs. Das Profil ist von **Nokia-/Vollbildansicht unabhängig**: Beide Kombinationen funktionieren mit derselben Engine und denselben Regeln. Im Modern-Profil übernimmt „Neustart“ auch den Start einer neuen Runde.
+**Classic und Modern:** Über „Profil“ oder das Einstellungsmenü umschalten. Classic behält das Retro-Menü. Modern vergrößert Bedienelemente, zeigt Spielinformationen und bietet direkten Zugriff auf Neustart und Einstellungen sowie scrollbare Touch-Menüs. Das Profil ist von **Handy-/Vollbildansicht unabhängig**: Beide Kombinationen funktionieren mit derselben Engine und denselben Regeln. Im Modern-Profil übernimmt „Neustart“ auch den Start einer neuen Runde.
 
 **Themen und Feedback:** Oliv, Silber, Bernstein, Dark LCD und High Contrast. Sound separat ein/aus; Lautstärke 0 (stumm) bis 4, Standard 2. Unterschiedliche Rechtecktöne für Menü, Futter, Bonus, Game Over und den ersten neuen Rekord einer Sitzung. Vibration ist separat, standardmäßig aus und bei fehlender Browser-API wirkungslos. Reduzierte Animationen werden respektiert.
 
@@ -79,18 +79,17 @@ src/snapshot.ts     Versionierte Spielstände: Validierung, Kopie und pausierte 
 src/render.ts       Aus 0.3 übernommene Canvas-Darstellung mit LCD-Paletten
 src/audio.ts        Kurze Web-Audio-Rechtecktöne
 src/main.ts         Eingaben, Zeitsteuerung, DOM-Menüs und App-Zustand
-src/style.css      Originales Gehäuse-CSS plus Weiterentwicklungen
+src/style.css      Eigenständiges Retro-Handheld-Design
 public/            Manifest und lokale Icons
 scripts/           Offline-Build, Browsertest und reproduzierbare Icons
 tests/             Automatisierte Unit-Tests ohne zusätzliches Testframework
-reference/         Unveränderte Originalversion 0.3
+(historische Referenzdatei bewusst entfernt)
 docs/              Analyse, Änderungen, Testergebnisse und PWA-Hinweise
 dist/              Generierter, direkt hostbarer Produktionsbuild
 ```
 
 TypeScript + Vite + Canvas, bewusst ohne React: Für dieses kleine Spiel genügt ein klarer Zustandsfluss. DOM-Menüs ermöglichen antippbare und tastaturbedienbare Schaltflächen; das eigentliche Spiel bleibt auf Canvas. Node führt die Tests mit nativer TypeScript-Unterstützung aus. Ein `requestAnimationFrame`-Takt ersetzt das browsergebundene Intervall, ohne nach Hintergrundpausen unsichtbare Schritte nachzuholen.
 
-Die Originaldatei bleibt in `reference/Snake_3310_v0.3.html` erhalten. Spielfeld (26 × 17), Labyrinthkoordinaten, Bewegung, Punktewerte, Bonusregeln, Geschwindigkeitsformel, Pixelgestaltung und Gehäuse wurden übernommen und gezielt getrennt/erweitert. Details: [Änderungen](docs/CHANGELOG.md).
 
 ## Speicherung
 
@@ -102,4 +101,10 @@ Ergebnis: **36 bestandene Unit-Tests, 29 bestandene Playwright-Szenarien** und e
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 
-Unabhängiges Fanprojekt, nicht mit Nokia verbunden oder von Nokia autorisiert. Historisch inspiriert, keine pixelgenaue Emulation der Original-Firmware.
+Eigenständiges Retro-Arcade-Spiel ohne Herstellerbezug. Historisch inspiriert, keine pixelgenaue Emulation der Original-Firmware.
+
+## Öffentliches Branding (0.5.2)
+
+Die App heißt jetzt **Bytecoil – Retro Snake**. Das gestaltete Handheld ist ein eigenständiges Fantasiegerät; Herstellerlogos und fremde Werbeslogans sind nicht Bestandteil der Benutzeroberfläche. Die alte Referenz-HTML und frühere Screenshots wurden aus dem aktuellen Projekt entfernt. Details: [Branding-Checkliste](docs/BRANDING.md). Die Browserdaten bleiben unter den bisherigen `snake3310_*`-Schlüsseln kompatibel; bitte nicht umbenennen.
+
+Vor Veröffentlichung sind Build-/Browsertests und neue Screenshots zu prüfen. Der Produktname muss noch in einschlägigen Markenregistern auf Verfügbarkeit untersucht werden.

@@ -1,4 +1,16 @@
-# Testbericht – Version 0.5.1
+# Prüfung Version 0.5.2
+
+Nach Änderung des Brandings müssen TypeScript-Build und Playwright-Browsertests erneut ausgeführt werden. Die früher dokumentierten 29 Browser-Szenarien beziehen sich auf v0.5.1 und werden nicht als v0.5.2-Erfolg dargestellt.
+
+- 37 automatisierte Tests: auf dem aktualisierten Code ausgeführt, 37 bestanden (36 bestehende Tests plus 1 Branding-Regressionstest) (Node.js 22 mit TypeScript-Stripping).
+- Production Build: in dieser Umgebung noch nicht ausgeführt (Paketinstallation erfordert Netzwerkzugriff).
+- Browser-Tests: in dieser Umgebung noch nicht vollständig über das bestehende Playwright-Skript ausgeführt.
+
+Alle nachfolgend aufgeführten v0.5.1-Testergebnisse sind historische Entwicklungsprotokolle.
+
+---
+
+# Testbericht – Version 0.5.2
 
 Ausgeführt am 18. Oktober 2026 unter Windows, Node.js 24.19.0, TypeScript 5.9.3, Vite 7.3.7 und Playwright 1.64.1 mit lokal installiertem Chrome (Chromium). Abhängigkeiten sind in `pnpm-lock.yaml` fixiert.
 
@@ -26,7 +38,7 @@ Sieben Menü-/Speichertests: Hierarchie und Rücksprungposition, zyklische Auswa
 
 Der Test startet einen eigenen HTTP-Server für den Produktionsbuild und beendet ihn anschließend. Kontrollierte Browserzeit macht die Bewegungsprüfungen deterministisch.
 
-1. Nokia-Boot und Standby.
+1. Retro-Boot und Standby.
 2. Tastatur-Menü bis Stufe 9, Speicherung und Rücknavigation.
 3. Spielstart, zwei gepufferte Wendungen, Canvas-Pixel nach einem Tick, Pause, Fortsetzen und bestätigter Neustart.
 4. Fokusverlust pausiert; Menübesuch erhält die Runde.
@@ -34,7 +46,7 @@ Der Test startet einen eigenen HTTP-Server für den Produktionsbuild und beendet
 6. Manifest, aktiver Worker, Offline-Neuladen und Fortsetzen.
 7. Periodische Sicherung; Neuladen rekonstruiert das identische pausierte Canvas und den Snapshot.
 8. Neustart-Bestätigung: Abbrechen erhält den Spielstand, Akzeptieren setzt Zähler/Bonus zurück.
-9. Classic/Modern und Nokia/Vollbild unabhängig; Dark LCD, High Contrast, Lautstärke, Vibration und Reset ohne Datenverlust.
+9. Classic/Modern und Retro-Handy/Vollbild unabhängig; Dark LCD, High Contrast, Lautstärke, Vibration und Reset ohne Datenverlust.
 10. Smartphone-Touchmenüs, Bernstein-Thema, kein horizontaler Überlauf.
 11. Echte emulierte Touch-Ereignisse: 3/4-Pixel-Zittern ignoriert, deutlicher Wischer vor Fingerfreigabe per Canvas-Pixel geprüft; kein Scrollversatz; Gerätetasten/Pause.
 12. 320-Pixel-Layout und große Ansicht passen ohne horizontalen Überlauf.
@@ -44,14 +56,14 @@ Der Test startet einen eigenen HTTP-Server für den Produktionsbuild und beendet
 16. Snapshot-Schreibzugriffe werden gezählt: keine periodischen Writes unter einer Sekunde, ein sofortiger Write bei Pause; Autorepeat und dritte Eingabe bei vollem Puffer ändern die Bewegung nicht.
 17. Hosting unter `/snake/`, passender Worker-Scope, Offline-Neuladen mit Query-Parameter und unveränderter pausierter Partie.
 18. Simulierter neuer Worker-Build wartet während einer laufenden Runde; reguläre Aktivierung nach Verlassen erhält Snapshot/Rekord; danach erneutes Offline-Neuladen.
-19. 320×568: Modern-Spielansicht vollständig sichtbar, kein Scrollen, große Tasten; pausierter Wechsel zur Nokia-Ansicht erhält Snapshot und Profil. Auch die Nokia-Hochformatansicht passt in den Bildschirm.
+19. 320×568: Modern-Spielansicht vollständig sichtbar, kein Scrollen, große Tasten; pausierter Wechsel zur Handy-Ansicht erhält Snapshot und Profil. Auch die Handy-Hochformatansicht passt in den Bildschirm.
 20. Dieselben Layout-/Zustandsprüfungen bei 360×740.
 21. Dieselben Layout-/Zustandsprüfungen bei 390×844.
 22. Dieselben Layout-/Zustandsprüfungen bei 430×932.
 23. 844×390: Spielfeld und seitliche Steuerung vollständig sichtbar, kein Scrollen; pausierter Ansichtswechsel erhält Spielstand.
 24. 1366×768: Modern-Spielfeld und seitliche Steuerung vollständig sichtbar, kein Scrollen; Tastatur/Maus und Ansichtswechsel funktionieren.
 25. Safe-Area-Simulation (30 px oben, 24 px unten, je 10 px seitlich), Touch-Richtungsfolge und kein Scrollversatz. Die Browserzeit wird für diese Eingabefolge vor dem Start explizit pausiert, damit die beiden Taps nicht von Echtzeit-Ticks beeinflusst werden.
-26. GitHub-Pages-Pfad `/snake-3310/`: relative Manifest-URL, `scope`, `start_url`, beide PNG-Icons, JavaScript und CSS erreichbar; alle beobachteten Ressourcen lokal und ohne HTTP-Fehler.
+26. GitHub-Pages-Pfad `/Snake/`: relative Manifest-URL, `scope`, `start_url`, beide PNG-Icons, JavaScript und CSS erreichbar; alle beobachteten Ressourcen lokal und ohne HTTP-Fehler.
 27. Reguläres temporäres Chromium-Profil: Chrome-CDP meldet keine Installierbarkeitsfehler; Browserprozess vollständig schließen, mit demselben Profil erneut starten, Netzwerk deaktivieren, offline öffnen und identischen Snapshot/Rekord pausiert wiederherstellen; Fortsetzen erfolgreich.
 
 28. Absichtlich blockiertes JavaScript: unabhängiger Ladehinweis erscheint; Neu-Laden stellt die pausierte Partie und den Rekord unverändert wieder her.
@@ -61,9 +73,9 @@ Der Update-Test ändert die Cache-Version in der lokalen Serverantwort, nicht in
 
 ## Layout und visuelle Prüfung
 
-Zusätzlich zu den bisherigen Desktop-/Mobile-Tests wurden alle sechs ausdrücklich geforderten Größen geprüft. In der Modern-Vollbildansicht entspricht die Dokumentgröße jeweils exakt dem Viewport; LCD und vier Steuertasten sind vollständig innerhalb des sichtbaren Bereichs. Richtungstasten mindestens 44×44 CSS-Pixel, mobile große Ansicht 48 px hoch. Die vier Smartphone-Hochformatansichten passen auch mit Nokia-Gehäuse und sämtlichen Zahlentasten.
+Zusätzlich zu den bisherigen Desktop-/Mobile-Tests wurden alle sechs ausdrücklich geforderten Größen geprüft. In der Modern-Vollbildansicht entspricht die Dokumentgröße jeweils exakt dem Viewport; LCD und vier Steuertasten sind vollständig innerhalb des sichtbaren Bereichs. Richtungstasten mindestens 44×44 CSS-Pixel, mobile große Ansicht 48 px hoch. Die vier Smartphone-Hochformatansichten passen auch mit Handygehäuse und sämtlichen Zahlentasten.
 
-Dauerhafte Screenshots und Messwerte: [SCREENSHOTS.md](SCREENSHOTS.md) und `docs/screenshots/`. Kleines Smartphone, Nokia-Ansicht und Querformat wurden visuell inspiziert. Rohdaten und weitere Bilder werden unter `test-results/` erzeugt; der abschließende JSON-Bericht enthält 29 bestandene Szenarien, `failed: null`, `pageErrors: []` und die sechs Layoutmessungen. `test-results/installability.json` enthält `installabilityErrors: []` aus dem regulären Profil. Das Testprofil wird anschließend sicher innerhalb des eigenen Testausgabeordners entfernt; vorhandene Chrome-Nutzerprofile werden nicht verwendet.
+Screenshots der früheren Version wurden beim Rebranding entfernt. Neue Screenshots werden durch `pnpm run test:browser` unter `test-results/` erzeugt. Kleines Smartphone, Handy-Ansicht und Querformat wurden visuell inspiziert. Rohdaten und weitere Bilder werden unter `test-results/` erzeugt; der abschließende JSON-Bericht enthält 29 bestandene Szenarien, `failed: null`, `pageErrors: []` und die sechs Layoutmessungen. `test-results/installability.json` enthält `installabilityErrors: []` aus dem regulären Profil. Das Testprofil wird anschließend sicher innerhalb des eigenen Testausgabeordners entfernt; vorhandene Chrome-Nutzerprofile werden nicht verwendet.
 
 ## GitHub-Actions-Konfiguration
 
@@ -77,4 +89,4 @@ Statisches Raster/Labyrinth im Canvas zwischengespeichert. Canvas wird nur bei T
 
 Keine physischen Android-/iOS-Geräte, Safari-/Firefox-Läufe, echte Homescreen-Installation, Hardware-Vibration oder akustische Hörprüfung. Installierbarkeit wurde technisch in einem regulären Chromium-Profil geprüft, eine tatsächliche Installation über eine Betriebssystemoberfläche nicht. Keine öffentliche HTTPS-Veröffentlichung. Fokusverlust wurde durch ein Blur-Ereignis ausgelöst; echtes Betriebssystem-Suspend/Resume bleibt ein Hardwaretest. Netzwerkabschaltung, vollständiger Browser-Neustart und Cache-Updates wurden in Chromium geprüft. Betriebssystemseitig gelöschte Daten, abruptes Beenden ohne Lifecycle-Ereignis und konkurrierende Spielstände mehrerer Tabs sind nicht zuverlässig abzusichern.
 
-Im niedrigen Smartphone-Querformat kann das vollständige Nokia-Gehäuse scrollen, um seine Zahlentasten groß zu erhalten. Die große Modern-Spielansicht passt dort ohne Scrollen; der Wechsel ist direkt in der Toolbar verfügbar. Auf Displays kleiner als die geprüften Größen kann das Mindestlayout bewusst scrollen, statt Spielfeld oder Tasten abzuschneiden.
+Im niedrigen Smartphone-Querformat kann das vollständige Handygehäuse scrollen, um seine Zahlentasten groß zu erhalten. Die große Modern-Spielansicht passt dort ohne Scrollen; der Wechsel ist direkt in der Toolbar verfügbar. Auf Displays kleiner als die geprüften Größen kann das Mindestlayout bewusst scrollen, statt Spielfeld oder Tasten abzuschneiden.

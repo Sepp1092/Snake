@@ -1,20 +1,20 @@
 # GitHub Pages – Freigabe und erste Testveröffentlichung
 
-Version 0.5.1 ist lokal fertig und für GitHub Pages vorbereitet. Es ist derzeit kein GitHub-Remote im Projekt eingetragen; weder Repository-Upload noch Veröffentlichung wurden vorgenommen. Diese Anleitung führt die spätere Freigabe konkret aus.
+Version 0.5.2 ist als Quellprojekt für einen erneuten Build und die GitHub-Pages-Freigabe vorbereitet. Das bestehende GitHub-Repository ist `Sepp1092/Snake`; die folgende Anleitung beschreibt das Update über GitHub Desktop.
 
 ## 1. GitHub-Repository vorbereiten
 
-Ein Repository beispielsweise namens **snake-3310** anlegen. Für einen unkomplizierten Test mit GitHub Free ein öffentliches Repository verwenden. Keine Zugangsdaten, persönlichen Tokens, Browserprofile oder lokalen Speicherstände hochladen. Die `.gitignore` schließt `node_modules/`, `dist/`, `.pnpm-store/` und `test-results/` aus. Die dokumentierten Screenshots in `docs/screenshots/` gehören zum Quellcode.
+Verwende das bereits vorhandene Repository **Sepp1092/Snake**. Für einen unkomplizierten Test mit GitHub Free ein öffentliches Repository verwenden. Keine Zugangsdaten, persönlichen Tokens, Browserprofile oder lokalen Speicherstände hochladen. Die `.gitignore` schließt `node_modules/`, `dist/`, `.pnpm-store/` und `test-results/` aus. Nur frisch erzeugte Screenshots des Bytecoil-Designs dürfen in `docs/screenshots/` veröffentlicht werden.
 
 Den Projektstand einschließlich `.github/workflows/pages.yml`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `src/`, `public/`, `scripts/` und `tests/` auf den Standardbranch des Repositories übertragen. Die CI benötigt den vollständigen Quellcode, nicht nur die ursprüngliche HTML-Datei.
 
-Beispielbefehle im Projektordner, Platzhalter vorher ersetzen:
+Alternative Git-Befehle (bei GitHub Desktop nicht erforderlich):
 
 ```sh
 git add .
-git commit -m "Prepare Snake 3310 0.5.1 mobile PWA release"
+git commit -m "Prepare Bytecoil 0.5.2 mobile PWA release"
 git branch -M main
-git remote add origin https://github.com/DEIN-NAME/snake-3310.git
+git remote add origin https://github.com/Sepp1092/Snake.git
 git push -u origin main
 ```
 
@@ -38,7 +38,7 @@ Ein Push oder Pull Request startet den Job **verify**:
 5. Playwright Chromium inklusive Systemabhängigkeiten installieren.
 6. `pnpm run test:browser` – Browser, Viewports, Touch, PWA-Updates und Offline-Neustart.
 
-Diese Ereignisse haben keine Deployment-Freigabe und veröffentlichen keine Website. Ein manueller Lauf ohne gesetztes Freigabefeld prüft ebenfalls nur. Die GitHub-Runner-Ausführung wurde hier nicht ausgeführt; lokal bestehen dieselben Projektskripte. Der Workflow wurde als YAML geparst und auf Freigabebedingungen und Artefaktpfad geprüft.
+Diese Ereignisse haben keine Deployment-Freigabe und veröffentlichen keine Website. Ein manueller Lauf ohne gesetztes Freigabefeld prüft ebenfalls nur. Die GitHub-Runner-Ausführung wurde hier nicht ausgeführt; lokal bestehen dieselben Projektskripte. Die GitHub-Actions-Konfiguration sieht manuelle Freigabe und Artefaktpfad `dist/` vor; eine v0.5.2-Ausführung auf GitHub steht aus.
 
 ## 4. Nach ausdrücklicher Freigabe veröffentlichen
 
@@ -47,13 +47,13 @@ Diese Ereignisse haben keine Deployment-Freigabe und veröffentlichen keine Webs
 3. Das Feld **I approve publishing this version to GitHub Pages** aktivieren. Es ist standardmäßig aus.
 4. Workflow starten und alle Prüfungen abwarten. Falls Reviewer eingerichtet sind, das `github-pages`-Deployment anschließend prüfen und genehmigen.
 5. Der Upload-Schritt verpackt ausschließlich **`dist/`**; der Deployment-Job wartet auf erfolgreiche Prüfung. Die nötigen kurzlebigen GitHub-Berechtigungen werden vom Workflow bereitgestellt. Kein eigener Token/Secret nötig.
-6. Nach erfolgreichem Job die von GitHub ausgegebene `page_url` öffnen. Für das Beispiel lautet das Schema `https://DEIN-NAME.github.io/snake-3310/` – dies ist ein Platzhalter, keine bereits veröffentlichte Adresse.
+6. Nach erfolgreichem Job die von GitHub ausgegebene `page_url` öffnen. Für das Beispiel lautet das Schema `https://sepp1092.github.io/Snake/` – dies ist ein Platzhalter, keine bereits veröffentlichte Adresse.
 
 Pushes nach der ersten Veröffentlichung ersetzen die Live-Version ebenfalls nicht automatisch. Jedes Release benötigt wieder den manuellen Freigabelauf.
 
 ## 5. Pfade und Abnahme auf der endgültigen Adresse
 
-Vite bleibt bei **`base: './'`**. Manifest, Icons, Skripte, CSS und Service Worker verwenden relative Pfade. Ein normaler Projektpfad wie `/snake-3310/` wird unterstützt und ist lokal automatisiert getestet. Die URL mit abschließendem Slash aufrufen. `start_url`, `scope` und Manifest-`id` bleiben relativ und stabil.
+Vite bleibt bei **`base: './'`**. Manifest, Icons, Skripte, CSS und Service Worker verwenden relative Pfade. Ein normaler Projektpfad wie `/Snake/` wird unterstützt war mit der vorherigen Version automatisiert getestet; die neue Version muss nach dem Update erneut geprüft werden. Die URL mit abschließendem Slash aufrufen. `start_url`, `scope` und Manifest-`id` bleiben relativ und stabil.
 
 Auf der endgültigen Website prüfen:
 
@@ -72,3 +72,5 @@ Ein defekter oder unbekannter Snapshot wird zur Stabilität verworfen. Gelöscht
 ## Quellen für die Workflow-Konfiguration
 
 [GitHub: Custom workflows for Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [Pages-Quelle konfigurieren](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site), [Deploy-Pages-Action](https://github.com/actions/deploy-pages).
+
+**Hinweis zur Namensänderung:** Das GitHub-Repository heißt weiterhin `Snake`. Ein Repository-Rename ist für das Bytecoil-Branding nicht erforderlich.

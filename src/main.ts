@@ -52,17 +52,17 @@ function applySettings() {
   if (morePanel.open) morePanel.close();
   $('profile').textContent = settings.profile === 'modern' ? 'Profil: Modern' : 'Profil: Classic';
   $('profile').setAttribute('aria-pressed', String(settings.profile === 'modern'));
-  $('view').textContent = settings.full ? '▣ Nokia-Ansicht' : '▣ Vollbildansicht';
+  $('view').textContent = settings.full ? '▣ Handy-Ansicht' : '▣ Vollbildansicht';
   $('view').setAttribute('aria-pressed', String(settings.full));
-  $('view').setAttribute('aria-label', settings.full ? 'Zur Nokia-Ansicht wechseln' : 'Zur Vollbildansicht wechseln');
+  $('view').setAttribute('aria-label', settings.full ? 'Zur Handy-Ansicht wechseln' : 'Zur Vollbildansicht wechseln');
   updateViewLabel();
   $('sound').textContent = settings.sound ? '♪ Ton an' : '♪ Ton aus';
   $('sound').setAttribute('aria-pressed', String(settings.sound));
 }
 function updateViewLabel() {
   $('view').textContent = compactLayout.matches && settings.profile === 'modern'
-    ? settings.full ? 'Nokia' : 'Vollbild'
-    : settings.full ? '▣ Nokia-Ansicht' : '▣ Vollbildansicht';
+    ? settings.full ? 'Handy' : 'Vollbild'
+    : settings.full ? '▣ Handy-Ansicht' : '▣ Vollbildansicht';
 }
 compactLayout.addEventListener('change', () => {
   updateViewLabel();
@@ -90,8 +90,8 @@ function render() {
   if (screen.hidden !== (mode === 'game')) screen.hidden = mode === 'game';
   menu.hasSaved = hasRound();
   const current = menu.current;
-  if (mode === 'boot') screen.innerHTML = '<div class="boot"><div class="handshake">▐▰▰▰▰▌</div><strong>NOKIA</strong><span>CONNECTING PEOPLE</span><button data-act="ok">Willkommen</button></div>';
-  else if (mode === 'standby') screen.innerHTML = '<div class="lcd-top"><span>▂▄▆█</span><span>▰▰▰ ▯</span></div><div class="standby"><span>RETRO MOBILE</span><strong>Snake II</strong><span>Bereit für eine neue Runde?</span><div class="pixel-snake">▰▰▰▰<br>▰<br>▰▰▰ &nbsp;▪</div></div><div class="softlabels"><button data-act="ok">Menü</button><span>2001</span></div>';
+  if (mode === 'boot') screen.innerHTML = '<div class="boot"><div class="boot-mark" aria-hidden="true">▟▚▞</div><strong>BYTECOIL</strong><span>RETRO SNAKE ARCADE</span><button data-act="ok">Willkommen</button></div>';
+  else if (mode === 'standby') screen.innerHTML = '<div class="lcd-top"><span>▂▄▆█</span><span>▰▰▰ ▯</span></div><div class="standby"><span>PIXEL HANDHELD</span><strong>Retro Snake</strong><span>Bereit für eine neue Runde?</span><div class="pixel-snake">▰▰▰▰<br>▰<br>▰▰▰ &nbsp;▪</div></div><div class="softlabels"><button data-act="ok">Menü</button><span>BC-01</span></div>';
   else if (mode === 'menu') {
     const items = menu.items, start = settings.profile === 'modern' ? 0 : Math.max(0, Math.min(current.index - 2, items.length - 4));
     const list = items.slice(start, settings.profile === 'modern' ? items.length : start + 4).map((item, offset) => {
@@ -113,7 +113,7 @@ function render() {
   if (document.body.dataset.scene !== mode) document.body.dataset.scene = mode;
   const messages = { ready: 'Bereit', playing: `Spielt · Punkte: ${game.score}`, paused: 'Pausiert · 5: Weiter · Menü: Optionen', over: `Game Over · ${game.score} Punkte`, won: `Gewonnen! · ${game.score} Punkte` };
   setText(status, notice || (mode === 'game' ? messages[game.phase] : mode === 'menu' ? `${titles[current.id]} · ▲ ▼ wählen · 5 bestätigen` : 'Ein Klassiker. Eine Runde geht noch.'));
-  const label = `Snake II · ${messages[game.phase]}`;
+  const label = `Retro Snake · ${messages[game.phase]}`;
   if (canvas.getAttribute('aria-label') !== label) canvas.setAttribute('aria-label', label);
   setText($('pause'), game.phase === 'paused' ? 'Weiter' : 'Pause');
   if ($('resume').hidden !== (game.phase !== 'paused')) $('resume').hidden = game.phase !== 'paused';
