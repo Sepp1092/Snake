@@ -29,7 +29,7 @@ Die im Terminal ausgegebene Adresse öffnen, normalerweise `http://127.0.0.1:517
 Alternativ mit der mitgelieferten Lockdatei: `pnpm install --frozen-lockfile`, danach `pnpm dev`. `pnpm-workspace.yaml` erlaubt ausschließlich den esbuild-Buildschritt. Mit älteren pnpm-Versionen gegebenenfalls `pnpm approve-builds` für esbuild verwenden.
 
 ```sh
-npm test                 # 56 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
+npm test                 # 59 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
 npm run build            # TypeScript-Prüfung, Vite-Build, Offline-Cache
 npm run preview          # Fertigen Build lokal unter Port 4173 ansehen
 npm run test:browser     # Playwright: Desktop, Smartphone und Offline
@@ -110,7 +110,7 @@ Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte
 
 ## Qualität und Veröffentlichung
 
-Ergebnis: **56 bestandene Unit-Tests, 49 Chrome-Szenarien plus 9 WebKit-Randprüfungen** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
+Ergebnis: **59 bestandene Unit-Tests, 49 Chrome-Szenarien plus 9 WebKit-Randprüfungen** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 
@@ -127,3 +127,6 @@ Der v0.6-Entwicklungsstand ist mit Build-/Browsertests und neuen Screenshots gep
 Alle Arbeit erfolgt lokal auf `feature/v0.6-game-modes`. Keine Veröffentlichung, kein Merge und kein Deployment wurden ausgeführt. Empfohlen: Diff und Screenshots prüfen, anschließend den Entwicklungsbranch bewusst committen/pushen und als PR gegen `main` prüfen. Erst nach ausdrücklicher Freigabe mergen. Das GitHub-Pages-Deployment ist eine separate manuelle Freigabe; ein Push auf den Feature-Branch darf nicht die öffentliche v0.5.2 ersetzen. Der Workflow veröffentlicht außerdem nur vom Standardbranch und nach gesetztem Freigabefeld.
 
 Lokale Vorschau kann mit `pnpm run preview --port 4174` vom älteren Checkout getrennt gestartet werden. Ein anderer Port ist eine andere Origin und besitzt eigene Browserdaten; die spätere Übernahme bestehender Daten wird unter derselben veröffentlichten Adresse geprüft.
+
+
+Der v0.6.1-CI-Randtest wurde gegen browserabhängige Pixelrundung abgesichert. Mehrere innere Messpunkte, vollständiger Konturvergleich und echte Clipping-Gegenproben ersetzen den grenznahen Einzelpunkt. [Fehlerursache und Reproduktionsbild](docs/EDGE_TEST_FIX.md). Mit `BROWSER_CHANNEL=chromium` lässt sich Playwrights Chromium explizit statt des lokal installierten Chrome auswählen.

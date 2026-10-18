@@ -7,12 +7,18 @@ Entwicklungsbranch `feature/v0.6-game-modes`, ausgehend von Bytecoil v0.5.2 Comm
 | Befehl | Ergebnis |
 | --- | --- |
 | `pnpm install --frozen-lockfile` | Erfolgreich im separaten Entwicklungscheckout |
-| `pnpm run test` | 56/56 Unit-Tests bestanden |
+| `pnpm run test` | 59/59 Unit-Tests bestanden |
 | `pnpm run build` | TypeScript-Prüfung, Vite-Produktionsbuild und Offline-Cache erfolgreich |
 | `pnpm run test:browser` | 49 Chrome-Szenarien (Teil des vollständigen Laufs) bestanden |
 | `pnpm run test:browser:webkit` | 58/58: 49 Chrome- und 9 zusätzliche WebKit-Szenarien; keine unbehandelten Seitenfehler |
 
 Prozesse wurden mit der für diese Windows-Sandbox erforderlichen lokalen Prozessfreigabe ausgeführt. Der Produktionsbuild benötigt keinen externen Dienst. JavaScript-Bundle etwa 35,3 KB beziehungsweise 12,9 KB gzip; kein Hardware-Performance-Benchmark.
+
+## CI-Korrektur des Randtests
+
+Der ursprüngliche grenznahe Einzelpixel-Test meldete in Playwright Chromium fälschlich Hintergrund trotz sichtbarer Schlange. Dieser Fall wurde lokal ohne Layoutmanipulation reproduziert. Die korrigierte Prüfung nutzt mehrere innere Punkte, eine gleich gerasterte unbeschnittene Referenz und den Vergleich der gesamten dunklen Segmentkontur. Eine entfernte physische Zeile/Spalte sowie echtes CSS-Clipping bleiben nachweisbar. Keine Änderung an Renderer, CSS oder Spielregeln. [Ursache, Messwerte und Reproduktionsbild](EDGE_TEST_FIX.md).
+
+Zusätzliche drei Unit-Tests ergeben jetzt 59. Die vollständige Browser-Suite wurde erneut mit `BROWSER_CHANNEL=chromium` und `pnpm run test:browser:webkit` ausgeführt: 58 Szenarien, 72 reguläre Randdarstellungen, 72 Referenzbilder und acht erwartungsgemäß erkannte Clipping-Gegenproben. GitHub Actions lädt Diagnoseartefakte auch im Fehlerfall hoch. Der korrigierte Linux-CI-Lauf wurde noch nicht gestartet.
 
 ## Ergänzungen in 0.6.1
 

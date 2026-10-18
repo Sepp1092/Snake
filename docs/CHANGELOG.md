@@ -1,5 +1,13 @@
 # Changelog – Bytecoil – Retro Snake
 
+## 0.6.1 – CI-Randtest-Korrektur (19. Oktober 2026, lokal)
+
+- Einzelne grenznahe Screenshot-Probe durch mehrere innere Punkte und vollständigen Konturvergleich mit einer gleich gerasterten, unbeschnittenen LCD-Referenz ersetzt. Der ursprüngliche Hintergrund-Fehlalarm wurde mit Playwright Chromium reproduziert.
+- Screenshotmaßstab aus tatsächlichen PNG-Maßen, streng getrennte LCD-Palettenfarben und gezielte Clipping-Gegenproben an allen vier Seiten. Keine gelockerten pauschalen Farbgrenzen und keine deaktivierten Tests.
+- Drei neue Raster-Unit-Tests einschließlich einzelner fehlender Pixelzeilen/-spalten; Kopf und Auge ebenfalls im Quellraster geprüft. Alle 59 Unit-Tests, Build und 58 Browser-Szenarien erneut erfolgreich; vollständige 72er-Randmatrix in Chromium und WebKit.
+- GitHub Actions sichert Berichte und Screenshots auch nach einem Fehler. Keine Änderung an Laufzeitcode, Spiellogik, Version oder Speicherformat; kein Deployment.
+- [Analyse, Messwerte, Reproduktionsbild und Grenzen](EDGE_TEST_FIX.md).
+
 ## 0.6.1 – LCD-Randkorrektur (19. Oktober 2026, lokal)
 
 - Weiterentwicklung des vorhandenen v0.6-Stands auf `feature/v0.6-game-modes`, ausschließlich im Checkout `bytecoil-v06`.

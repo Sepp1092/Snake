@@ -37,6 +37,11 @@ Für **320 × 568, 390 × 844, 430 × 932**, jeweils **DPR 1, 2, 3**, jeweils **
 - sichtbare Pixel jeder Randzelle im **komponierten Browser-Screenshot** (erkennt CSS-Clipping, das reine Canvas-Tests übersehen);
 - keinen horizontalen Überlauf und keinen vertikalen Überlauf in den mobilen Modern-Ansichten.
 
-Das ergibt **72 Darstellungen** in 18 gruppierten Szenarien sowie zwei Unit-Tests. Jede Darstellung erhält einen vollständigen PNG-Screenshot unter `test-results/v061-*-bottom-*.png`. Der Browserbericht enthält Messwerte für jede Darstellung. Ausgewählte DPR-3-Aufnahmen sind dauerhaft unter [Screenshots](SCREENSHOTS.md) dokumentiert.
+Das ergibt **72 Darstellungen** in 18 gruppierten Szenarien sowie zwei Geometrie- und drei Raster-Unit-Tests. Jede Darstellung erhält einen vollständigen PNG-Screenshot unter `test-results/v061-*-bottom-*.png`. Der Browserbericht enthält Messwerte für jede Darstellung. Ausgewählte DPR-3-Aufnahmen sind dauerhaft unter [Screenshots](SCREENSHOTS.md) dokumentiert.
 
 WebKit unter Windows ist eine zusätzliche Engine-Prüfung, kein physisches iPhone und keine installierte iOS-PWA. Ein abschließender Gerätetest mit Safari und „Zum Home-Bildschirm“ bleibt erforderlich; echte Browserleistenwechsel, OS-Suspend, Hardware-Audio und iOS-Compositing können hier nicht vollständig nachgebildet werden. Die vollständigen funktionalen PWA-/Touch-Regressionen laufen in Chrome; die zusätzliche WebKit-Matrix konzentriert sich auf Raster und Layout.
+
+
+## CI-Rasterkorrektur
+
+Der ursprüngliche grenznahe Screenshot-Einzelpunkt konnte bei Bruchskalierung Hintergrund lesen, obwohl das Segment sichtbar war. Die Prüfung vergleicht nun mehrere innere Punkte und die gesamte dunkle Kontur mit einer unbeschnittenen, gleich gerasterten LCD-Referenz. Vier absichtliche CSS-Clippings pro Engine sowie Einzelpixel-Unit-Gegenproben sichern die Fehlererkennung. [Messwerte, Reproduktionsbild und Ergebnisse](EDGE_TEST_FIX.md). Die oben beschriebene App-Geometrie bleibt unverändert.
