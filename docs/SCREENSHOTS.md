@@ -41,3 +41,8 @@ Die erste Statistikzeile schaltet zwischen Gesamt und den vier Modi. Weitere Wer
 - [Maze Master geschafft](screenshots/v06-challenge-maze-success.png)
 
 Time-Attack-Bilder zeigen absichtlich einen pausiert wiederhergestellten Spielstand kurz vor Ablauf. Die Erfolgsbilder basieren auf vorbereiteten Zwischenständen mit tatsächlich ausgeführtem letztem Zielschritt. Vollständige Viewport-Messungen und weitere Bilder liegen im regenerierbaren Ordner `test-results/`.
+
+
+## Reproduktion des CI-Einzelpixel-Fehlalarms
+
+[Playwright Chromium, 320 × 568, DPR 1, Classic-Handy](screenshots/v061-ci-probe-reproduction.png): vollständige Randschlange, während der alte Einzelpunkt an mehreren seitlichen Segmenten Hintergrund meldet. Lokal reproduziert; der ursprüngliche GitHub-Lauf hat kein Screenshot-Artefakt gespeichert. [Koordinaten und Ursachenanalyse](EDGE_TEST_FIX.md).

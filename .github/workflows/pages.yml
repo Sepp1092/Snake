@@ -38,6 +38,14 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
       - name: Browser, mobile, restart and offline tests
         run: pnpm run test:browser
+      - name: Preserve browser diagnostics, including failed screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-diagnostics
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload verified site only after explicit approval
         if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         uses: actions/upload-pages-artifact@v4
