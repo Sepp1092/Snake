@@ -1,0 +1,9 @@
+{
+  "id": "./", "name": "Snake 3310 – Retro Edition", "short_name": "Snake 3310",
+  "description": "Snake II im Stil des Nokia 3310", "lang": "de", "start_url": "./", "scope": "./",
+  "display": "standalone", "background_color": "#101b24", "theme_color": "#263750",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

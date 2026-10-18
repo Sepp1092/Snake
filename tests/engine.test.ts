@@ -1,0 +1,34 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Game, directions as d, COLS, ROWS, mazeCells } from '../src/engine.ts';
+const make = (walls: 'wrap' | 'solid' = 'wrap', maze = 0) => { const g = new Game({ level: 3, walls, maze }, () => .8); g.reset(); return g; };
+test('movement advances exactly one cell without changing length', () => { const g = make(); g.step(); assert.deepEqual(g.snake[0], { x: 5, y: 8 }); assert.equal(g.snake.length, 3); });
+test('W → D within one tick is accepted and consumed one turn per step', () => {
+  const g = make();
+  assert.equal(g.turn(d.up), true); assert.equal(g.turn(d.right), true);
+  assert.equal(g.queue.length, 2);
+  g.step(); assert.deepEqual(g.snake[0], { x: 4, y: 7 });
+  assert.deepEqual(g.queue, [d.right]);
+  g.step(); assert.deepEqual(g.snake[0], { x: 5, y: 7 }); assert.equal(g.queue.length, 0);
+});
+test('full two-turn buffer rejects extra commands without overwriting accepted turns', () => {
+  const g = make(); g.turn(d.up); g.turn(d.left);
+  assert.equal(g.turn(d.down), false); assert.deepEqual(g.queue, [d.up, d.left]);
+  g.step(); assert.equal(g.turn(d.down), true);
+  assert.deepEqual(g.queue, [d.left, d.down]);
+  g.step(); assert.deepEqual(g.snake[0], { x: 3, y: 7 });
+  g.over(); assert.equal(g.queue.length, 0); assert.equal(g.turn(d.right), false);
+});
+test('reverse and duplicate inputs rejected against queued direction', () => { const g = make(); assert.equal(g.turn(d.left), false); assert.equal(g.turn(d.right), false); g.turn(d.up); assert.equal(g.turn(d.down), false); assert.equal(g.turn(d.up), false); assert.equal(g.turn(d.left), true); });
+test('all four wrap edges lead to opposite edge', () => { for (const [head, dir, expected] of [[{ x: 25, y: 5 }, d.right, { x: 0, y: 5 }], [{ x: 0, y: 5 }, d.left, { x: 25, y: 5 }], [{ x: 5, y: 0 }, d.up, { x: 5, y: 16 }], [{ x: 5, y: 16 }, d.down, { x: 5, y: 0 }]]) { const g = make(); g.snake = [head]; g.dir = dir; g.step(); assert.deepEqual(g.snake[0], expected); } });
+test('solid edges end the game in all directions', () => { for (const [head, dir] of [[{ x: 25, y: 5 }, d.right], [{ x: 0, y: 5 }, d.left], [{ x: 5, y: 0 }, d.up], [{ x: 5, y: 16 }, d.down]]) { const g = make('solid'); g.snake = [head]; g.dir = dir; assert.equal(g.step(), 'over'); assert.equal(g.phase, 'over'); } });
+test('body collision ends game', () => { const g = make(); g.snake = [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }, { x: 6, y: 4 }]; assert.equal(g.step(), 'over'); });
+test('moving into vacating tail is legal without growth', () => { const g = make(); g.snake = [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 5, y: 4 }]; assert.equal(g.step(), 'move'); assert.equal(g.phase, 'playing'); });
+test('maze collision ends game; all starting bodies are unobstructed', () => { for (const maze of [0, 1, 2]) { const g = make('wrap', maze); assert.ok(g.snake.every(p => !g.obstacles.has(`${p.x},${p.y}`))); } const g = make(); g.obstacles.add('5,8'); assert.equal(g.step(), 'over'); });
+test('original box and cross keep their passages', () => { assert.equal(mazeCells(1).has('6,4'), true); assert.equal(mazeCells(1).has('6,8'), false); assert.equal(mazeCells(2).has('13,2'), true); assert.equal(mazeCells(2).has('13,8'), false); });
+test('food grows body, scores ten and updates best', () => { const g = make(); g.food = { x: 5, y: 8 }; assert.equal(g.step(), 'eat'); assert.equal(g.snake.length, 4); assert.equal(g.score, 10); assert.equal(g.best, 10); assert.ok(!g.snake.some(p => p.x === g.food!.x && p.y === g.food!.y)); });
+test('bonus appears at fifty points, grows and scores twenty-five', () => { const g = make(); g.score = 40; g.food = { x: 5, y: 8 }; g.step(); assert.ok(g.bonus); g.bonus = { x: 6, y: 8 }; assert.equal(g.step(), 'bonus'); assert.equal(g.score, 75); assert.equal(g.snake.length, 5); assert.equal(g.bonus, null); });
+test('bonus expires', () => { const g = make(); g.bonus = { x: 20, y: 10 }; g.bonusSteps = 1; g.step(); assert.equal(g.bonus, null); });
+test('pause clears inputs and freezes state; resume and reset retain record', () => { const g = make(); g.best = 80; g.turn(d.up); const head = { ...g.snake[0] }; g.pause(); assert.equal(g.queue.length, 0); assert.equal(g.step(), null); assert.equal(g.turn(d.left), false); assert.deepEqual(g.snake[0], head); g.resume(); g.step(); assert.equal(g.snake[0].x, head.x + 1); g.reset(); assert.equal(g.score, 0); assert.equal(g.best, 80); assert.equal(g.phase, 'playing'); });
+test('nine speeds are strictly increasing and retain v0.3 intervals', () => { let previous = 300; for (let level = 1; level <= 9; level++) { const g = make(); g.options.level = level; assert.ok(g.interval < previous); previous = g.interval; } assert.equal(previous, 73); });
+test('last free cell wins without hanging food placement', () => { const g = make(); g.snake = [{ x: 0, y: 0 }]; g.food = { x: 1, y: 0 }; g.obstacles = new Set(); for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) if (y !== 0 || x > 1) g.obstacles.add(`${x},${y}`); assert.equal(g.step(), 'won'); });

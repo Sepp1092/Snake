@@ -1,0 +1,66 @@
+name: Verify and release GitHub Pages
+
+# Pushes/PRs only validate. Publication requires an explicit manual release.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'I approve publishing this version to GitHub Pages'
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.19.0'
+      - name: Install pinned package manager
+        run: npm install --global pnpm@11.25.0
+      - name: Reproducible dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Unit tests
+        run: pnpm run test
+      - name: TypeScript and production build
+        run: pnpm run build
+      - name: Install test browser
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Browser, mobile, restart and offline tests
+        run: pnpm run test:browser
+      - name: Upload verified site only after explicit approval
+        if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Publish approved artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
