@@ -1,4 +1,10 @@
-# Screenshots – Bytecoil 0.7.0
+# Screenshots – Bytecoil 0.7.1
+
+## 0.7.1 – Mobile Layout
+
+[Alle acht Vorher-/Nachher-Bilder sowie Messwerte und Beschreibung](MOBILE_LAYOUT_V071.md#vorhernachher). Smartphone-Vollbild und Handy, jeweils aktiv und pausiert, mit Schlange am unteren Rand und in allen vier Ecken.
+
+## Historische Screenshots 0.7.0
 
 ## 0.7 – Achievements und mobile Steuerung
 

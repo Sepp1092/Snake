@@ -1,5 +1,13 @@
 # Changelog – Bytecoil – Retro Snake
 
+## 0.7.1 – Mobile Layout Optimization (19. Oktober 2026, lokal)
+
+- Gemessene mobile Höhenberechnung statt fester Handybreiten und großer Vollbild-Restflächen; Safe Areas, tatsächliche Menüleisten-/Tastenhöhen und dynamische Viewports berücksichtigen.
+- Vollbild-LCD direkt unter der Aktionsleiste, Steuerung direkt darunter beziehungsweise daneben. Schmalere Rahmen und größere LCD-Fläche.
+- Handyansicht maximiert LCD-Breite innerhalb der verfügbaren Höhe; alle 15 Tasten bleiben sichtbar. Platzsparendes Querformat und seitliche Aktionsleiste bei sehr niedrigen Displays.
+- Classic und Modern, drei Touch-Layouts und beide Tastengrößen; keine Änderung an Spiel-/Speicher-/Achievement-/Controller-Logik oder der v0.6.1-Randreserve.
+- Neue Browsermatrix für aktive und pausierte Spiele, Rotation/Safe Areas und Überlappungen. Vorher-/Nachher-Screenshots und [Entwicklungsbericht](MOBILE_LAYOUT_V071.md). Kein automatischer Merge oder Pages-Deployment.
+
 ## 0.7.0 – Achievements, Controller und mobile Bedienung
 
 - Basis: `main` auf GitHub-Stand `79c00f9` aktualisiert; neuer Branch `feature/v0.7-achievements-controls`. Die komplette v0.6.1-Randkorrektur und ihre Regressionen bleiben enthalten.

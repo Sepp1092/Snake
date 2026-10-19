@@ -1,4 +1,5 @@
 import './style.css';
+import { installMobileLayout } from './mobile-layout.ts';
 import { directions } from './engine.ts';
 import { GameSession, modeNames, runLabel, challenges, type GameMode } from './modes.ts';
 import { Records } from './records.ts';
@@ -116,7 +117,7 @@ function applySettings() {
   $('sound').setAttribute('aria-pressed', String(settings.sound));
 }
 function updateViewLabel() {
-  $('view').textContent = compactLayout.matches && settings.profile === 'modern'
+  $('view').textContent = compactLayout.matches
     ? settings.full ? 'Handy' : 'Vollbild'
     : settings.full ? '▣ Handy-Ansicht' : '▣ Vollbildansicht';
 }
@@ -368,7 +369,7 @@ function padAction(action: PadAction) {
 }
 if (saved && hasRound()) saveRound();
 initializing = false;
-applySettings(); render(); requestAnimationFrame(tick);
+applySettings(); render(); installMobileLayout(); requestAnimationFrame(tick);
 setTimeout(() => { if (mode === 'boot') finishBoot(); }, 1700);
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => { void navigator.serviceWorker.register('./sw.js').catch(() => { /* Offline support is optional. */ }); });

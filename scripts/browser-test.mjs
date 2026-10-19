@@ -9,6 +9,7 @@ import { GameSession } from '../src/modes.ts';
 import { capture } from '../src/snapshot.ts';
 import { testEdges } from './edge-test.mjs';
 import { testV07 } from './v07-test.mjs';
+import { testV071 } from './v071-test.mjs';
 
 await mkdir('test-results', { recursive: true });
 const root = path.resolve('dist');
@@ -60,6 +61,7 @@ async function frozenPage(context, seed) {
 }
 try {
   browser = await chromium.launch({ headless: true, channel });
+  if (!process.argv.includes('--layout-only')) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
@@ -326,7 +328,7 @@ try {
     await update.waitForFunction(async () => !!(await navigator.serviceWorker.getRegistration()).waiting);
     assert.equal(await update.locator('#lcd').getAttribute('data-phase'), 'playing');
     assert.deepEqual(await snapshot(update), before);
-    const waiting = await update.evaluate(async () => (await navigator.serviceWorker.ready).waiting.state); assert.equal(waiting, 'installed');
+    const waiting = await update.evaluate(async () => (await navigator.serviceWorker.getRegistration()).waiting.state); assert.equal(waiting, 'installed');
     await update.locator('#pause').click(); const paused = await snapshot(update);
     await update.goto('about:blank');
     // A newly opened uncontrolled page lets us await activation without arbitrary sleeps.
@@ -593,14 +595,21 @@ try {
     await page.locator('#sound').click(); assert.ok(await page.evaluate(() => window.audioStarts > 0));
     await context.close();
   });
+  }
+  await testV071({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only')) {
   await testEdges({ browser, check, frozenPage, modeFixture, layouts });
   await testV07({ browser, check, frozenPage, modeFixture, layouts });
   await testEdges({ browser, check, frozenPage, modeFixture, layouts, touchLayouts: ['compact','ergonomic'] });
+  }
   if (process.env.TEST_WEBKIT === 'true' || process.argv.includes('--webkit')) {
     const safari = await webkit.launch({ headless: true });
     try {
+      if (!process.argv.includes('--layout-only')) {
       await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit', touchLayouts: ['standard','compact','ergonomic'] });
       await testV07({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      }
+      await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
     }
     finally { await safari.close(); }
   }
