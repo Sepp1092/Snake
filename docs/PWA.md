@@ -1,5 +1,7 @@
 # PWA und spätere Veröffentlichung
 
+Version 0.7.2 ändert weder Scope, Speicherschlüssel noch Service-Worker-Protokoll. Die vier Smartphone-Hauptbuttons und sämtliche Mehr-Aktionen werden mit dem Produktionsbuild lokal gecacht. Der Browsertest lädt eine gespeicherte Partie offline erneut, bedient Profil und Ton im Mehr-Menü und setzt dieselbe Partie fort. Das ersetzt keinen Hardwaretest einer installierten iOS-PWA. Veröffentlichung bleibt eine separate manuelle Freigabe; der Feature-Branch löst ausschließlich Prüfungen aus.
+
 ## Bereits vorhanden
 
 - Manifest mit Name, deutscher Sprache, Start-URL, relativem Scope und Standalone-Anzeige.

@@ -36,6 +36,7 @@ let initializing = true;
 const dialog = $<HTMLDialogElement>('confirm');
 const intro = $<HTMLDialogElement>('challenge-intro');
 const morePanel = $<HTMLDialogElement>('more-panel');
+let moreSession: { resume: boolean; queue: typeof game.queue; remainingTick: number } | null = null;
 const achievementDialog = $<HTMLDialogElement>('achievement-detail');
 let padStatus = 'Kein Controller erkannt', padSeen = false, lastPadPoll = -Infinity;
 const awardQueue: AchievementId[] = [];
@@ -106,7 +107,6 @@ function applySettings() {
   gesture = null;
   document.querySelectorAll('.pressed').forEach(e => e.classList.remove('pressed'));
   if (!settings.achievementNotifications) { awardQueue.length = 0; clearTimeout(awardTimer); awardTimer = undefined; $('achievement-toast').hidden = true; }
-  if (morePanel.open) morePanel.close();
   $('profile').textContent = settings.profile === 'modern' ? 'Profil: Modern' : 'Profil: Classic';
   $('profile').setAttribute('aria-pressed', String(settings.profile === 'modern'));
   $('view').textContent = settings.full ? '▣ Handy-Ansicht' : '▣ Vollbildansicht';
@@ -115,7 +115,50 @@ function applySettings() {
   updateViewLabel();
   $('sound').textContent = settings.sound ? '♪ Ton an' : '♪ Ton aus';
   $('sound').setAttribute('aria-pressed', String(settings.sound));
+  updateMoreState();
 }
+function updateMoreState() {
+  setText($('more-profile'), `Profil: ${settings.profile === 'modern' ? 'Modern' : 'Classic'}`);
+  $('more-profile').setAttribute('aria-pressed', String(settings.profile === 'modern'));
+  setText($('more-sound'), `Ton: ${settings.sound ? 'an' : 'aus'}`);
+  $('more-sound').setAttribute('aria-pressed', String(settings.sound));
+  setText($('more-state'), moreSession?.resume ? 'Spiel kurz angehalten. Danach geht es weiter.' : game.phase === 'paused' ? 'Dein Spiel bleibt pausiert.' : 'Weitere Aktionen');
+  setText($('more-close'), moreSession?.resume ? 'Weiterspielen' : game.phase === 'paused' ? 'Zurück – pausiert' : 'Schließen');
+}
+function openMore() {
+  if (morePanel.open) return;
+  gesture = null;
+  document.querySelectorAll('.pressed').forEach(e => e.classList.remove('pressed'));
+  const session = { resume: game.phase === 'playing' && mode === 'game', queue: game.queue.map(p => ({ ...p })), remainingTick: Math.max(0, nextTick - performance.now()) };
+  if (session.resume) pause();
+  session.resume &&= game.phase === 'paused';
+  moreSession = session;
+  updateMoreState(); morePanel.showModal(); $('more-close').focus();
+}
+function leaveMore() {
+  // Explicit navigation/new-game actions keep their existing pause/confirmation behavior.
+  moreSession = null; morePanel.close();
+}
+morePanel.addEventListener('close', () => {
+  if (morePanel.open) return;
+  gesture = null;
+  document.querySelectorAll('.pressed').forEach(e => e.classList.remove('pressed'));
+  const session = moreSession; moreSession = null;
+  if (session?.resume && mode === 'game' && game.phase === 'paused' && !document.hidden && document.hasFocus() && !dialog.open && !intro.open) {
+    game.resume(); game.queue = session.queue;
+    nextTick = performance.now() + session.remainingTick; notice = '';
+  }
+  render();
+});
+morePanel.addEventListener('keydown', e => {
+  const delta = ['ArrowDown','ArrowRight'].includes(e.key) ? 1 : ['ArrowUp','ArrowLeft'].includes(e.key) ? -1 : 0;
+  if (!delta && e.key !== 'Home' && e.key !== 'End') return;
+  e.preventDefault();
+  const buttons = Array.from(morePanel.querySelectorAll<HTMLButtonElement>('button'));
+  const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
+  buttons[e.key === 'Home' ? 0 : e.key === 'End' ? buttons.length - 1 : (index + delta + buttons.length) % buttons.length]?.focus();
+});
+function toggleSound() { settings.sound = !settings.sound; save(); feedback('menu'); render(); }
 function updateViewLabel() {
   $('view').textContent = compactLayout.matches
     ? settings.full ? 'Handy' : 'Vollbild'
@@ -195,6 +238,7 @@ function render() {
   const label = `Retro Snake · ${messages[game.phase]}`;
   if (canvas.getAttribute('aria-label') !== label) canvas.setAttribute('aria-label', label);
   setText($('pause'), game.phase === 'paused' ? 'Weiter' : 'Pause');
+  updateMoreState();
   if ($('resume').hidden !== (game.phase !== 'paused')) $('resume').hidden = game.phase !== 'paused';
   setText($('comfort'), `${modeNames[game.run.mode]} · Punkte ${game.score} · ${runLabel(game)}${game.run.mode === 'classic' || game.run.mode === 'timeAttack' ? ` · Rekord ${game.best}` : ''}${persistence.available ? '' : ' · Speicherung nicht verfügbar'}`);
 }
@@ -244,7 +288,7 @@ function selectMenu() {
 }
 function act(action: string, source: 'key' | 'touch' | 'gamepad' = 'key') {
   if (dialog.open || morePanel.open || intro.open || achievementDialog.open || action === 'noop') return;
-  if (action === 'sound') { settings.sound = !settings.sound; save(); feedback('menu'); render(); return; }
+  if (action === 'sound') { toggleSound(); return; }
   if (action === 'restart') { requestNewGame(); return; }
   if (mode === 'boot') { finishBoot(); return; }
   if (mode === 'standby') { mode = 'menu'; menu.home(); feedback('menu'); render(); return; }
@@ -307,21 +351,22 @@ $('challenge-cancel').onclick = () => intro.close();
 $('restart').onclick = requestNewGame;
 $('resume').onclick = resume;
 $('settings').onclick = () => { showMenu(); menu.stack.push({ id: 'settings', index: 0 }); render(); };
-$('more').onclick = () => { pause(); morePanel.showModal(); };
+$('more').onclick = openMore;
 $('more-close').onclick = () => morePanel.close();
-$('more-restart').onclick = () => { morePanel.close(); requestNewGame(); };
-$('more-settings').onclick = () => { morePanel.close(); $('settings').click(); };
-$('more-profile').onclick = () => { morePanel.close(); settings.profile = 'classic'; save(); render(); };
+$('more-restart').onclick = () => { leaveMore(); $('start').click(); };
+$('more-settings').onclick = () => { leaveMore(); $('settings').click(); };
+$('more-profile').onclick = () => $('profile').click();
+$('more-sound').onclick = () => $('sound').click();
 $('profile').onclick = () => { settings.profile = settings.profile === 'classic' ? 'modern' : 'classic'; save(); render(); };
 $('confirm-no').onclick = () => { pending = null; dialog.close(); };
 $('confirm-yes').onclick = () => { const action = pending; pending = null; dialog.close(); action?.(); };
 dialog.addEventListener('cancel', () => { pending = null; });
 $('pause').onclick = () => { if (game.phase === 'paused') resume(); else togglePause(); };
 $('menu').onclick = showMenu;
-$('sound').onclick = () => act('sound');
+$('sound').onclick = toggleSound;
 $('view').onclick = () => { settings.full = !settings.full; save(); render(); };
-window.addEventListener('blur', () => { pads.suspend(); pause(true); });
-document.addEventListener('visibilitychange', () => { if (document.hidden) { pads.suspend(); pause(true); } });
+window.addEventListener('blur', () => { if (moreSession) moreSession.resume = false; pads.suspend(); pause(true); updateMoreState(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { if (moreSession) moreSession.resume = false; pads.suspend(); pause(true); updateMoreState(); } });
 window.addEventListener('pagehide', () => { if (game.phase === 'playing') pause(true); else if (game.phase === 'paused') saveRound(); });
 function tick(now: number) {
   if (now - lastPadPoll >= 16) {

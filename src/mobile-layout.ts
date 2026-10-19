@@ -20,7 +20,7 @@ export function installMobileLayout() {
     const gap = parseFloat(css.rowGap) || 0;
     const full = body.classList.contains('full');
     const landscape = innerWidth > innerHeight;
-    const controlHeight = full && !landscape ? controls.getBoundingClientRect().height : 0;
+    const controlHeight = full && !landscape && getComputedStyle(controls).display !== 'none' ? controls.getBoundingClientRect().height + parseFloat(getComputedStyle(controls).marginTop) : 0;
     const sideRail = !full && landscape && innerWidth > 500 && innerHeight <= 380;
     const budget = sideRail ? available : available - toolbar.getBoundingClientRect().height - controlHeight - gap * (controlHeight ? 2 : 1);
     const wrap = document.querySelector<HTMLElement>('.wrap')!;
@@ -37,6 +37,11 @@ export function installMobileLayout() {
       const room = Math.max(0, budget - trim - top.getBoundingClientRect().height - status.getBoundingClientRect().height);
       const faceTrim = face.getBoundingClientRect().height - lcdHeight;
       const faceWidth = phone.clientWidth - parseFloat(getComputedStyle(phone).paddingLeft) - parseFloat(getComputedStyle(phone).paddingRight) - document.querySelector('.keys')!.getBoundingClientRect().width - 10;
+      if (sideRail) {
+        if (body.style.getPropertyValue('--handset-toolbar-width') !== `${faceWidth}px`) body.style.setProperty('--handset-toolbar-width', `${faceWidth}px`);
+        const left = `${phoneBox.x + 2 + parseFloat(getComputedStyle(phone).paddingLeft)}px`; if (body.style.getPropertyValue('--handset-toolbar-left') !== left) body.style.setProperty('--handset-toolbar-left', left);
+        const top = `${phoneBox.y + 2 + parseFloat(getComputedStyle(phone).paddingTop)}px`; if (body.style.getPropertyValue('--handset-toolbar-top') !== top) body.style.setProperty('--handset-toolbar-top', top);
+      }
       phone.style.setProperty('--mobile-lcd-width', `${Math.max(1, Math.min(faceWidth, (room - faceTrim) * 320 / 244 + face.getBoundingClientRect().width - lcdBox.width + 6))}px`);
       phone.style.setProperty('--mobile-phone-width', `${width}px`);
     } else {

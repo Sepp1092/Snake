@@ -984,3 +984,66 @@ body[data-key-size=large]:not(.full) .phone .key { min-height:48px; }
 @media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
   body.modern:not(.full)[data-key-size=large] .keys { margin:0; }
 }
+
+/* 0.7.2: one mobile action row for both profiles; secondary actions live in More. */
+@media (max-width:600px), (max-width:960px) and (max-height:500px) {
+  body .toolbar, body.modern .toolbar { display:grid; grid-template-columns:1fr 1fr 1.12fr .8fr; gap:4px; }
+  body .toolbar > button, body.modern .toolbar > button { display:none; }
+  body .toolbar #pause, body .toolbar #menu, body .toolbar #view, body .toolbar #more {
+    display:block; grid-row:1; min-width:0; min-height:44px; padding:4px 2px; font-size:clamp(10px,2.8vw,12px);
+  }
+  body .toolbar #pause { grid-column:1; }
+  body .toolbar #menu { grid-column:2; }
+  body .toolbar #view { grid-column:3; }
+  body .toolbar #more { grid-column:4; }
+  body.full, body.modern.full { padding-left:max(2px,var(--safe-left)); padding-right:max(2px,var(--safe-right)); }
+  body.full .face, body.modern.full .face { padding:1px; }
+  body.full .screen-shell, body.modern.full .screen-shell { padding:1px; }
+  body.full { --control-drop:clamp(12px,calc((100dvh - 500px) * .10),48px); }
+  body.full[data-touch-layout=compact] { --control-drop:clamp(8px,calc((100dvh - 500px) * .06),32px); }
+  body.full[data-touch-layout=ergonomic] { --control-drop:clamp(12px,calc((100dvh - 500px) * .14),64px); }
+  body.full .full-controls, body.modern.full .full-controls { margin-top:var(--control-drop); }
+  #more-panel { max-height:calc(100dvh - 16px - var(--safe-top) - var(--safe-bottom)); padding:16px; overscroll-behavior:contain; }
+  #more-panel .more-actions { gap:6px; margin-bottom:10px; }
+  #more-panel p { margin-bottom:12px; }
+  #more-panel button { touch-action:manipulation; }
+}
+@media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
+  body.full .full-controls, body.modern.full .full-controls,
+  body.modern.full[data-touch-layout=compact] .full-controls, body.modern.full[data-touch-layout=ergonomic] .full-controls { align-self:center; margin-top:0; }
+}
+/* Ultra-short landscape retains all 15 real handset keys. The single toolbar row
+   shares the handset's upper-left space, above the LCD and beside the keypad. */
+@media (min-width:501px) and (max-width:960px) and (max-height:380px) and (orientation:landscape) {
+  body:not(.full), body.modern:not(.full) { display:flex; position:relative; }
+  body:not(.full) .toolbar, body.modern:not(.full) .toolbar {
+    position:absolute; z-index:4; width:var(--handset-toolbar-width,55%);
+    left:var(--handset-toolbar-left,16px); top:var(--handset-toolbar-top,12px);
+    grid-template-columns:1fr 1fr 1.12fr .8fr;
+  }
+  body:not(.full) .toolbar #pause, body.modern:not(.full) .toolbar #pause { grid-column:1; grid-row:1; }
+  body:not(.full) .toolbar #menu, body.modern:not(.full) .toolbar #menu { grid-column:2; grid-row:1; }
+  body:not(.full) .toolbar #view, body.modern:not(.full) .toolbar #view { grid-column:3; grid-row:1; }
+  body:not(.full) .toolbar #more, body.modern:not(.full) .toolbar #more { grid-column:4; grid-row:1; }
+  body:not(.full) .brand, body.modern:not(.full) .brand { padding-top:44px; font-size:12px; line-height:12px; margin:0; }
+  body:not(.full) .status, body.modern:not(.full) .status { min-height:18px; height:18px; line-height:14px; }
+}
+@media (max-width:600px), (max-width:960px) and (max-height:500px) {
+  /* Classic gains a toolbar row: keep its D-pad lower as well as growing the LCD. */
+  body.full:not(.modern) { --control-drop:calc(40px + clamp(12px,calc((100dvh - 500px) * .10),48px)); }
+  body.full:not(.modern)[data-touch-layout=compact] { --control-drop:calc(40px + clamp(8px,calc((100dvh - 500px) * .06),32px)); }
+  body.full:not(.modern)[data-touch-layout=ergonomic] { --control-drop:calc(40px + clamp(12px,calc((100dvh - 500px) * .14),64px)); }
+}
+/* Keep the complete Classic toolbar on short desktop windows, using the same
+   field/control columns already provided by Modern. */
+@media (min-width:961px) and (max-height:850px) {
+  body.full:not(.modern) { height:100dvh; min-height:480px; padding:8px; display:grid; grid-template-columns:minmax(0,1fr) 240px; grid-template-rows:44px minmax(0,1fr); gap:8px; justify-items:center; align-items:stretch; }
+  .full:not(.modern) .page-header, .full:not(.modern) footer { display:none; }
+  .full:not(.modern) .toolbar { grid-column:1 / -1; grid-row:1; padding:0; max-width:none; }
+  .full:not(.modern) .wrap { grid-column:1; grid-row:2; width:100%; min-height:0; padding:0; container-type:size; }
+  .full:not(.modern) .phone { width:min(1100px,100cqw,calc((100cqh - 52px) * 1.311475 + 28px)); min-width:0; margin:0; }
+  .full:not(.modern) .face { padding:5px; }
+  .full:not(.modern) .screen-shell { padding:4px; }
+  .full:not(.modern) .status { height:24px; min-height:24px; padding-top:4px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .full:not(.modern) .full-controls { grid-column:2; grid-row:2; align-self:center; margin:0; }
+}
