@@ -1,0 +1,130 @@
+[
+  {
+    "name": "before-full-paused",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 231.0625,
+      "width": 378,
+      "height": 318.875,
+      "bottom": 549.9375
+    },
+    "canvas": {
+      "x": 20,
+      "y": 245.0625,
+      "width": 350,
+      "height": 266.875,
+      "bottom": 511.9375
+    },
+    "controls": {
+      "x": 54,
+      "y": 733,
+      "width": 282,
+      "height": 105,
+      "bottom": 838
+    },
+    "scrollHeight": 844
+  },
+  {
+    "name": "before-full-active",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 231.0625,
+      "width": 378,
+      "height": 318.875,
+      "bottom": 549.9375
+    },
+    "canvas": {
+      "x": 20,
+      "y": 245.0625,
+      "width": 350,
+      "height": 266.875,
+      "bottom": 511.9375
+    },
+    "controls": {
+      "x": 54,
+      "y": 733,
+      "width": 282,
+      "height": 105,
+      "bottom": 838
+    },
+    "scrollHeight": 844
+  },
+  {
+    "name": "before-handheld-paused",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 54,
+      "width": 378,
+      "height": 614.34375,
+      "bottom": 668.34375
+    },
+    "canvas": {
+      "x": 45,
+      "y": 120,
+      "width": 300,
+      "height": 228.75,
+      "bottom": 348.75
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0
+    },
+    "scrollHeight": 844
+  },
+  {
+    "name": "before-handheld-active",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 54,
+      "width": 378,
+      "height": 614.34375,
+      "bottom": 668.34375
+    },
+    "canvas": {
+      "x": 45,
+      "y": 120,
+      "width": 300,
+      "height": 228.75,
+      "bottom": 348.75
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0
+    },
+    "scrollHeight": 844
+  }
+]

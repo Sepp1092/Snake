@@ -1,0 +1,146 @@
+[
+  {
+    "name": "after-full-paused",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 314.96875,
+      "right": 384,
+      "bottom": 370.96875
+    },
+    "canvas": {
+      "x": 16,
+      "y": 66,
+      "width": 358,
+      "height": 272.96875,
+      "right": 374,
+      "bottom": 338.96875
+    },
+    "controls": {
+      "x": 54,
+      "y": 378.96875,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 483.96875
+    },
+    "scrollHeight": 844
+  },
+  {
+    "name": "after-full-active",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 314.96875,
+      "right": 384,
+      "bottom": 370.96875
+    },
+    "canvas": {
+      "x": 16,
+      "y": 66,
+      "width": 358,
+      "height": 272.96875,
+      "right": 374,
+      "bottom": 338.96875
+    },
+    "controls": {
+      "x": 54,
+      "y": 378.96875,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 483.96875
+    },
+    "scrollHeight": 844
+  },
+  {
+    "name": "after-handheld-paused",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 611.625,
+      "right": 384,
+      "bottom": 667.625
+    },
+    "canvas": {
+      "x": 30,
+      "y": 111,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 362.625
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scrollHeight": 844
+  },
+  {
+    "name": "after-handheld-active",
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 611.625,
+      "right": 384,
+      "bottom": 667.625
+    },
+    "canvas": {
+      "x": 30,
+      "y": 111,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 362.625
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scrollHeight": 844
+  }
+]

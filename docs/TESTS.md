@@ -1,4 +1,42 @@
-# Tests – Bytecoil 0.7.0
+# Tests – Bytecoil 0.7.1
+
+Basis: `main` **e77b00f**, neuer Branch **feature/v0.7.1-mobile-layout**. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine zusätzlichen Abhängigkeiten.
+
+## Abschließende Ergebnisse (19. Oktober 2026)
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| `pnpm run test` | **72/72**, keine übersprungenen Tests |
+| `pnpm run build` | TypeScript, Vite und Offline-Cache erfolgreich |
+| `$env:BROWSER_CHANNEL='chromium'; node scripts/browser-test.mjs --webkit` | **126/126**, davon 83 Chromium und 43 WebKit; keine Seitenfehler |
+| Neue Layout-Matrix | **480 Zustände** über beide Engines, aktiv und pausiert |
+| Visuelle Randmatrix | **216 Darstellungen**, DPR 1/2/3; keine fehlenden Randkonturen |
+| Clipping-Gegenproben | **24** absichtlich beschnittene Fälle weiterhin erkannt |
+
+Der kombinierte Browserbefehl entspricht `pnpm run test:browser:webkit`: er führt sämtliche Chromium-Szenarien und anschließend die WebKit-Matrix aus. Alle bestehenden Prüfungen bleiben aktiv. `node scripts/browser-test.mjs --layout-only --webkit` wurde zusätzlich gezielt ausgeführt: **10/10** gruppierte Szenarien, 480 Zustände.
+
+Produktionsartefakte: `index-BmbDM2SC.css`, `index-NQ8Tn5LY.js`; Offline-Cache **15c1c21ef878**, sieben aktuelle Assets. Der vollständige Lauf wurde nach den letzten Laufzeitänderungen erneut ausgeführt.
+
+## Umfang und Fehlerbehebung
+
+- **320×568, 360×740, 390×844, 430×932, 844×390**: Classic/Modern, Handy/Vollbild, Standard/Kompakt/Ergonomisch, Normal/Groß, aktiv/pausiert. Keine Seitenüberbreite, keine vertikalen Scrollbalken, alle Tasten/LCD/Handyunterkante sichtbar. Mindestens 44×44-Pixel-Touch-Ziele, große Handy-Tasten mindestens 48 Pixel hoch. Tasten überlappen weder einander noch das LCD.
+- Abstände zwischen Aktionsleiste, LCD-Gruppe und Steuerung werden gemessen. Handy nutzt maximale Breite oder verfügbare Höhe. Das 320×244-Bitmap bleibt proportional, unterste Reihe und alle Ecken sind vollständig vorhanden.
+- Safe Areas **24/20/12/12 Pixel**, Drehung und Rückdrehung, auch 568×320 und 740×360. Klassische Tastenanordnung bleibt erhalten. Die mobile Aktionsleiste muss ihre Texte vollständig enthalten; nach Drehung bleibt die untere Safe Area frei.
+- Snapshots bleiben bei Layout-/Größenänderungen unverändert. Die bestehenden Tests decken alle vier Spielmodi, Rekorde/Statistik, Migration, Pause/Neustart, Achievements, Controller, Tastatur/Touch/Sound, Installierbarkeit und Offline-Fortsetzen ab. Desktop 1366×768 bleibt zusätzlich in der bisherigen Matrix enthalten.
+- Gefundene Fehler wurden korrigiert: verzögerte Größenanpassung beim Ansichtswechsel; alte spezifischere Brand-/Großtasten-Abstände im Querformat; überlaufende Classic-Texte in der schmalen Seitenleiste. Die Rotationsprüfung lässt den Browser rendern, während das Spiel pausiert bleibt. Der bestehende PWA-Updatetest verwendet für Warten und Zustandsprüfung konsistent `getRegistration()`.
+- Keine abgeschalteten Tests und keine gelockerten Farbgrenzen. Die vollständigen Randkonturen werden weiterhin mit einer unbeschnittenen Referenz verglichen; echte Clipping-Gegenproben sichern die Prüfung ab.
+
+Aktuelle Rohdaten: `test-results/browser-report.json` (`failed: null`, `pageErrors: []`), zusätzlicher fokussierter Bericht `test-results/v071-layout-report.json`, Installierbarkeitsbericht `test-results/installability.json`. Die Browser-Suite erzeugt alle Diagnosebilder erneut; neun ausgewählte Bilder liegen unter `docs/screenshots/v071/`.
+
+[Layoutbericht, betroffene Dateien und Vorher/Nachher](MOBILE_LAYOUT_V071.md) · [Screenshots](SCREENSHOTS.md)
+
+## Grenzen
+
+Chromium und Playwright-WebKit unter Windows mit simulierten Safe Areas ersetzen keinen realen iPhone-/Safari-/installierten-PWA-Test. Browserleistenanimationen und Display-Zoom wurden nicht auf Hardware geprüft. Auf hohen Hochformat-Geräten begrenzt die Breite das proportional skalierte LCD; Restfläche unter der kompakten Spielgruppe bleibt möglich. Keine bekannten offenen Fehler in den geprüften Szenarien. Kein automatischer Merge oder Pages-Deployment.
+
+---
+
+# Historischer Teststand – Bytecoil 0.7.0
 
 Basis: aktualisiertes `main` auf `79c00f9`; Branch `feature/v0.7-achievements-controls`. Umgebung: Windows, Node 24.19.0, pnpm 11.25.0, Playwright 1.64.1, Playwright Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
 
