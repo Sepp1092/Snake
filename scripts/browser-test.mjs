@@ -8,6 +8,7 @@ import { Game } from '../src/engine.ts';
 import { GameSession } from '../src/modes.ts';
 import { capture } from '../src/snapshot.ts';
 import { testEdges } from './edge-test.mjs';
+import { testV07 } from './v07-test.mjs';
 
 await mkdir('test-results', { recursive: true });
 const root = path.resolve('dist');
@@ -593,9 +594,14 @@ try {
     await context.close();
   });
   await testEdges({ browser, check, frozenPage, modeFixture, layouts });
+  await testV07({ browser, check, frozenPage, modeFixture, layouts });
+  await testEdges({ browser, check, frozenPage, modeFixture, layouts, touchLayouts: ['compact','ergonomic'] });
   if (process.env.TEST_WEBKIT === 'true' || process.argv.includes('--webkit')) {
     const safari = await webkit.launch({ headless: true });
-    try { await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' }); }
+    try {
+      await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit', touchLayouts: ['standard','compact','ergonomic'] });
+      await testV07({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+    }
     finally { await safari.close(); }
   }
   assert.deepEqual(errors, []);

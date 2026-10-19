@@ -1,5 +1,15 @@
 # Changelog – Bytecoil – Retro Snake
 
+## 0.7.0 – Achievements, Controller und mobile Bedienung
+
+- Basis: `main` auf GitHub-Stand `79c00f9` aktualisiert; neuer Branch `feature/v0.7-achievements-controls`. Die komplette v0.6.1-Randkorrektur und ihre Regressionen bleiben enthalten.
+- Zwölf Achievements in eigenem DOM-unabhängigen Modul: eindeutige IDs, eigene Pixel-Symbole, Fortschritt, lokale Freischaltungen und kurze nicht blockierende Benachrichtigungen. Historische Erfolge nur mit Beleg; keine Classic-Erfolge aus Zen, kein erfundener historischer Perfect Run.
+- Standardisierte Gamepad-API als Eingabeschicht: D-Pad/linker Stick, A/B/Start, Menü- und Dialogbedienung, Verbindungsanzeige, Deadzone/Hysterese, Flankenerkennung, Neutralstellung nach Tabwechsel. Derselbe bestehende Zweierpuffer; keine neue Engine.
+- Standard/Kompakt/Ergonomisch, Normal/Groß sowie ausblendbares Vollbild-Steuerkreuz; die vollständige Handyansicht behält ihre Tasten. Im Modern-Vollbild rücken Kompakt/Ergonomisch das LCD näher an die Bedienung. Safe Areas und responsive Hoch-/Querformate bleiben erhalten.
+- Neue Einstellungen für Controller und Erfolgsmeldungen; additive Speicherkeys ohne Verlust von Snapshot, Statistik oder Rekorden. Keine neuen Abhängigkeiten oder externen Laufzeitdienste.
+- Zusätzliche Unit-Tests und Chromium-/WebKit-Simulationen für Achievements, Gamepads und sechs Viewports. Alle bisherigen visuellen Randtests bleiben bestehen und laufen zusätzlich für die beiden neuen Touch-Layouts.
+- [Achievements](ACHIEVEMENTS.md), [Controller](CONTROLLER.md), [Testbericht](TESTS.md), [Speicherformat](STORAGE.md). Kein Merge oder Pages-Deployment.
+
 ## 0.6.1 – CI-Randtest-Korrektur (19. Oktober 2026, lokal)
 
 - Einzelne grenznahe Screenshot-Probe durch mehrere innere Punkte und vollständigen Konturvergleich mit einer gleich gerasterten, unbeschnittenen LCD-Referenz ersetzt. Der ursprüngliche Hintergrund-Fehlalarm wurde mit Playwright Chromium reproduziert.

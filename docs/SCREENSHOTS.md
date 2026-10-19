@@ -1,4 +1,19 @@
-# Screenshots – Bytecoil 0.6.1
+# Screenshots – Bytecoil 0.7.0
+
+## 0.7 – Achievements und mobile Steuerung
+
+Produktionsbuild 0.7.0, künstliche lokale Testsitzungen, keine echten Benutzerdaten. Die Achievement-Aufnahme zeigt eine echte Freischaltung nach einem Futter-Schritt und ihre nicht blockierende Meldung. Die Steuerungsbilder verwenden eine validierte Randschlange, damit unterste Reihe und Ecken erkennbar sind; pausiert, um den Zustand reproduzierbar zu halten.
+
+| Ansicht | Chromium | WebKit |
+| --- | --- | --- |
+| Achievements | [390 × 844](screenshots/v07-chrome-achievements.png) | [390 × 844](screenshots/v07-webkit-achievements.png) |
+| Standard, normale Tasten | [390 × 844](screenshots/v07-chrome-standard-390x844.png) | [390 × 844](screenshots/v07-webkit-standard-390x844.png) |
+| Kompakt, normale Tasten | [390 × 844](screenshots/v07-chrome-compact-390x844.png) | [390 × 844](screenshots/v07-webkit-compact-390x844.png) |
+| Ergonomisch, normale Tasten | [390 × 844](screenshots/v07-chrome-ergonomic-390x844.png) | [390 × 844](screenshots/v07-webkit-ergonomic-390x844.png) |
+| Ergonomisch, große Tasten | [320 × 568](screenshots/v07-chrome-ergonomic-320x568.png) | [320 × 568](screenshots/v07-webkit-ergonomic-320x568.png) |
+
+Die mobilen Touch-Ziele und Scrollgrenzen werden automatisiert gemessen. WebKit ist eine Windows-Engine-Prüfung und keine Fotografie eines iPhones. [Testumfang und Hardwaregrenzen](TESTS.md). Die älteren Bilder unten bleiben als Versionshistorie erhalten.
+
 
 ## 0.6.1: Schlange am unteren Rand und in allen vier Ecken
 

@@ -1,4 +1,4 @@
-# Datenspeicherung – Bytecoil 0.6
+# Datenspeicherung – Bytecoil 0.7
 
 Alle Daten liegen ausschließlich im lokalen Browser. Die bisherigen `snake3310_*`-Schlüssel bleiben kompatibel. Es gibt keine Datenübertragung, Anmeldung oder Cloud. Eine Origin besteht aus Protokoll, Host und Port; `127.0.0.1:4174` und die veröffentlichte GitHub-Pages-Adresse sind verschiedene Speicherbereiche.
 
@@ -78,3 +78,21 @@ Die Daten werden auf Struktur, ID-Form, Modus, Endlichkeit und plausible Werte g
 Keine synchronen Speicherzugriffe in jedem Animationsframe. Checkpoints beim Start, Futter/Bonus, Pause, Hintergrundwechsel und Abschluss; während des aktiven Spiels etwa einmal pro Sekunde. Das Canvas und HUD werden bei Bewegung und nötigen Zeit-/Zustandsänderungen aktualisiert; Statistik-Menülisten werden nur bei geöffnetem Menü aufgebaut.
 
 Ein harter Abbruch kann Fortschritt seit dem letzten Checkpoint verlieren. Exakt wiederhergestellt wird der gespeicherte aktive Zeitwert, nicht ein eventuell ungesicherter letzter Frame. Fehlender/voller localStorage unterbricht das Spiel nicht, verhindert aber verlässliche Persistenz. Betriebssystem-Speicherbereinigung und manuell gelöschte Daten sind nicht abzusichern. Mehrere gleichzeitig spielende Tabs besitzen keinen atomaren Schreib-Lock; zuletzt gespeicherter Zustand kann konkurrierende Änderungen überschreiben. Diese Version verspricht keine Mehrtab-Synchronisierung.
+
+
+## Ergänzungen 0.7: kompatible neue Schlüssel
+
+Snapshot-Version 2 und `records_v1` bleiben unverändert. Es gibt keine destruktive Migration und keine Umbenennung alter Schlüssel. Fehlende neue Einstellungen verwenden folgende Standardwerte:
+
+| Schlüssel (Präfix jeweils `snake3310_`) | Werte | Standard |
+| --- | --- | --- |
+| `touchLayout` | standard / compact / ergonomic | standard |
+| `keySize` | normal / large | normal |
+| `showControls` | true / false; Steuerkreuz im Vollbild-Spiel | true |
+| `controller` | true / false | true |
+| `achievementNotifications` | true / false | true |
+| `achievements_v1` | `{version:1,unlocked:{ID:Zeitpunkt}}` | keine Freischaltungen |
+
+Ungültige Einstellungswerte fallen auf den jeweiligen Standard zurück. Layoutänderungen ändern keinen Spielstand. Beim Ausblenden des Steuerkreuzes wird gegebenenfalls `control=keys` auf `both` korrigiert, damit Wischen verfügbar bleibt. Ein Einstellungs-Reset erhält Achievements, Snapshot, Rekorde und Statistik.
+
+Achievement-Daten sind auf 10 KB begrenzt und akzeptieren nur die zwölf bekannten IDs und gültige Zeitstempel. Gespeichert wird nur bei neuen Freischaltungen. Prüfung an bestehenden Statistik-Checkpoints, nicht pro Frame. Die bisherige Sitzungs-ID-/Checkpoint-Logik bleibt der Schutz gegen mehrfach angerechnete Statistik. Nachweisbare alte Erfolge werden still übernommen; fehlende historische Futter-/Kollisionsdaten werden nicht erfunden. [Vollständige Regeln](ACHIEVEMENTS.md).

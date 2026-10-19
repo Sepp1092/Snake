@@ -120,3 +120,10 @@ Die lokale Entwicklungsvorschau läuft getrennt auf Port 4174. Ein anderer Port 
 ## 0.6.1 – LCD-Randreserve
 
 Renderer und Styles sind für Browser und Standalone identisch. `viewport-fit=cover`, Safe Areas, Offline-Cache und sämtliche Speicherschlüssel bleiben erhalten. Der Build erzeugt einen neuen Cache-Fingerabdruck; das bestehende sichere Updateverfahren bleibt bestehen. Chrome-PWA-Regression mit Offline-Fortsetzen nach echtem Browser-Neustart erneut erfolgreich. Zusätzlich wurde die LCD-Geometrie in WebKit mit drei Viewports und DPR 1/2/3 geprüft. Dies ist kein Test einer tatsächlich auf iOS installierten PWA: vor Veröffentlichung Safari und „Zum Home-Bildschirm“ auf einem echten iPhone prüfen. [Details](LCD.md).
+
+
+## 0.7: Achievements und Controller
+
+Alle neuen Module und Styles sind Bestandteil des lokalen Produktionsbundles und desselben inhaltsabhängigen Offline-Caches. Keine externen SDKs, Schrift-CDNs, Accounts, Analytics oder Statistik-Uploads. Achievement-ID und Zeitpunkt sowie Eingabeeinstellungen liegen lokal; Geräte-IDs werden weder gespeichert noch übertragen. Das bisherige wartende PWA-Update und die vorhandenen Speicherkeys bleiben erhalten.
+
+Eine installierte PWA verwendet dieselbe Gamepad-API wie die Browserengine. OS-/Browser-Unterstützung, erste Tastenaktivierung und Standardmapping bleiben Voraussetzungen. WebKit-Simulation ist kein physischer iPhone-/Standalone-PWA-Test. Echte USB-/Bluetooth-Verbindungen, Safari-Browserleistenwechsel, OS-Suspend und Home-Screen-Installation müssen auf Hardware geprüft werden. [Controller und Touch](CONTROLLER.md).

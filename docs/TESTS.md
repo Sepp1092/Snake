@@ -1,4 +1,40 @@
-# Tests – Bytecoil 0.6.1
+# Tests – Bytecoil 0.7.0
+
+Basis: aktualisiertes `main` auf `79c00f9`; Branch `feature/v0.7-achievements-controls`. Umgebung: Windows, Node 24.19.0, pnpm 11.25.0, Playwright 1.64.1, Playwright Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
+
+## v0.7 – Befehle und Ergebnisse
+
+| Befehl | Ergebnis |
+| --- | --- |
+| `pnpm install --frozen-lockfile` | Erfolgreich |
+| `pnpm run test` | 72/72 bestanden: 59 bestehende plus 13 neue |
+| `pnpm run build` | TypeScript, Vite und Offline-Cache erfolgreich |
+| `BROWSER_CHANNEL=chromium pnpm run test:browser` | 78/78 Szenarien bestanden; keine Seitenfehler |
+| `BROWSER_CHANNEL=chromium pnpm run test:browser:webkit` | 116/116 Szenarien bestanden; keine Seitenfehler |
+
+PowerShell: vor den Browserbefehlen `$env:BROWSER_CHANNEL='chromium'` setzen. So wird derselbe Playwright-Browser wie im CI anstelle eines zufällig installierten Chrome verwendet. Der WebKit-Befehl führt die gesamte Chromium-Suite erneut aus und ergänzt die WebKit-Matrix; keine alten Tests werden ersetzt oder deaktiviert.
+
+## Neue Unit-Tests
+
+`tests/achievements-gamepad.test.ts`: zwölf eindeutige Definitionen und verschiedene gültige Pixel-Symbole; nachweisbare historische Freischaltungen; einmalige Vergabe und Neustart; unzureichende Historie; kein kompetitiver Classic-Erfolg aus Zen; Perfect Run nur mit beobachtetem Erfolg ohne Kollision; beschädigte/überlange Daten; alte Einstellungen und neue Defaults/Validierung/Roundtrip. Controller: nicht verfügbare/verweigerte API, Verbindung/Trennung, nicht standardisierte Belegung, D-Pad/A/B/Start, Halten/Loslassen, Deadzone und Hysterese, dominante Achse, deaktivierte Eingabe, Hintergrund/Neutralstellung und gemeinsamer Zweierpuffer mit Umkehr-/Duplikatschutz.
+
+## Browserumfang
+
+- Alle **40 regulären v0.6.1-Szenarien** bleiben bestehen: alle Spielmodi, Zeitvarianten/Challenges, Rekorde und Statistik, Keyboard/Touch/Sound, Snapshot-Migration und Offline-Restore, Browser-Neustart/Installierbarkeit, Safe Areas, PWA-Update und Asset-Reparatur.
+- Alle ursprünglichen Randtests bleiben bestehen und laufen zusätzlich für Kompakt und Ergonomisch. Pro Engine drei Größen (320×568, 390×844, 430×932) × drei DPR × drei Touch-Layouts × zwei Profile × zwei Ansichten = **108 Randdarstellungen**. In Chromium plus WebKit: **216 Darstellungen**, jeweils Original- und unbeschnittene Referenzaufnahme. Vier echte Clipping-Gegenproben je Layout/Engine ergeben **24** absichtlich fehlerhafte Darstellungen, die erkannt werden müssen. Pixel-Prüfung umfasst unterste Reihe und alle vier Ecken; keine bloße pauschale RGB-Lockerung.
+- Je Engine elf neue gruppierte Szenarien in `scripts/v07-test.mjs`: echter Futter-Schritt mit Freischaltung, weiterlaufende Bewegung während der Meldung, Detailansicht, Offline-Restore ohne erneute Vergabe; Classic-Achievement-Navigation bis Perfect Run auf 320px; historische Belege mit beschädigten Unlock-Daten und Meldungen aus; Controller-Simulation; fehlende/verweigerte/deaktivierte API; sechs Layoutgruppen; Einstellungen per Touch einschließlich Safe Area, ausgeblendetem Steuerkreuz und echter Pointer-Wischbewegung.
+- Mobile-/Desktop-Matrix: **320×568, 360×740, 390×844, 430×932, 844×390, 1366×768**, jeweils drei Touch-Layouts × Normal/Groß × Classic/Modern × Handy/Vollbild = **144 Zustände je Engine**, insgesamt **288**. Jede verwendet eine validierte Randschlange. Bitmapmaße, alle vier Ecken/unterste Reihe im Quellraster, Seitenverhältnis, Canvas-Rand, Touch-Zielgrößen, unveränderter Snapshot und Scrollgrenzen werden geprüft. Kompakt/Ergonomisch müssen in Modern-Hochformat zusätzlich die Konsole direkt an die Steuerung rücken.
+- Controller sind im Browser über `getGamepads()` injizierte Standardzustände; die App wird über ihren echten RAF-Polling-Loop bedient. Geprüft: Verbindung, D-Pad/Stick/Deadzone, einmalige Menüaktion bei gehaltenem Stick, A/B/Start, Dialogabbruch, gemischte Keyboard-/Pad-Eingabe ohne Queue-Duplikat, Pause und Trennung. Kein Hardware-Pairing-Test.
+
+Rohberichte: `test-results/browser-chromium-report.json` und `test-results/browser-report.json`; letzterer enthält den kombinierten Lauf mit Layout- und Konturmessungen. PNGs und Referenzen liegen ebenfalls in `test-results/`. Kuratierte Bilder: [Screenshot-Übersicht](SCREENSHOTS.md).
+
+## Einschränkungen
+
+Keine physischen Controller, Bluetooth-/USB-Verbindungen, iPhone-/Safari-Installation, Home-Screen-PWA, OS-Tastatur-/Browserleistenwechsel, Hörprüfung, Hardware-Vibration oder Leistungs-/Akkumessung. WebKit unter Windows ersetzt kein iOS-Gerät. Die vollständigen alten funktionalen PWA-/Neustartprüfungen laufen in Chromium; WebKit erhält die komplette neue Funktions- und Randmatrix. Ein Linux-GitHub-Actions-Lauf ist erst nach Push/PR separat bewertbar. Keine Zusage für mehrere gleichzeitig schreibende Tabs oder vom OS gelöschte Browserdaten. [Controller-Grenzen](CONTROLLER.md), [Persistenzgrenzen](STORAGE.md).
+
+---
+
+## Historischer Teststand 0.6.1
 
 Entwicklungsbranch `feature/v0.6-game-modes`, ausgehend von Bytecoil v0.5.2 Commit `059debfdb68502d668092df4c2c434be9333dd2d`. Prüfungen am 19. Oktober 2026 unter Windows, Node.js 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7 und Playwright 1.64.1 mit lokalem Chrome. Paketversionen sind durch die bestehende Lockdatei fixiert; keine neue Abhängigkeit.
 

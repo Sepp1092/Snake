@@ -1,13 +1,21 @@
-# Bytecoil – Retro Snake 0.6.1
+# Bytecoil – Retro Snake 0.7.0
 
-Weiterentwicklung des veröffentlichten v0.5.2-Stands mit **Classic Snake, Zen Mode, Time Attack und drei Challenges**, lokalen Statistiken und getrennten Rekorden. Eine gemeinsame Engine, keine neuen Frameworks, keine Anmeldung und keine externen Laufzeitdienste. **0.6.1 korrigiert LCD-Clipping:** vier logische Pixel Randreserve, einheitliches 320 × 244-Canvas und ein vom Rahmen unabhängiges Seitenverhältnis. 26 × 17 Zellen, Spieltempo und Speicherformate bleiben erhalten. [Analyse und Randtests](docs/LCD.md).
+Weiterentwicklung von **v0.6.1** mit zwölf lokalen Achievements, standardisierter Gamepad-Steuerung und anpassbaren Touch-Layouts. Classic Snake, Zen, Time Attack und Challenges, Rekorde, Statistiken und Offline-PWA bleiben erhalten. Eine gemeinsame Engine, keine neuen Frameworks, keine Anmeldung und keine externen Laufzeitdienste.
 
-**Entwicklungsstand:** Branch `feature/v0.6-game-modes`, Ausgangscommit `059debfdb68502d668092df4c2c434be9333dd2d` aus `Sepp1092/Snake`. Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Die bestehende Website wird durch diesen lokalen Stand nicht verändert.
+Das LCD behält 320 × 244 logische Pixel mit Randreserve und 26 × 17 Spielfeldzellen. Spieltempo, Kollisionsregeln und alte Speicherformate bleiben kompatibel. [LCD- und Randtests](docs/LCD.md).
 
-[Spielmodi und Bedienung](docs/MODES.md) · [Speicherformat und Migration](docs/STORAGE.md) · [Tests](docs/TESTS.md) · [Neue Screenshots](docs/SCREENSHOTS.md)
+**Entwicklungsstand:** Branch `feature/v0.7-achievements-controls`, Basis des aktualisierten `main`: `79c00f9` (enthält die v0.6.1-Randtestkorrektur) aus `Sepp1092/Snake`. Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Die bestehende Website wird durch diesen lokalen Stand nicht verändert.
+
+[Achievements](docs/ACHIEVEMENTS.md) · [Controller und Touch-Layouts](docs/CONTROLLER.md) · [Spielmodi und Bedienung](docs/MODES.md) · [Speicherformat und Migration](docs/STORAGE.md) · [Tests](docs/TESTS.md) · [Neue Screenshots](docs/SCREENSHOTS.md)
 
 
-## Neue Spielmodi
+## Neu in 0.7
+
+Zwölf lokale Achievements mit Pixel-Symbolen, Fortschritt und nicht blockierenden Meldungen. Im Hauptmenü **Achievements** öffnen; historische Daten werden nur mit Nachweis übernommen. Standardisierte Bluetooth-/USB-Gamepads bedienen Spiel, Menüs und Dialoge über die Gamepad API. Ohne diese API bleiben Tastatur und Touch verfügbar.
+
+Unter **Einstellungen**: Touch-Layout Standard/Kompakt/Ergonomisch, Tastengröße Normal/Groß, Vollbild-Steuerkreuz ausblenden, Controller und Erfolgsmeldungen aktivieren/deaktivieren. Kompakt und Ergonomisch bringen im mobilen Modern-Vollbild die Richtungstasten näher an das LCD. Darstellungsprofile und Spielmodi bleiben unabhängig; das virtuelle Handy behält seine Tastatur. Keine Änderung an Engine, Rekorden, Snapshotformat oder logischer LCD-Auflösung.
+
+## Bestehende Spielmodi
 
 Hauptmenü → Spiele: **Classic Snake** behält die bisherigen Regeln; **Zen Mode** setzt die Schlange nach Kollision sicher zurück und erhält die Sitzungspunkte; **Time Attack** bietet 60/120/180 aktive Sekunden; **Challenge Mode** bietet Food Hunter, Survivor und Maze Master mit festen Regeln und lokalem Abschlussstatus. Vor dem Challenge-Start wird das Ziel erklärt.
 
@@ -29,7 +37,7 @@ Die im Terminal ausgegebene Adresse öffnen, normalerweise `http://127.0.0.1:517
 Alternativ mit der mitgelieferten Lockdatei: `pnpm install --frozen-lockfile`, danach `pnpm dev`. `pnpm-workspace.yaml` erlaubt ausschließlich den esbuild-Buildschritt. Mit älteren pnpm-Versionen gegebenenfalls `pnpm approve-builds` für esbuild verwenden.
 
 ```sh
-npm test                 # 59 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
+npm test                 # 72 Tests für Regeln, Eingaben, Menüs, Speicherung und Feedback
 npm run build            # TypeScript-Prüfung, Vite-Build, Offline-Cache
 npm run preview          # Fertigen Build lokal unter Port 4173 ansehen
 npm run test:browser     # Playwright: Desktop, Smartphone und Offline
@@ -39,7 +47,7 @@ Der Browsertest nutzt unter Windows vorhandenes Chrome, sonst Playwright Chromiu
 
 ## Spielen
 
-Nach dem Startbildschirm: **Menü → Spiele → Retro Snake → Neues Spiel**. Die obere Schaltfläche „Neues Spiel“ startet direkt. Menüeinträge sind auch antippbar.
+Nach dem Startbildschirm: **Menü → Spiele → Classic Snake → Neues Spiel**. Die obere Schaltfläche „Neues Spiel“ startet direkt. Menüeinträge sind auch antippbar.
 
 Im mobilen Modern-Profil: **Mehr → Neues Spiel / Neustart**. Pause/Weiter, Menü und Handy-/Vollbildwechsel stehen immer in einer einzigen Toolbar-Zeile bereit.
 
@@ -110,7 +118,7 @@ Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte
 
 ## Qualität und Veröffentlichung
 
-Ergebnis: **59 bestandene Unit-Tests, 49 Chrome-Szenarien plus 9 WebKit-Randprüfungen** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
+Ergebnis: **72/72 Unit-Tests, 78/78 Chromium-Szenarien und 116/116 im kombinierten Chromium-/WebKit-Lauf** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 

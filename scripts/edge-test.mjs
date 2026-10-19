@@ -3,26 +3,33 @@ import { validateSnapshot } from '../src/snapshot.ts';
 import { CELL, STATUS_HEIGHT, LCD_PADDING, LCD_WIDTH, LCD_HEIGHT } from '../src/display.ts';
 import { inspectPerimeter } from './perimeter-probe.mjs';
 
-export async function testEdges({ browser, check, frozenPage, modeFixture, layouts, engine = 'chrome' }) {
+export function perimeterFixture(modeFixture) {
+  const seed = modeFixture('classic');
+  seed.snake = [];
+  for (let x = 0; x < 26; x++) seed.snake.push({ x, y: 0 });
+  for (let y = 1; y < 17; y++) seed.snake.push({ x: 25, y });
+  for (let x = 24; x >= 0; x--) seed.snake.push({ x, y: 16 });
+  for (let y = 15; y > 0; y--) seed.snake.push({ x: 0, y });
+  seed.dir = { x: -1, y: 0 }; seed.food = { x: 13, y: 8 };
+  seed.run.longest = seed.snake.length;
+  assert.ok(validateSnapshot(seed));
+  return seed;
+}
+
+export async function testEdges({ browser, check, frozenPage, modeFixture, layouts, engine = 'chrome', touchLayouts = ['standard'] }) {
+  for (const touchLayout of touchLayouts) {
   for (const [width, height] of [[320, 568], [390, 844], [430, 932]]) for (const dpr of [1, 2, 3]) {
-    await check(`${engine} LCD perimeter ${width}×${height} DPR ${dpr}: both profiles and views, raster and screenshot`, async () => {
+    await check(`${engine} LCD perimeter ${width}×${height} DPR ${dpr} ${touchLayout}: both profiles and views, raster and screenshot`, async () => {
       for (const profile of ['classic', 'modern']) for (const full of [false, true]) {
-        const seed = modeFixture('classic');
         // Connected clockwise perimeter: entire bottom row and all four corners occupied.
-        seed.snake = [];
-        for (let x = 0; x < 26; x++) seed.snake.push({ x, y: 0 });
-        for (let y = 1; y < 17; y++) seed.snake.push({ x: 25, y });
-        for (let x = 24; x >= 0; x--) seed.snake.push({ x, y: 16 });
-        for (let y = 15; y > 0; y--) seed.snake.push({ x: 0, y });
-        seed.dir = { x: -1, y: 0 }; seed.food = { x: 13, y: 8 };
-        seed.run.longest = seed.snake.length;
-        assert.ok(validateSnapshot(seed));
+        const seed = perimeterFixture(modeFixture);
         const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
         try {
-          await context.addInitScript(({ profile, full }) => {
+          await context.addInitScript(({ profile, full, touchLayout }) => {
             localStorage.setItem('snake3310_profile', profile);
             localStorage.setItem('snake3310_full', String(full));
-          }, { profile, full });
+            localStorage.setItem('snake3310_touchLayout', touchLayout);
+          }, { profile, full, touchLayout });
           const page = await frozenPage(context, seed);
           const metrics = await page.locator('#game').evaluate((canvas, g) => {
             const lcd = canvas.parentElement, c = canvas.getBoundingClientRect(), b = lcd.getBoundingClientRect(), css = getComputedStyle(lcd);
@@ -54,7 +61,7 @@ export async function testEdges({ browser, check, frozenPage, modeFixture, layou
           assert.ok(metrics.canvas.right <= metrics.content.right + .05 && metrics.canvas.bottom <= metrics.content.bottom + .05, 'canvas must fit inside border, including bottom row');
           for (const p of metrics.reserve) assert.deepEqual(p, [170, 189, 131, 255]);
           assert.ok(metrics.scrollWidth <= width);
-          const name = `v061-${engine}-bottom-${width}x${height}-dpr${dpr}-${profile}-${full ? 'full' : 'handheld'}`;
+          const name = `v061-${engine}-bottom-${width}x${height}-dpr${dpr}-${profile}-${full ? 'full' : 'handheld'}${touchLayout === 'standard' ? '' : '-' + touchLayout}`;
           const shot = await page.screenshot({ path: `test-results/${name}.png`, fullPage: true });
           if (profile === 'modern') assert.ok(metrics.scrollHeight <= height + 1, `${name}: ${metrics.scrollHeight} > ${height}`);
           // Rasterize an unclipped LCD twin at the SAME fractional page position.
@@ -116,5 +123,6 @@ export async function testEdges({ browser, check, frozenPage, modeFixture, layou
         } finally { await context.close(); }
       }
     });
+  }
   }
 }

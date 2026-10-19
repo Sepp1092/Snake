@@ -1,9 +1,9 @@
 import type { Options } from './engine.ts';
 import { validateSnapshot, type Snapshot } from './snapshot.ts';
 import type { GameMode, Duration, ChallengeId } from './modes.ts';
-export type Settings = Options & { gameMode: GameMode; duration: Duration; challenge: ChallengeId; sound: boolean; volume: number; vibration: boolean; profile: 'classic' | 'modern'; lcd: 'olive' | 'silver' | 'amber' | 'dark' | 'contrast'; control: 'both' | 'swipe' | 'keys'; full: boolean };
+export type Settings = Options & { gameMode: GameMode; duration: Duration; challenge: ChallengeId; sound: boolean; volume: number; vibration: boolean; profile: 'classic' | 'modern'; lcd: 'olive' | 'silver' | 'amber' | 'dark' | 'contrast'; control: 'both' | 'swipe' | 'keys'; full: boolean; touchLayout: 'standard' | 'compact' | 'ergonomic'; keySize: 'normal' | 'large'; controller: boolean; achievementNotifications: boolean; showControls: boolean };
 export interface Store { getItem(key: string): string | null; setItem(key: string, value: string): void; removeItem?(key: string): void }
-export const defaults: Settings = { level: 3, maze: 0, walls: 'wrap', gameMode: 'classic', duration: 120, challenge: 'hunter', sound: true, volume: 2, vibration: false, profile: 'classic', lcd: 'olive', control: 'both', full: false };
+export const defaults: Settings = { level: 3, maze: 0, walls: 'wrap', gameMode: 'classic', duration: 120, challenge: 'hunter', sound: true, volume: 2, vibration: false, profile: 'classic', lcd: 'olive', control: 'both', full: false, touchLayout: 'standard', keySize: 'normal', controller: true, achievementNotifications: true, showControls: true };
 export class Persistence {
   available = true;
   private store: Store | null;
@@ -22,7 +22,10 @@ export class Persistence {
       gameMode: gameMode === 'zen' || gameMode === 'timeAttack' || gameMode === 'challenge' ? gameMode : 'classic',
       duration: duration === 60 || duration === 180 ? duration : 120,
       challenge: challenge === 'survivor' || challenge === 'maze' ? challenge : 'hunter',
-      control: control === 'swipe' || control === 'keys' ? control : 'both', full: this.get('full') === 'true' };
+      control: control === 'swipe' || control === 'keys' ? control : 'both', full: this.get('full') === 'true',
+      touchLayout: this.get('touchLayout') === 'compact' ? 'compact' : this.get('touchLayout') === 'ergonomic' ? 'ergonomic' : 'standard',
+      keySize: this.get('keySize') === 'large' ? 'large' : 'normal', controller: this.get('controller') !== 'false',
+      achievementNotifications: this.get('achievementNotifications') !== 'false', showControls: this.get('showControls') !== 'false' };
   }
   save(settings: Settings) { for (const [key, value] of Object.entries(settings)) this.put(key, String(value)); }
   best() { const n = Number(this.get('best')); return Number.isSafeInteger(n) && n >= 0 ? n : 0; }
