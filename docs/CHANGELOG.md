@@ -1,5 +1,15 @@
 # Changelog – Bytecoil – Retro Snake
 
+## 0.7.3 – Unified UI, LCD Cleanup & Fullscreen Optimization (20. Oktober 2026)
+
+- Eine gemeinsame Oberfläche mit der bisherigen touchfreundlichen Menüführung. Profil-Buttons, Profil-Menü, bedingtes Rendering, Profileinstellung im aktiven Settings-Modell und `.modern`-/`.modern-only`-CSS entfernt. Classic Snake bleibt als Spielmodus erhalten.
+- Alte `snake3310_profile`-Werte bleiben unangetastet, werden weder ausgewertet noch überschrieben. Spielstände, Rekorde, Statistiken, Achievements und übrige Einstellungen behalten ihre Formate.
+- Akkuzeichen samt exklusivem Canvas-Code und Bereitschaftszeichen entfernt. Signalbalken und bestehende Spielinformationen bleiben erhalten.
+- Vier CSS-Pixel mehr LCD-Breite im Smartphone-Hochformat, unverändertes 320×244-Bitmap mit 26×17 Zellen und Randreserve. Richtungstasten nutzen den unteren Bereich mit Safe Area; Kompakt erhält schmalere Tasten, Ergonomisch behält größere Ziele.
+- Überholte CSS-Deklarationen und doppelte Desktop-Aktionen bereinigt; einzeilige mobile Toolbar und vollständige virtuelle Handy-Tastatur erhalten.
+- Neue Migrations-, Raster-, HUD-, Offline- und Geometrieprüfungen. Vorhandene PWA-Test-Wartebedingungen auf asynchrones `expect.poll` korrigiert; echte Worker-/Cache-Zustände werden geprüft. Keine Prüfungen abgeschaltet.
+- [Entwicklungsbericht, Messwerte, 28 Vergleichsbilder und Einschränkungen](UNIFIED_UI_V073.md). Separater Feature-Commit/Draft-PR; kein Merge oder Pages-Deployment.
+
 ## 0.7.2 – Fullscreen Optimization & Adaptive Toolbar (19. Oktober 2026)
 
 - Einzeilige Smartphone-Toolbar mit Pause/Weiter, Menü, Handy/Vollbild und Mehr; Classic/Modern, Hoch-/Querformat und beide Ansichten. Vollständige Toolbar auf Desktop erhalten.

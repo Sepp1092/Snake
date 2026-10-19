@@ -1,4 +1,54 @@
-# Tests – Bytecoil 0.7.2
+# Tests – Bytecoil 0.7.3
+
+Basis: `main` **40b5342**, Branch **feature/v0.7.3-unified-ui**. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
+
+## Abschluss am 20. Oktober 2026
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| Nativer Unit-Testbefehl aus package.json | **76/76**, keine übersprungenen Tests |
+| `pnpm run build` | TypeScript, Vite und Offline-Cache erfolgreich |
+| Vollständiger Browserlauf mit `--webkit` | **168/168**, 104 Chromium und 64 WebKit; keine Seitenfehler |
+| Adaptive Layout-Matrix | **480 aktive/pausierte Zustände**, beide alten Profilwerte, Ansichten, drei Layouts, zwei Tastengrößen |
+| Bestehende Steuerungsmatrix | **288 Zustände**, einschließlich schmalerer Kompakt-Tasten |
+| Strenge Randmatrix | **216 Darstellungen**, DPR 1/2/3; **24** echte Clipping-Gegenproben |
+| Neue gemeinsame UI-Geometrie | **48 Ansichten** über sechs Viewports und beide Engines; alte Profilwerte liefern identische Canvas-Pixel und Layouts |
+| Neuer LCD-Header | **80 Renderprüfungen**: vier Modi × fünf Paletten × zwei Ansichten × zwei Engines, jeweils mit bemaltem Bereich als Gegenprobe |
+
+## Reproduktion
+
+```powershell
+node --experimental-strip-types --test tests/*.test.ts
+pnpm run build
+$env:BROWSER_CHANNEL='chromium'
+node scripts/browser-test.mjs --webkit
+```
+
+Der erste Befehl entspricht exakt dem `test`-Skript. Der vollständige Browserbefehl verwendet keine Filter und enthält alle bisherigen 148 plus 20 neue gruppierte Szenarien. Die fokussierten Entwicklungsoptionen `--v073-only` und die bestehenden Filter ändern den Standardlauf nicht. Es wurden keine Tests deaktiviert. Die neue Funktion war zuvor zusätzlich mit 20/20 fokussierten Szenarien in beiden Engines geprüft; maßgeblich ist der anschließende vollständige Lauf des finalen Builds.
+
+Lokale Produktionsartefakte: `index-F7SLnUfp.js`, `index-CNxfA0IY.css`; Offline-Cache **4aad441c8806**, sieben aktuelle Assets. Nach diesem Build wurden keine Laufzeitdateien mehr verändert.
+
+## Umfang und korrigierter Testfehler
+
+- Vier neue Unit-Tests: Classic-/Modern-/unbekannte Profilwerte werden ignoriert und unverändert gespeichert gelassen; Snapshot, Rekorde, Achievements und Komfortoptionen bleiben erhalten. Gemeinsames Menü ohne Profilwahl, alle vier Spielmodi und bisherigen Komfortmenüs bleiben vorhanden. Die 72 bisherigen Tests bleiben aktiv; die alte Profil-Erwartung prüft jetzt die ausdrücklich gewünschte Entfernung aus dem Settings-Modell.
+- **320×568, 360×740, 390×844, 430×932, 844×390, 1366×768**: beide Ansichten, gleiche Oberfläche für beide alten Profilwerte, Canvas-Verhältnis/Bitmap, vollständige Randschlange, unveränderter Spielstand und gespeicherter Legacy-Key. Kein horizontaler Überlauf, kein Seitenscrollen im aktiven Vollbild, vier mobile Toolbar-Buttons und mindestens 44-Pixel-Ziele. Safe Areas und zusätzliche Drehungen 568×320/740×360 bleiben abgedeckt.
+- Standard/Kompakt/Ergonomisch und Normal/Groß bleiben geprüft. Veraltete obere Schranken für den Abstand der Spielgruppen wurden durch Mindestabstand und sicheren unteren Steuerungsanker ersetzt. Überlappung, Touch-Flächen, Vollständigkeit und alle Raster-/Farbprüfungen bleiben unverändert streng.
+- Separate Browser-Migrationen laden historische Statistik/Rekorde, Achievements, Amber-LCD, Lautstärke, Vibration, großes Tastenlayout und gespeicherte Partie. Nach Mehr-Aktionen, Menüwechsel und Offline-Reload bleiben Daten und ursprünglicher Profilwert erhalten. Die aktivierte Vibration erreicht die abgefangene Browser-API. Keine physische Vibrationsprüfung.
+- Der ehemalige Akkubereich wird in allen vier Modi und fünf Paletten auf die echte LCD-Headerfarbe geprüft; Signalbalken müssen weiterhin Tinte enthalten. Tatsächliche Canvas-Textaufrufe für Modus/Score/Status werden gemessen: Text liegt im Header und überlappt Signal/Score nicht. Eine absichtliche Einfärbung des Akkubereichs muss die saubere Probe verletzen.
+- Alle bestehenden Spielmodi, Time-Attack-Limits, Challenges, Achievements, Statistik/Rekorde, Snapshot-Migration, schnelle Eingaben, Touch/Keyboard/Controller, reale Audio-Oszillatoren, fehlende APIs, Pause/Neustart, Browser-Neustart, Installierbarkeit, Unterverzeichnisse und Offline-PWA bleiben abgedeckt. Die Mehr-Tests erhalten vorherigen Pausezustand, zwei akzeptierte Richtungen, Schritt-Restzeit und aktive Time-Attack-Zeit. Die entfernte Profilaktion wird durch Abwesenheits-/Migrationsprüfungen ersetzt; kein unsichtbarer No-op im Bedienhelper.
+- Im vorhandenen PWA-Updatetest wurde ein tatsächlicher Testfehler behoben: `waitForFunction` wartete in der installierten Version nicht auf die asynchronen Prädikate. Das konnte vorzeitig weiterlaufen und anschließend `waiting.state` von `null` lesen. `expect.poll` wartet jetzt auf den installierten wartenden Worker und unveränderten bisherigen Controller; nach Navigation werden Aktivierung und Entfernung des alten Scope-Caches geprüft. Keine Änderung der App oder des Service-Worker-Protokolls. Frühere fehlgeschlagene Entwicklungsberichte liegen als `v073-pwa-race-report.json` und `v073-pwa-async-report.json` im ignorierten Testausgabeordner.
+
+Aktuelle Rohdaten: `test-results/browser-report.json` mit **1086 Layout-/Geometrieeinträgen**, `failed: null` und `pageErrors: []`; `test-results/v073-unit-tests.txt`; `test-results/installability.json` ohne Installierbarkeitsfehler. Die 28 kuratierten Vergleichsbilder und jeweils 48 Vorher-/Nachher-Messungen liegen unter `docs/screenshots/v073/`. Weitere HUD-/Randbilder erzeugt die Suite im Testausgabeordner.
+
+[Änderungen, Profilmigration, Messwerte und Vergleichsbilder](UNIFIED_UI_V073.md) · [Vollständige Dateiliste](CHANGED_FILES_V073.md)
+
+## Grenzen und Freigabe
+
+Kein echtes iPhone/Safari, kein Display-Zoom, kein physisches Controller-Pairing und keine installierte iOS-PWA auf Hardware. Safe Areas, Viewportwechsel, Standard-Gamepads und Vibrations-API werden simuliert. Hohe Displays behalten den beschriebenen Zwischenraum zwischen proportionalem LCD und unterer Daumenzone. Menüs/Mehr dürfen intern scrollen; die aktive Spielseite passt in die geprüften Vollbildgrößen. Keine bekannten offenen Fehler in den geprüften Szenarien. GitHub-Actions-Prüfungen folgen nach dem Feature-Commit; dieser Bericht dokumentiert den lokalen Abschlusslauf. Kein automatischer Merge oder Pages-Deployment.
+
+---
+
+# Historischer Teststand – Bytecoil 0.7.2
 
 Basis: `main` **3a44d40** (0.7.1), Branch **feature/v0.7.2-mobile-toolbar**. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
 

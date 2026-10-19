@@ -1,6 +1,6 @@
 # PWA und spätere Veröffentlichung
 
-Version 0.7.2 ändert weder Scope, Speicherschlüssel noch Service-Worker-Protokoll. Die vier Smartphone-Hauptbuttons und sämtliche Mehr-Aktionen werden mit dem Produktionsbuild lokal gecacht. Der Browsertest lädt eine gespeicherte Partie offline erneut, bedient Profil und Ton im Mehr-Menü und setzt dieselbe Partie fort. Das ersetzt keinen Hardwaretest einer installierten iOS-PWA. Veröffentlichung bleibt eine separate manuelle Freigabe; der Feature-Branch löst ausschließlich Prüfungen aus.
+Version 0.7.3 verändert weder Scope noch Service-Worker-Protokoll oder Spielstandformat. Beide alten Profilwerte führen zur gleichen gecachten Oberfläche; `snake3310_profile` bleibt unangetastet und wird nicht mehr gelesen oder geschrieben. Die Browserprüfungen laden gespeicherte Partien mit Rekorden, Achievements und Komfortoptionen offline erneut und bedienen das Mehr-Menü. Der Update-Test wartet tatsächlich auf einen installierten wartenden Worker, hält den bisherigen Controller bis zum Verlassen der Seite fest und prüft anschließend Aktivierung und Entfernung des alten Scope-Caches. Veröffentlichung bleibt separat manuell freizugeben. Kein Test einer auf echter iPhone-Hardware installierten PWA.
 
 ## Bereits vorhanden
 

@@ -1,6 +1,6 @@
-# v0.7.2 – Entwicklungsbranch und Freigabe
+# v0.7.3 – Entwicklungsbranch und Freigabe
 
-Basis: `main` auf `3a44d40` (0.7.1), Branch `feature/v0.7.2-mobile-toolbar`. Nach erfolgreichen Unit-, Build- und vollständigen Browserprüfungen folgt ein eigener Commit mit Draft-PR nach `main`. Kein automatischer Merge und keine Pages-Veröffentlichung. Die vorhandenen Workflow-Bedingungen werden nicht verändert. [Toolbar-/Layoutbericht](MOBILE_TOOLBAR_V072.md) · [Tests](TESTS.md).
+Basis: `main` auf `40b5342` (0.7.2), Branch `feature/v0.7.3-unified-ui`. Nach erfolgreichen Unit-, Build- und vollständigen Browserprüfungen folgt ein eigener Commit mit Draft-PR nach `main`. Kein automatischer Merge und keine Pages-Veröffentlichung. Die vorhandenen Workflow-Bedingungen werden nicht verändert. [UI-/Migrationsbericht](UNIFIED_UI_V073.md) · [Tests](TESTS.md).
 
 ## Historische Entwicklungsfreigabe v0.7
 

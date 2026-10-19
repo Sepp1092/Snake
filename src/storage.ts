@@ -1,15 +1,17 @@
 import type { Options } from './engine.ts';
 import { validateSnapshot, type Snapshot } from './snapshot.ts';
 import type { GameMode, Duration, ChallengeId } from './modes.ts';
-export type Settings = Options & { gameMode: GameMode; duration: Duration; challenge: ChallengeId; sound: boolean; volume: number; vibration: boolean; profile: 'classic' | 'modern'; lcd: 'olive' | 'silver' | 'amber' | 'dark' | 'contrast'; control: 'both' | 'swipe' | 'keys'; full: boolean; touchLayout: 'standard' | 'compact' | 'ergonomic'; keySize: 'normal' | 'large'; controller: boolean; achievementNotifications: boolean; showControls: boolean };
+export type Settings = Options & { gameMode: GameMode; duration: Duration; challenge: ChallengeId; sound: boolean; volume: number; vibration: boolean; lcd: 'olive' | 'silver' | 'amber' | 'dark' | 'contrast'; control: 'both' | 'swipe' | 'keys'; full: boolean; touchLayout: 'standard' | 'compact' | 'ergonomic'; keySize: 'normal' | 'large'; controller: boolean; achievementNotifications: boolean; showControls: boolean };
 export interface Store { getItem(key: string): string | null; setItem(key: string, value: string): void; removeItem?(key: string): void }
-export const defaults: Settings = { level: 3, maze: 0, walls: 'wrap', gameMode: 'classic', duration: 120, challenge: 'hunter', sound: true, volume: 2, vibration: false, profile: 'classic', lcd: 'olive', control: 'both', full: false, touchLayout: 'standard', keySize: 'normal', controller: true, achievementNotifications: true, showControls: true };
+export const defaults: Settings = { level: 3, maze: 0, walls: 'wrap', gameMode: 'classic', duration: 120, challenge: 'hunter', sound: true, volume: 2, vibration: false, lcd: 'olive', control: 'both', full: false, touchLayout: 'standard', keySize: 'normal', controller: true, achievementNotifications: true, showControls: true };
 export class Persistence {
   available = true;
   private store: Store | null;
   constructor(store: Store | null) { this.store = store; this.available = !!store; }
   get(key: string) { try { return this.store?.getItem('snake3310_' + key) ?? null; } catch { this.available = false; return null; } }
   put(key: string, value: string) { try { if (!this.store) throw Error(); this.store.setItem('snake3310_' + key, value); } catch { this.available = false; } }
+  // Retired snake3310_profile is deliberately neither read nor written.
+  // Leaving it intact preserves old data without keeping a second UI state.
   load(): Settings {
     const level = Number(this.get('level') ?? 3), maze = Number(this.get('maze') ?? 0);
     const lcd = this.get('lcd'), control = this.get('control'), volume = Number(this.get('volume') ?? 2);
@@ -18,7 +20,7 @@ export class Persistence {
       maze: [0, 1, 2].includes(maze) ? maze : 0, walls: this.get('walls') === 'solid' ? 'solid' : 'wrap',
       sound: this.get('sound') !== 'false', lcd: lcd === 'silver' || lcd === 'amber' || lcd === 'dark' || lcd === 'contrast' ? lcd : 'olive',
       volume: Number.isInteger(volume) && volume >= 0 && volume <= 4 ? volume : 2,
-      vibration: this.get('vibration') === 'true', profile: this.get('profile') === 'modern' ? 'modern' : 'classic',
+      vibration: this.get('vibration') === 'true',
       gameMode: gameMode === 'zen' || gameMode === 'timeAttack' || gameMode === 'challenge' ? gameMode : 'classic',
       duration: duration === 60 || duration === 180 ? duration : 120,
       challenge: challenge === 'survivor' || challenge === 'maze' ? challenge : 'hunter',

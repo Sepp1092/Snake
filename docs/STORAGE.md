@@ -1,6 +1,8 @@
-# Datenspeicherung – Bytecoil 0.7
+# Datenspeicherung – Bytecoil 0.7.3
 
 Alle Daten liegen ausschließlich im lokalen Browser. Die bisherigen `snake3310_*`-Schlüssel bleiben kompatibel. Es gibt keine Datenübertragung, Anmeldung oder Cloud. Eine Origin besteht aus Protokoll, Host und Port; `127.0.0.1:4174` und die veröffentlichte GitHub-Pages-Adresse sind verschiedene Speicherbereiche.
+
+Die Migration ist rein lesekompatibel: Das aktive Settings-Modell enthält keine Profil-Eigenschaft mehr. Laden, Ändern anderer Einstellungen und Zurücksetzen der Einstellungen löschen keinen alten Profilwert. Es gibt keine JSON-/Snapshot-Migration für diese Änderung; Classic Snake als Spielmodus bleibt unabhängig davon erhalten.
 
 ## Bestehende und neue Schlüssel
 
@@ -8,7 +10,8 @@ Alle Daten liegen ausschließlich im lokalen Browser. Die bisherigen `snake3310_
 | --- | --- |
 | `snake3310_best` | Historischer Classic-Rekord; weiterhin gelesen und bei Classic-Rekorden fortgeschrieben |
 | `snake3310_level`, `maze`, `walls` | Standardregeln für Classic, Zen und Time Attack |
-| `snake3310_profile`, `full`, `lcd`, `control` | Darstellungsprofil, Handy/Vollbild, Palette, Eingaben |
+| `snake3310_profile` | Historischer Wert: bleibt unverändert gespeichert, wird seit 0.7.3 weder ausgewertet noch überschrieben; keine sichtbare Auswahl |
+| `snake3310_full`, `lcd`, `control` | Handy/Vollbild, Palette, Eingaben |
 | `snake3310_sound`, `volume`, `vibration` | Vorhandene Feedback-Einstellungen |
 | `snake3310_gameMode` | Neu: classic / zen / timeAttack / challenge; Standard classic |
 | `snake3310_duration` | Neu: 60 / 120 / 180; Standard 120 |

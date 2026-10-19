@@ -98,7 +98,6 @@ function applySettings() {
   const colors = palettes[settings.lcd];
   for (const [name, color] of Object.entries(colors)) document.documentElement.style.setProperty('--' + name, color);
   document.body.classList.toggle('full', settings.full);
-  document.body.classList.toggle('modern', settings.profile === 'modern');
   document.body.dataset.touchLayout = settings.touchLayout;
   document.body.dataset.keySize = settings.keySize;
   document.body.dataset.showControls = String(settings.showControls);
@@ -107,8 +106,6 @@ function applySettings() {
   gesture = null;
   document.querySelectorAll('.pressed').forEach(e => e.classList.remove('pressed'));
   if (!settings.achievementNotifications) { awardQueue.length = 0; clearTimeout(awardTimer); awardTimer = undefined; $('achievement-toast').hidden = true; }
-  $('profile').textContent = settings.profile === 'modern' ? 'Profil: Modern' : 'Profil: Classic';
-  $('profile').setAttribute('aria-pressed', String(settings.profile === 'modern'));
   $('view').textContent = settings.full ? '▣ Handy-Ansicht' : '▣ Vollbildansicht';
   $('view').setAttribute('aria-pressed', String(settings.full));
   $('view').setAttribute('aria-label', settings.full ? 'Zur Handy-Ansicht wechseln' : 'Zur Vollbildansicht wechseln');
@@ -118,8 +115,6 @@ function applySettings() {
   updateMoreState();
 }
 function updateMoreState() {
-  setText($('more-profile'), `Profil: ${settings.profile === 'modern' ? 'Modern' : 'Classic'}`);
-  $('more-profile').setAttribute('aria-pressed', String(settings.profile === 'modern'));
   setText($('more-sound'), `Ton: ${settings.sound ? 'an' : 'aus'}`);
   $('more-sound').setAttribute('aria-pressed', String(settings.sound));
   setText($('more-state'), moreSession?.resume ? 'Spiel kurz angehalten. Danach geht es weiter.' : game.phase === 'paused' ? 'Dein Spiel bleibt pausiert.' : 'Weitere Aktionen');
@@ -209,20 +204,17 @@ function render() {
   }
   const current = menu.current;
   if (mode === 'boot') screen.innerHTML = '<div class="boot"><div class="boot-mark" aria-hidden="true">▟▚▞</div><strong>BYTECOIL</strong><span>RETRO SNAKE ARCADE</span><button data-act="ok">Willkommen</button></div>';
-  else if (mode === 'standby') screen.innerHTML = '<div class="lcd-top"><span>▂▄▆█</span><span>▰▰▰ ▯</span></div><div class="standby"><span>PIXEL HANDHELD</span><strong>Retro Snake</strong><span>Bereit für eine neue Runde?</span><div class="pixel-snake">▰▰▰▰<br>▰<br>▰▰▰ &nbsp;▪</div></div><div class="softlabels"><button data-act="ok">Menü</button><span>BC-01</span></div>';
+  else if (mode === 'standby') screen.innerHTML = '<div class="lcd-top"><span>▂▄▆█</span></div><div class="standby"><span>PIXEL HANDHELD</span><strong>Retro Snake</strong><span>Bereit für eine neue Runde?</span><div class="pixel-snake">▰▰▰▰<br>▰<br>▰▰▰ &nbsp;▪</div></div><div class="softlabels"><button data-act="ok">Menü</button><span>BC-01</span></div>';
   else if (mode === 'menu') {
-    const items = menu.items, pageSize = current.id === 'achievements' ? 2 : 4;
-    const start = settings.profile === 'modern' ? 0 : Math.max(0, Math.min(current.index - (pageSize === 2 ? 1 : 2), items.length - pageSize));
-    const list = items.slice(start, settings.profile === 'modern' ? items.length : start + pageSize).map((item, offset) => {
-      const selected = current.index === start + offset;
+    const items = menu.items;
+    const list = items.map((item, index) => {
+      const selected = current.index === index;
       const checked = item.action && item.value !== undefined && String(settings[item.action as keyof Settings]) === String(item.value);
-      return `<button class="menu-item ${selected ? 'selected' : ''}${item.icon ? ' award-item' : ''}" data-index="${start + offset}" aria-current="${selected ? 'true' : 'false'}">${item.icon ? pixelIcon(item.icon) : checked ? '●' : item.menu ? '›' : '·'} <span>${item.label}${item.detail ? `<small>${item.detail}</small>` : ''}</span></button>`;
+      return `<button class="menu-item ${selected ? 'selected' : ''}${item.icon ? ' award-item' : ''}" data-index="${index}" aria-current="${selected ? 'true' : 'false'}">${item.icon ? pixelIcon(item.icon) : checked ? '●' : item.menu ? '›' : '·'} <span>${item.label}${item.detail ? `<small>${item.detail}</small>` : ''}</span></button>`;
     }).join('');
     screen.innerHTML = `<div class="lcd-top"><strong>${current.id === 'snake' ? modeNames[settings.gameMode] : titles[current.id]}</strong><span>${current.id === 'achievements' ? `${awards.count()}/12` : items.length ? `${current.index + 1}/${items.length}` : '★'}</span></div><div class="menu-content">${list}</div><div class="softlabels"><button data-act="ok">${items.length ? 'Wählen' : 'OK'}</button><button data-act="back">Zurück</button></div>`;
-    if (settings.profile === 'modern') {
-      const selected = screen.querySelector<HTMLElement>('.selected'), list = screen.querySelector<HTMLElement>('.menu-content');
-      if (selected && list) list.scrollTop = Math.max(0, selected.offsetTop - list.offsetTop - list.clientHeight / 2);
-    }
+    const selected = screen.querySelector<HTMLElement>('.selected'), menuList = screen.querySelector<HTMLElement>('.menu-content');
+    if (selected && menuList) menuList.scrollTop = Math.max(0, selected.offsetTop - menuList.offsetTop - menuList.clientHeight / 2);
   }
   const identity = mode + ':' + current.id;
   if (identity !== lastScreen) { screen.classList.remove('menu-enter'); void screen.offsetWidth; screen.classList.add('menu-enter'); lastScreen = identity; }
@@ -239,7 +231,6 @@ function render() {
   if (canvas.getAttribute('aria-label') !== label) canvas.setAttribute('aria-label', label);
   setText($('pause'), game.phase === 'paused' ? 'Weiter' : 'Pause');
   updateMoreState();
-  if ($('resume').hidden !== (game.phase !== 'paused')) $('resume').hidden = game.phase !== 'paused';
   setText($('comfort'), `${modeNames[game.run.mode]} · Punkte ${game.score} · ${runLabel(game)}${game.run.mode === 'classic' || game.run.mode === 'timeAttack' ? ` · Rekord ${game.best}` : ''}${persistence.available ? '' : ' · Speicherung nicht verfügbar'}`);
 }
 function selectMenu() {
@@ -270,7 +261,6 @@ function selectMenu() {
       case 'sound': settings.sound = item.value === 'true'; break;
       case 'lcd': settings.lcd = item.value as Settings['lcd']; break;
       case 'control': settings.control = item.value as Settings['control']; break;
-      case 'profile': settings.profile = item.value as Settings['profile']; break;
       case 'full': settings.full = item.value === 'true'; break;
       case 'volume': settings.volume = Number(item.value); break;
       case 'vibration': settings.vibration = item.value === 'true'; break;
@@ -348,16 +338,12 @@ $('start').onclick = requestNewGame;
 $('achievement-close').onclick = () => achievementDialog.close();
 $('challenge-start').onclick = () => { intro.close(); newGame(); };
 $('challenge-cancel').onclick = () => intro.close();
-$('restart').onclick = requestNewGame;
-$('resume').onclick = resume;
 $('settings').onclick = () => { showMenu(); menu.stack.push({ id: 'settings', index: 0 }); render(); };
 $('more').onclick = openMore;
 $('more-close').onclick = () => morePanel.close();
 $('more-restart').onclick = () => { leaveMore(); $('start').click(); };
 $('more-settings').onclick = () => { leaveMore(); $('settings').click(); };
-$('more-profile').onclick = () => $('profile').click();
 $('more-sound').onclick = () => $('sound').click();
-$('profile').onclick = () => { settings.profile = settings.profile === 'classic' ? 'modern' : 'classic'; save(); render(); };
 $('confirm-no').onclick = () => { pending = null; dialog.close(); };
 $('confirm-yes').onclick = () => { const action = pending; pending = null; dialog.close(); action?.(); };
 dialog.addEventListener('cancel', () => { pending = null; });

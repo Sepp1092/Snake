@@ -58,8 +58,8 @@ test('snapshot storage denial cannot throw', () => {
 test('v0.4 preferences migrate with conservative comfort defaults; invalid new settings sanitized', () => {
   const s = store(), p = new Persistence(s); p.put('full', 'true'); p.put('lcd', 'amber'); p.put('best', '200');
   assert.deepEqual(p.load(), { ...defaults, full: true, lcd: 'amber' });
-  p.put('volume', '99'); p.put('profile', 'unknown'); assert.equal(p.load().volume, 2); assert.equal(p.load().profile, 'classic');
-  const settings = { ...defaults, profile: 'modern' as const, full: false, lcd: 'dark' as const, vibration: true, volume: 4 }; p.save(settings);
+  p.put('volume', '99'); p.put('profile', 'unknown'); assert.equal(p.load().volume, 2); assert.equal('profile' in p.load(), false); assert.equal(p.get('profile'), 'unknown');
+  const settings = { ...defaults, full: false, lcd: 'dark' as const, vibration: true, volume: 4 }; p.save(settings);
   assert.deepEqual(p.load(), settings); assert.equal(p.best(), 200);
 });
 test('missing audio and missing, denied or disabled vibration never interrupt play', () => {

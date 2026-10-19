@@ -1,0 +1,2466 @@
+[
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "classic",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 31.921875,
+      "y": 91.671875,
+      "width": 256.15625,
+      "height": 195.3125,
+      "right": 288.078125,
+      "bottom": 286.984375
+    },
+    "phone": {
+      "x": 7.921875,
+      "y": 53.671875,
+      "width": 304.15625,
+      "height": 508.3125,
+      "right": 312.078125,
+      "bottom": 561.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 308,
+      "height": 44,
+      "right": 314,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "classic",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 31.921875,
+      "y": 91.671875,
+      "width": 256.15625,
+      "height": 195.3125,
+      "right": 288.078125,
+      "bottom": 286.984375
+    },
+    "phone": {
+      "x": 7.921875,
+      "y": 53.671875,
+      "width": 304.15625,
+      "height": 508.3125,
+      "right": 312.078125,
+      "bottom": 561.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 308,
+      "height": 44,
+      "right": 314,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "classic",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "126.344px",
+    "canvas": {
+      "x": 7,
+      "y": 58.671875,
+      "width": 306,
+      "height": 233.3125,
+      "right": 313,
+      "bottom": 291.984375
+    },
+    "phone": {
+      "x": 2,
+      "y": 53.671875,
+      "width": 316,
+      "height": 265.3125,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 316,
+      "height": 44,
+      "right": 318,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 19,
+      "y": 451,
+      "width": 282,
+      "height": 105,
+      "right": 301,
+      "bottom": 556
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "classic",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "126.344px",
+    "canvas": {
+      "x": 7,
+      "y": 58.671875,
+      "width": 306,
+      "height": 233.3125,
+      "right": 313,
+      "bottom": 291.984375
+    },
+    "phone": {
+      "x": 2,
+      "y": 53.671875,
+      "width": 316,
+      "height": 265.3125,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 316,
+      "height": 44,
+      "right": 318,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 19,
+      "y": 451,
+      "width": 282,
+      "height": 105,
+      "right": 301,
+      "bottom": 556
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "modern",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 31.921875,
+      "y": 91.671875,
+      "width": 256.15625,
+      "height": 195.3125,
+      "right": 288.078125,
+      "bottom": 286.984375
+    },
+    "phone": {
+      "x": 7.921875,
+      "y": 53.671875,
+      "width": 304.15625,
+      "height": 508.3125,
+      "right": 312.078125,
+      "bottom": 561.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 308,
+      "height": 44,
+      "right": 314,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "modern",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 31.921875,
+      "y": 91.671875,
+      "width": 256.15625,
+      "height": 195.3125,
+      "right": 288.078125,
+      "bottom": 286.984375
+    },
+    "phone": {
+      "x": 7.921875,
+      "y": 53.671875,
+      "width": 304.15625,
+      "height": 508.3125,
+      "right": 312.078125,
+      "bottom": 561.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 308,
+      "height": 44,
+      "right": 314,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "modern",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "126.344px",
+    "canvas": {
+      "x": 7,
+      "y": 58.671875,
+      "width": 306,
+      "height": 233.3125,
+      "right": 313,
+      "bottom": 291.984375
+    },
+    "phone": {
+      "x": 2,
+      "y": 53.671875,
+      "width": 316,
+      "height": 265.3125,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 316,
+      "height": 44,
+      "right": 318,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 19,
+      "y": 451,
+      "width": 282,
+      "height": 105,
+      "right": 301,
+      "bottom": 556
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "profile": "modern",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "126.344px",
+    "canvas": {
+      "x": 7,
+      "y": 58.671875,
+      "width": 306,
+      "height": 233.3125,
+      "right": 313,
+      "bottom": 291.984375
+    },
+    "phone": {
+      "x": 2,
+      "y": 53.671875,
+      "width": 316,
+      "height": 265.3125,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 316,
+      "height": 44,
+      "right": 318,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 19,
+      "y": 451,
+      "width": 282,
+      "height": 105,
+      "right": 301,
+      "bottom": 556
+    },
+    "scroll": [
+      320,
+      568
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "classic",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 109.390625,
+      "width": 300,
+      "height": 228.75,
+      "right": 330,
+      "bottom": 338.140625
+    },
+    "phone": {
+      "x": 6,
+      "y": 55.390625,
+      "width": 348,
+      "height": 587.75,
+      "right": 354,
+      "bottom": 643.140625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 348,
+      "height": 44,
+      "right": 354,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "classic",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 109.390625,
+      "width": 300,
+      "height": 228.75,
+      "right": 330,
+      "bottom": 338.140625
+    },
+    "phone": {
+      "x": 6,
+      "y": 55.390625,
+      "width": 348,
+      "height": 587.75,
+      "right": 354,
+      "bottom": 643.140625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 348,
+      "height": 44,
+      "right": 354,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "classic",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "264.406px",
+    "canvas": {
+      "x": 7,
+      "y": 60.390625,
+      "width": 346,
+      "height": 263.8125,
+      "right": 353,
+      "bottom": 324.203125
+    },
+    "phone": {
+      "x": 2,
+      "y": 55.390625,
+      "width": 356,
+      "height": 295.8125,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 356,
+      "height": 44,
+      "right": 358,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 39,
+      "y": 623,
+      "width": 282,
+      "height": 105,
+      "right": 321,
+      "bottom": 728
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "classic",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "264.406px",
+    "canvas": {
+      "x": 7,
+      "y": 60.390625,
+      "width": 346,
+      "height": 263.8125,
+      "right": 353,
+      "bottom": 324.203125
+    },
+    "phone": {
+      "x": 2,
+      "y": 55.390625,
+      "width": 356,
+      "height": 295.8125,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 356,
+      "height": 44,
+      "right": 358,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 39,
+      "y": 623,
+      "width": 282,
+      "height": 105,
+      "right": 321,
+      "bottom": 728
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "modern",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 109.390625,
+      "width": 300,
+      "height": 228.75,
+      "right": 330,
+      "bottom": 338.140625
+    },
+    "phone": {
+      "x": 6,
+      "y": 55.390625,
+      "width": 348,
+      "height": 587.75,
+      "right": 354,
+      "bottom": 643.140625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 348,
+      "height": 44,
+      "right": 354,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "modern",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 109.390625,
+      "width": 300,
+      "height": 228.75,
+      "right": 330,
+      "bottom": 338.140625
+    },
+    "phone": {
+      "x": 6,
+      "y": 55.390625,
+      "width": 348,
+      "height": 587.75,
+      "right": 354,
+      "bottom": 643.140625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 348,
+      "height": 44,
+      "right": 354,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "modern",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "264.406px",
+    "canvas": {
+      "x": 7,
+      "y": 60.390625,
+      "width": 346,
+      "height": 263.8125,
+      "right": 353,
+      "bottom": 324.203125
+    },
+    "phone": {
+      "x": 2,
+      "y": 55.390625,
+      "width": 356,
+      "height": 295.8125,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 356,
+      "height": 44,
+      "right": 358,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 39,
+      "y": 623,
+      "width": 282,
+      "height": 105,
+      "right": 321,
+      "bottom": 728
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "profile": "modern",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "264.406px",
+    "canvas": {
+      "x": 7,
+      "y": 60.390625,
+      "width": 346,
+      "height": 263.8125,
+      "right": 353,
+      "bottom": 324.203125
+    },
+    "phone": {
+      "x": 2,
+      "y": 55.390625,
+      "width": 356,
+      "height": 295.8125,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 356,
+      "height": 44,
+      "right": 358,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 39,
+      "y": 623,
+      "width": 282,
+      "height": 105,
+      "right": 321,
+      "bottom": 728
+    },
+    "scroll": [
+      360,
+      740
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "classic",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 361.625
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 610.625,
+      "right": 384,
+      "bottom": 666.625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "classic",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 361.625
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 610.625,
+      "right": 384,
+      "bottom": 666.625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "classic",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "344.312px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 376,
+      "height": 286.6875,
+      "right": 383,
+      "bottom": 347.6875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 386,
+      "height": 318.6875,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 386,
+      "height": 44,
+      "right": 388,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 54,
+      "y": 727,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 832
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "classic",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "344.312px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 376,
+      "height": 286.6875,
+      "right": 383,
+      "bottom": 347.6875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 386,
+      "height": 318.6875,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 386,
+      "height": 44,
+      "right": 388,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 54,
+      "y": 727,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 832
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "modern",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 361.625
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 610.625,
+      "right": 384,
+      "bottom": 666.625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "modern",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 361.625
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 610.625,
+      "right": 384,
+      "bottom": 666.625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "modern",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "344.312px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 376,
+      "height": 286.6875,
+      "right": 383,
+      "bottom": 347.6875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 386,
+      "height": 318.6875,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 386,
+      "height": 44,
+      "right": 388,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 54,
+      "y": 727,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 832
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "profile": "modern",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "344.312px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 376,
+      "height": 286.6875,
+      "right": 383,
+      "bottom": 347.6875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 386,
+      "height": 318.6875,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 386,
+      "height": 44,
+      "right": 388,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 54,
+      "y": 727,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 832
+    },
+    "scroll": [
+      390,
+      844
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "classic",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 370,
+      "height": 282.125,
+      "right": 400,
+      "bottom": 392.125
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 418,
+      "height": 641.125,
+      "right": 424,
+      "bottom": 697.125
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 418,
+      "height": 44,
+      "right": 424,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "classic",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 370,
+      "height": 282.125,
+      "right": 400,
+      "bottom": 392.125
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 418,
+      "height": 641.125,
+      "right": 424,
+      "bottom": 697.125
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 418,
+      "height": 44,
+      "right": 424,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "classic",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "401.812px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 416,
+      "height": 317.1875,
+      "right": 423,
+      "bottom": 378.1875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 426,
+      "height": 349.1875,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 426,
+      "height": 44,
+      "right": 428,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 74,
+      "y": 815,
+      "width": 282,
+      "height": 105,
+      "right": 356,
+      "bottom": 920
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "classic",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "401.812px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 416,
+      "height": 317.1875,
+      "right": 423,
+      "bottom": 378.1875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 426,
+      "height": 349.1875,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 426,
+      "height": 44,
+      "right": 428,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 74,
+      "y": 815,
+      "width": 282,
+      "height": 105,
+      "right": 356,
+      "bottom": 920
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "modern",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 370,
+      "height": 282.125,
+      "right": 400,
+      "bottom": 392.125
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 418,
+      "height": 641.125,
+      "right": 424,
+      "bottom": 697.125
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 418,
+      "height": 44,
+      "right": 424,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "modern",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 370,
+      "height": 282.125,
+      "right": 400,
+      "bottom": 392.125
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 418,
+      "height": 641.125,
+      "right": 424,
+      "bottom": 697.125
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 418,
+      "height": 44,
+      "right": 424,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "modern",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "401.812px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 416,
+      "height": 317.1875,
+      "right": 423,
+      "bottom": 378.1875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 426,
+      "height": 349.1875,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 426,
+      "height": 44,
+      "right": 428,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 74,
+      "y": 815,
+      "width": 282,
+      "height": 105,
+      "right": 356,
+      "bottom": 920
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "profile": "modern",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "401.812px",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 416,
+      "height": 317.1875,
+      "right": 423,
+      "bottom": 378.1875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 426,
+      "height": 349.1875,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 426,
+      "height": 44,
+      "right": 428,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 74,
+      "y": 815,
+      "width": 282,
+      "height": 105,
+      "right": 356,
+      "bottom": 920
+    },
+    "scroll": [
+      430,
+      932
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "classic",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 132.40625,
+      "y": 89,
+      "width": 329.171875,
+      "height": 250.984375,
+      "right": 461.578125,
+      "bottom": 339.984375
+    },
+    "phone": {
+      "x": 6,
+      "y": 52,
+      "width": 832,
+      "height": 331.984375,
+      "right": 838,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 832,
+      "height": 44,
+      "right": 838,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "classic",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 132.40625,
+      "y": 89,
+      "width": 329.171875,
+      "height": 250.984375,
+      "right": 461.578125,
+      "bottom": 339.984375
+    },
+    "phone": {
+      "x": 6,
+      "y": 52,
+      "width": 832,
+      "height": 331.984375,
+      "right": 838,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 832,
+      "height": 44,
+      "right": 838,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "classic",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 112.28125,
+      "y": 57,
+      "width": 393.4375,
+      "height": 299.984375,
+      "right": 505.71875,
+      "bottom": 356.984375
+    },
+    "phone": {
+      "x": 107.28125,
+      "y": 52,
+      "width": 403.4375,
+      "height": 331.984375,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 840,
+      "height": 44,
+      "right": 842,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 623,
+      "y": 165.5,
+      "width": 216,
+      "height": 105,
+      "right": 839,
+      "bottom": 270.5
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "classic",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 112.28125,
+      "y": 57,
+      "width": 393.4375,
+      "height": 299.984375,
+      "right": 505.71875,
+      "bottom": 356.984375
+    },
+    "phone": {
+      "x": 107.28125,
+      "y": 52,
+      "width": 403.4375,
+      "height": 331.984375,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 840,
+      "height": 44,
+      "right": 842,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 623,
+      "y": 165.5,
+      "width": 216,
+      "height": 105,
+      "right": 839,
+      "bottom": 270.5
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "modern",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 132.40625,
+      "y": 89,
+      "width": 329.171875,
+      "height": 250.984375,
+      "right": 461.578125,
+      "bottom": 339.984375
+    },
+    "phone": {
+      "x": 6,
+      "y": 52,
+      "width": 832,
+      "height": 331.984375,
+      "right": 838,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 832,
+      "height": 44,
+      "right": 838,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "modern",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 132.40625,
+      "y": 89,
+      "width": 329.171875,
+      "height": 250.984375,
+      "right": 461.578125,
+      "bottom": 339.984375
+    },
+    "phone": {
+      "x": 6,
+      "y": 52,
+      "width": 832,
+      "height": 331.984375,
+      "right": 838,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 832,
+      "height": 44,
+      "right": 838,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "modern",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 112.28125,
+      "y": 57,
+      "width": 393.4375,
+      "height": 299.984375,
+      "right": 505.71875,
+      "bottom": 356.984375
+    },
+    "phone": {
+      "x": 107.28125,
+      "y": 52,
+      "width": 403.4375,
+      "height": 331.984375,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 840,
+      "height": 44,
+      "right": 842,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 623,
+      "y": 165.5,
+      "width": 216,
+      "height": 105,
+      "right": 839,
+      "bottom": 270.5
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "profile": "modern",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 112.28125,
+      "y": 57,
+      "width": 393.4375,
+      "height": 299.984375,
+      "right": 505.71875,
+      "bottom": 356.984375
+    },
+    "phone": {
+      "x": 107.28125,
+      "y": 52,
+      "width": 403.4375,
+      "height": 331.984375,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 840,
+      "height": 44,
+      "right": 842,
+      "bottom": 48
+    },
+    "controls": {
+      "x": 623,
+      "y": 165.5,
+      "width": 216,
+      "height": 105,
+      "right": 839,
+      "bottom": 270.5
+    },
+    "scroll": [
+      844,
+      390
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "more"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "classic",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 505,
+      "y": 273.390625,
+      "width": 356,
+      "height": 271.4375,
+      "right": 861,
+      "bottom": 544.828125
+    },
+    "phone": {
+      "x": 453,
+      "y": 174.796875,
+      "width": 460,
+      "height": 744.625,
+      "right": 913,
+      "bottom": 919.421875
+    },
+    "toolbar": {
+      "x": 352.90625,
+      "y": 66,
+      "width": 660.171875,
+      "height": 56,
+      "right": 1013.078125,
+      "bottom": 122
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      1366,
+      1045
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "classic",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 505,
+      "y": 273.390625,
+      "width": 356,
+      "height": 271.4375,
+      "right": 861,
+      "bottom": 544.828125
+    },
+    "phone": {
+      "x": 453,
+      "y": 174.796875,
+      "width": 460,
+      "height": 744.625,
+      "right": 913,
+      "bottom": 919.421875
+    },
+    "toolbar": {
+      "x": 354.84375,
+      "y": 66,
+      "width": 656.296875,
+      "height": 56,
+      "right": 1011.140625,
+      "bottom": 122
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      1366,
+      1045
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "classic",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 134.078125,
+      "y": 74,
+      "width": 849.828125,
+      "height": 647.984375,
+      "right": 983.90625,
+      "bottom": 721.984375
+    },
+    "phone": {
+      "x": 120.078125,
+      "y": 60,
+      "width": 877.828125,
+      "height": 699.984375,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "toolbar": {
+      "x": 364.21875,
+      "y": 8,
+      "width": 637.5625,
+      "height": 44,
+      "right": 1001.78125,
+      "bottom": 52
+    },
+    "controls": {
+      "x": 1123,
+      "y": 322,
+      "width": 230,
+      "height": 176,
+      "right": 1353,
+      "bottom": 498
+    },
+    "scroll": [
+      1366,
+      768
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "classic",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 134.078125,
+      "y": 74,
+      "width": 849.828125,
+      "height": 647.984375,
+      "right": 983.90625,
+      "bottom": 721.984375
+    },
+    "phone": {
+      "x": 120.078125,
+      "y": 60,
+      "width": 877.828125,
+      "height": 699.984375,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "toolbar": {
+      "x": 366.15625,
+      "y": 8,
+      "width": 633.6875,
+      "height": 44,
+      "right": 999.84375,
+      "bottom": 52
+    },
+    "controls": {
+      "x": 1123,
+      "y": 322,
+      "width": 230,
+      "height": 176,
+      "right": 1353,
+      "bottom": 498
+    },
+    "scroll": [
+      1366,
+      768
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "modern",
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 505,
+      "y": 273.390625,
+      "width": 356,
+      "height": 271.4375,
+      "right": 861,
+      "bottom": 544.828125
+    },
+    "phone": {
+      "x": 453,
+      "y": 174.796875,
+      "width": 460,
+      "height": 744.625,
+      "right": 913,
+      "bottom": 919.421875
+    },
+    "toolbar": {
+      "x": 352.90625,
+      "y": 66,
+      "width": 660.171875,
+      "height": 56,
+      "right": 1013.078125,
+      "bottom": 122
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      1366,
+      1045
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "modern",
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 505,
+      "y": 273.390625,
+      "width": 356,
+      "height": 271.4375,
+      "right": 861,
+      "bottom": 544.828125
+    },
+    "phone": {
+      "x": 453,
+      "y": 174.796875,
+      "width": 460,
+      "height": 744.625,
+      "right": 913,
+      "bottom": 919.421875
+    },
+    "toolbar": {
+      "x": 354.84375,
+      "y": 66,
+      "width": 656.296875,
+      "height": 56,
+      "right": 1011.140625,
+      "bottom": 122
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "scroll": [
+      1366,
+      1045
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "modern",
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 134.078125,
+      "y": 74,
+      "width": 849.828125,
+      "height": 647.984375,
+      "right": 983.90625,
+      "bottom": 721.984375
+    },
+    "phone": {
+      "x": 120.078125,
+      "y": 60,
+      "width": 877.828125,
+      "height": 699.984375,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "toolbar": {
+      "x": 364.21875,
+      "y": 8,
+      "width": 637.5625,
+      "height": 44,
+      "right": 1001.78125,
+      "bottom": 52
+    },
+    "controls": {
+      "x": 1123,
+      "y": 322,
+      "width": 230,
+      "height": 176,
+      "right": 1353,
+      "bottom": 498
+    },
+    "scroll": [
+      1366,
+      768
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "profile": "modern",
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "controlMargin": "0px",
+    "canvas": {
+      "x": 134.078125,
+      "y": 74,
+      "width": 849.828125,
+      "height": 647.984375,
+      "right": 983.90625,
+      "bottom": 721.984375
+    },
+    "phone": {
+      "x": 120.078125,
+      "y": 60,
+      "width": 877.828125,
+      "height": 699.984375,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "toolbar": {
+      "x": 366.15625,
+      "y": 8,
+      "width": 633.6875,
+      "height": 44,
+      "right": 999.84375,
+      "bottom": 52
+    },
+    "controls": {
+      "x": 1123,
+      "y": 322,
+      "width": 230,
+      "height": 176,
+      "right": 1353,
+      "bottom": 498
+    },
+    "scroll": [
+      1366,
+      768
+    ],
+    "buttons": [
+      "pause",
+      "menu",
+      "view",
+      "start",
+      "sound",
+      "settings"
+    ]
+  }
+]
