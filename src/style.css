@@ -9,7 +9,6 @@
 body{
   margin:0;
   min-height:100dvh;
-  background:radial-gradient(ellipse at 50% 10%,#31475a,#121c25 60%,#0b1118);
   display:flex;
   flex-direction:column;
   align-items:center
@@ -25,12 +24,15 @@ button:focus-visible{
 .toolbar{
   display:flex;
   flex-wrap:wrap;
-  gap:9px;
   justify-content:center;
-  align-items:center;
-  padding:18px 12px 4px
+  align-items:center
 }
-.toolbar button,.toolbar select{
+.toolbar button{
+  border:1px solid #70808b;
+  color:#edf3e6;
+  border-radius:6px
+}
+.toolbar select{
   border:1px solid #70808b;
   background:#253746;
   color:#edf3e6;
@@ -48,71 +50,43 @@ button:focus-visible{
   width:100%;
   display:flex;
   justify-content:center;
-  align-items:center;
-  flex:1;
-  padding:12px 12px 22px
+  align-items:center
 }
 .phone{
   position:relative;
-  width:min(375px,94vw);
-  padding:29px 29px 35px;
-  border-radius:65px 65px 77px 77px / 90px 90px 75px 75px;
-  background:linear-gradient(110deg,#1c2c4a,#456284 19%,#263e66 36%,#22385e 62%,#4e6589 84%,#1b2a49);
-  box-shadow:inset 5px 4px 8px #8fa7c066,inset -9px -8px 16px #091324,0 20px 55px #000a,0 2px 3px #000;
-  border:2px solid #121d32;
   transition:width .2s
 }
 .phone:before{
   content:"";
   position:absolute;
-  inset:9px;
   border:2px solid #728ca25c;
-  border-radius:55px 55px 67px 67px / 78px 78px 65px 65px;
   pointer-events:none
 }
 .speaker{
-  width:51px;
-  height:6px;
-  border-radius:15px;
-  background:repeating-linear-gradient(90deg,#0a1622 0 3px,#4f6583 3px 5px);
   margin:0 auto 12px;
   box-shadow:0 1px 2px #8495aa
 }
 .brand{
   font-family:Arial,sans-serif;
   font-weight:900;
-  letter-spacing:3px;
-  font-size:22px;
-  color:#f0f0ed;
-  text-shadow:0 2px 2px #091626;
-  text-align:center;
-  margin-bottom:13px
+  text-align:center
 }
 .face{
-  background:linear-gradient(155deg,#8594a9,#3b5274 32%,#243957 74%,#8a9ab1);
-  border:2px solid #192841;
-  border-radius:25px 25px 31px 31px;
-  padding:18px 14px 20px;
-  box-shadow:inset 0 5px 12px #0b182f,0 3px 4px #9aacc044
+  border:2px solid #192841
 }
 .screen-shell{
   background:#253a41;
-  border-radius:10px;
   padding:9px;
   box-shadow:inset 2px 3px 6px #0a1820,1px 2px 2px #a0b6b244
 }
 .lcd{
   position:relative;
-  background:#aabd83;
-  aspect-ratio:320 / 244;
   border:3px solid #536b4f;
   overflow:hidden;
   box-shadow:inset 0 0 14px #61784d5e;
   touch-action:none
 }
 .lcd canvas{
-  width:100%;
-  height:auto;
   display:block;
   image-rendering:crisp-edges;
   image-rendering:pixelated
@@ -125,50 +99,29 @@ button:focus-visible{
   pointer-events:none
 }
 .keys{
-  margin-top:15px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px 14px;
   justify-items:stretch
 }
 .key{
   -webkit-tap-highlight-color:transparent;
   user-select:none;
   -webkit-user-select:none;
-  touch-action:manipulation;
-  min-height:43px;
-  border-radius:49% 49% 42% 42%;
-  border:1px solid #0e1b31;
-  background:linear-gradient(#e1e8ea,#9ca8b2);
-  color:#17243a;
   font-weight:900;
-  font-size:18px;
-  box-shadow:inset 0 2px 3px white,0 4px 2px #142239;
   display:flex;
   align-items:center;
   justify-content:center
 }
-.key.pressed,.key:active{
-  transform:translateY(2px);
-  box-shadow:inset 0 2px 4px #6d7e8b
-}
-.key.green{
-  color:#176338
-}
-.key.red{
-  color:#962f2c
+.key.pressed, .key:active{
+  transform:translateY(2px)
 }
 .key small{
   font-size:9px;
   margin-left:3px;
   color:#55616c
 }
-.lcd{
-  cursor:crosshair
-}
 .game-version{
   font-size:10px;
-  letter-spacing:1px;
   color:#b5c9d6;
   text-align:center;
   margin:4px 0 8px
@@ -184,14 +137,9 @@ button:focus-visible{
   padding:0 16px
 }
 .full .phone{
-  width:min(1100px,96vw,max(720px,calc((100dvh - 190px) * 1.311475)));
-  padding:0;
-  border:none;
-  border-radius:15px;
-  background:none;
-  box-shadow:none
+  padding:0
 }
-.full .phone:before,.full .speaker,.full .brand,.full .keys{
+.full .speaker, .full .brand, .full .keys{
   display:none
 }
 .full .face{
@@ -207,17 +155,14 @@ button:focus-visible{
 }
 .full-controls{
   display:none;
-  grid-template-columns:repeat(3,65px);
   justify-content:center;
-  gap:7px;
   margin-top:16px
 }
 .full .full-controls{
   display:grid
 }
 .full-controls .key{
-  border-radius:14px;
-  min-height:52px
+  border-radius:14px
 }
 .full-controls .up{
   grid-column:2
@@ -238,11 +183,9 @@ button:focus-visible{
   font-size:13px
 }
 .status{
-  font-size:12px;
   color:#dfeac5;
   text-align:center;
-  padding:10px 0 0;
-  min-height:28px
+  padding:10px 0 0
 }
 .sr{
   position:absolute;
@@ -256,17 +199,11 @@ button:focus-visible{
     gap:6px;
     padding-top:9px
   }
-  .toolbar button,.toolbar select{
+  .toolbar select{
     padding:8px 7px
-  }
-  .wrap{
-    padding-top:5px
   }
   .phone{
     width:min(350px,96vw)
-  }
-  .phone{
-    padding:24px 22px 28px
   }
   .face{
     padding:14px 10px
@@ -274,16 +211,12 @@ button:focus-visible{
   .keys{
     gap:7px 10px
   }
-  .key{
-    min-height:38px
-  }
 }
 @media(min-height:900px){
   .phone{
     transform:scale(1.02)
   }
 }
-/* v0.4: LCD menus and proportional handset refinements on the original shell. */
 :root{
   --paper:#aabd83;
   --ink:#293e28;
@@ -358,9 +291,6 @@ body{
   z-index:3;
   background-image:repeating-linear-gradient(0deg,transparent 0 2px,#293e280a 2px 3px),repeating-linear-gradient(90deg,transparent 0 2px,#293e2807 2px 3px)
 }
-.lcd canvas{
-  aspect-ratio:320/244
-}
 .lcd [hidden]{
   display:none!important
 }
@@ -432,11 +362,6 @@ body{
   align-items:center;
   gap:8px
 }
-.boot strong{
-  font-family:Arial,sans-serif;
-  font-size:2.6em;
-  letter-spacing:2px
-}
 .boot span{
   font-size:.61em;
   letter-spacing:1px
@@ -485,19 +410,15 @@ body{
   font-size:.75em
 }
 .keys{
-  gap:8px 13px;
   margin-top:8px
 }
 .key{
-  min-height:34px;
   font-size:17px
 }
 .key.nav{
-  min-height:28px;
   font-size:13px
 }
 .softkey{
-  min-height:28px;
   font-size:17px
 }
 .status{
@@ -508,11 +429,7 @@ body{
 }
 .model-label{
   text-align:center;
-  color:#a6b7cc;
-  font:9px monospace;
-  letter-spacing:4px;
-  margin-top:16px;
-  opacity:.6
+  margin-top:16px
 }
 footer{
   text-align:center;
@@ -585,7 +502,7 @@ footer p{
   }
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{
+  *, *:before, *:after{
     animation:none!important;
     transition:none!important
   }
@@ -619,27 +536,22 @@ footer p{
     padding-top:24px
   }
 }
-/* v0.5: the profile and the device/fullscreen view are independent. */
 [hidden] { display: none !important; }
-.modern-only { display: none; }
-.modern .modern-only { display: block; }
 .comfort { margin: 14px 12px 0; text-align: center; font: 13px/1.6 monospace; color: #d2dfbd; }
-.key, .key.nav, .softkey { min-height: 44px; }
-.toolbar button { min-height: 44px; }
+.key, .key.nav, .softkey, .toolbar button { min-height: 44px; }
 .menu-item { overflow: hidden; text-overflow: ellipsis; }
-.modern .page-header h1 { display: none; }
-.modern .phone { width: min(460px, 94vw); }
-.modern.full .phone { width: min(1100px,96vw,max(720px,calc((100dvh - 190px) * 1.311475))); }
-.modern .toolbar { gap: 8px; max-width: 1000px; }
-.modern .toolbar button { padding: 10px 15px; font-size: 13px; }
-.modern #restart { background: #c9d4a2; color: #203026; border-color: #e5efbb; font-weight: bold; }
-.modern .screen { font-size: clamp(12px, 4.6cqw, 24px); }
-.modern .menu-content { overflow-y: auto; justify-content: flex-start; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: thin; scrollbar-color: var(--mid) var(--paper); }
-.modern .menu-item { flex-shrink: 0; min-height: 44px; padding: 8px !important; border-bottom: 1px solid var(--mid); }
-.modern .softlabels { align-items: center; }
-.modern .softlabels button { min-height: 44px; }
-.modern .full-controls .key { min-height: 52px; font-size: 15px; }
-.modern .lcd:has(.screen:not([hidden])) { touch-action: pan-y; }
+body .page-header h1 { display: none; }
+body .phone { width: min(460px, 94vw); }
+body.full .phone { width: min(1100px,96vw,max(720px,calc((100dvh - 190px) * 1.311475))); }
+body .toolbar { gap: 8px; max-width: 1000px; }
+body .toolbar button { padding: 10px 15px; font-size: 13px; }
+body .screen { font-size: clamp(12px, 4.6cqw, 24px); }
+body .menu-content { overflow-y: auto; justify-content: flex-start; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: thin; scrollbar-color: var(--mid) var(--paper); }
+body .menu-item { flex-shrink: 0; min-height: 44px; padding: 8px !important; border-bottom: 1px solid var(--mid); }
+body .softlabels { align-items: center; }
+body .softlabels button { min-height: 44px; }
+body .full-controls .key { min-height: 52px; font-size: 15px; }
+body .lcd:has(.screen:not([hidden])) { touch-action: pan-y; }
 dialog { width: min(420px, calc(100vw - 32px)); border: 3px solid var(--ink); padding: 22px; color: var(--ink); background: var(--paper); font: bold 15px/1.5 'Courier New', monospace; box-shadow: 0 14px 50px #0008; }
 dialog::backdrop { background: #09131bcc; }
 dialog h2 { font-size: 19px; margin: 0 0 12px; }
@@ -651,135 +563,66 @@ dialog p { margin: 0 0 20px; }
   .screen { font-size: clamp(11px, 5cqw, 24px); }
   .menu-content { overflow-y: auto; }
 }
-/* Modern has one primary action for each task; Classic keeps its original shortcuts. */
-.modern #start, .modern #resume, .modern #sound { display: none; }
-
-/* 0.5.1: compact Modern layout for retro handheld and fullscreen modes. */
 #more { display: none; }
 .more-actions { display: grid; gap: 10px; margin-bottom: 18px; }
 .more-actions button { min-height: 44px; padding: 10px; font: inherit; border: 2px solid var(--ink); color: var(--ink); background: var(--paper); }
 .more-actions button:focus-visible, .dialog-actions button:focus-visible { outline-color: var(--ink); }
 .key, .full-controls { touch-action: none; }
 @media (max-width: 600px), (max-width: 960px) and (max-height: 500px) {
-  body.modern {
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --safe-left: env(safe-area-inset-left, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
-    padding: max(4px, var(--safe-top)) max(6px, var(--safe-right)) max(6px, var(--safe-bottom)) max(6px, var(--safe-left));
-    min-height: 100svh;
-  }
-  .modern .page-header, .modern footer, .modern #comfort { display: none; }
-  .modern .toolbar {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.15fr .8fr;
-    width: 100%;
-    max-width: 540px;
-    padding: 0;
-    gap: 5px;
-    flex-shrink: 0;
-  }
-  .modern .toolbar > button { display: none; }
-  .modern .toolbar #pause, .modern .toolbar #menu, .modern .toolbar #view, .modern .toolbar #more { display: block; min-width: 0; min-height: 44px; padding: 6px 3px; font-size: 12px; }
-  .modern #pause { grid-column: 1; grid-row: 1; }
-  .modern #menu { grid-column: 2; grid-row: 1; }
-  .modern #view { grid-column: 3; grid-row: 1; }
-  .modern #more { grid-column: 4; grid-row: 1; }
-  .modern .phone { transform: none; }
-  .modern .wrap { padding: 6px 0 0; }
-  .modern .status { font-size: 10px; min-height: 20px; padding-top: 4px; line-height: 16px; }
-  .modern:not(.full) .phone {
-    width: min(380px, 100%);
-    padding: 14px 18px 16px;
-  }
-  .modern:not(.full) .speaker { margin-bottom: 6px; }
-  .modern:not(.full) .brand { font-size: 20px; margin-bottom: 6px; }
-  .modern:not(.full) .face { padding: 8px; }
-  .modern:not(.full) .screen-shell { padding: 6px; }
-  .modern:not(.full) .keys { gap: 5px 10px; margin-top: 5px; }
-  .modern:not(.full) .key { min-height: 44px; }
-  .modern:not(.full) .model-label { margin-top: 8px; }
-  /* Full view fits the available height. Extra space goes to the LCD, not margins. */
-  body.modern.full {
-    height: 100dvh;
-    min-height: 440px;
-    display: grid;
+  body .page-header, body footer, body #comfort { display: none; }
+  body #pause { grid-column: 1; grid-row: 1; }
+  body #menu { grid-column: 2; grid-row: 1; }
+  body #view { grid-column: 3; grid-row: 1; }
+  body #more { grid-column: 4; grid-row: 1; }
+  body.full {
     grid-template-rows: 44px minmax(0, 1fr) auto;
     justify-items: center;
-    align-items: stretch;
-    gap: 6px;
     overscroll-behavior-y: contain;
   }
-  .modern.full .toolbar { grid-row: 1; }
-  .modern.full .wrap {
+  body.full .toolbar { grid-row: 1; }
+  body.full .wrap {
     grid-row: 2;
-    width: 100%;
-    min-height: 0;
-    padding: 0;
-    container-type: size;
   }
-  .modern.full .phone {
-    width: min(100cqw, calc((100cqh - 24px - 28px) * 1.311475 + 28px));
-    min-width: 0;
-    align-self: center;
+  body.full .phone {
     padding: 0;
-    margin: 0;
   }
-  .modern.full .face { padding: 5px; border-radius: 10px; }
-  .modern.full .screen-shell { padding: 4px; }
-  .modern.full .lcd { box-sizing: content-box; aspect-ratio: 320 / 244; }
-  .modern.full .status { height: 24px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-  .modern.full .full-controls {
+  body.full .face { border-radius: 10px; }
+  body.full .lcd { box-sizing: content-box; aspect-ratio: 320 / 244; }
+  body.full .full-controls {
     grid-row: 3;
-    grid-template-columns: repeat(3, minmax(62px, 90px));
-    grid-template-rows: repeat(3, 48px);
-    gap: 6px;
-    margin: 0;
-    padding: 0 0 3px;
-    align-self: end;
   }
-  .modern.full .full-controls .key { min-height: 48px; padding: 0; font-size: 15px; }
-  .modern.full .full-controls .up { grid-column: 2; grid-row: 1; }
-  .modern.full .full-controls .left { grid-column: 1; grid-row: 2; }
-  .modern.full .full-controls .down { grid-column: 2; grid-row: 2; }
-  .modern.full .full-controls .right { grid-column: 3; grid-row: 2; }
-  .modern.full[data-scene=game] .full-controls { grid-template-rows: repeat(2, 48px); }
-  .modern.full[data-scene=game] .full-controls [data-act=back],
-  .modern.full[data-scene=game] .full-controls [data-act=ok],
-  .modern.full[data-scene=game] .full-controls [data-act=pause] { display: none; }
-  .modern.full[data-scene=game] .wrap { touch-action: none; }
+  body.full .full-controls .up { grid-column: 2; grid-row: 1; }
+  body.full .full-controls .left { grid-column: 1; grid-row: 2; }
+  body.full .full-controls .down { grid-column: 2; grid-row: 2; }
+  body.full .full-controls .right { grid-column: 3; grid-row: 2; }
+  body.full[data-scene=game] .full-controls [data-act=back], body.full[data-scene=game] .full-controls [data-act=ok], body.full[data-scene=game] .full-controls [data-act=pause] { display: none; }
+  body.full[data-scene=game] .wrap { touch-action: none; }
   dialog { max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); overflow-y: auto; }
 }
-/* Short portrait screens retain all real handset keys; compact trim saves space. */
 @media (max-width: 600px) and (max-height: 650px) {
-  .modern:not(.full) .phone { width: min(272px, 100%); padding: 6px 14px 8px; }
-  .modern:not(.full) .brand { line-height: 1; }
-  .modern:not(.full) .keys { gap: 3px 8px; }
-  .modern:not(.full) .model-label { display: none; }
-  .modern:not(.full) .face { padding: 5px; }
+  body:not(.full) .phone { width: min(272px, 100%); padding: 6px 14px 8px; }
+  body:not(.full) .brand { line-height: 1; }
+  body:not(.full) .keys { gap: 3px 8px; }
+  body:not(.full) .model-label { display: none; }
+  body:not(.full) .face { padding: 5px; }
 }
-/* Landscape: field and controls sit side by side, keeping both visible. */
 @media (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
-  body.modern.full { min-height: 280px; grid-template-columns: minmax(0, 1fr) 222px; grid-template-rows: 44px minmax(0, 1fr); }
-  .modern.full .toolbar { grid-column: 1 / -1; }
-  .modern.full .wrap { grid-column: 1; grid-row: 2; }
-  .modern.full .full-controls { grid-column: 2; grid-row: 2; grid-template-columns: repeat(3, 68px); align-self: center; }
+  body.full { min-height: 280px; }
+  body.full .toolbar { grid-column: 1 / -1; }
+  body.full .wrap { grid-column: 1; grid-row: 2; }
 }
-/* Short desktop windows also keep the board and controls in one view. */
 @media (min-width: 961px) and (max-height: 850px) {
-  body.modern.full { height: 100dvh; min-height: 480px; padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) 240px; grid-template-rows: 44px minmax(0, 1fr); gap: 8px; justify-items: center; align-items: stretch; }
-  .modern.full .page-header, .modern.full footer, .modern.full #comfort { display: none; }
-  .modern.full .toolbar { grid-column: 1 / -1; grid-row: 1; padding: 0; max-width: none; }
-  .modern.full .wrap { grid-column: 1; grid-row: 2; width: 100%; min-height: 0; padding: 0; container-type: size; }
-  .modern.full .phone { width: min(1100px, 100cqw, calc((100cqh - 52px) * 1.311475 + 28px)); min-width: 0; padding: 0; margin: 0; transform: none; }
-  .modern.full .face { padding: 5px; }
-  .modern.full .screen-shell { padding: 4px; }
-  .modern.full .lcd { box-sizing: content-box; aspect-ratio: 320 / 244; }
-  .modern.full .status { height: 24px; min-height: 24px; padding-top: 4px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-  .modern.full .full-controls { grid-column: 2; grid-row: 2; align-self: center; margin: 0; }
+  body.full { height: 100dvh; min-height: 480px; padding: 8px; display: grid; grid-template-columns: minmax(0, 1fr) 240px; grid-template-rows: 44px minmax(0, 1fr); gap: 8px; justify-items: center; align-items: stretch; }
+  body.full .page-header, body.full footer, body.full #comfort { display: none; }
+  body.full .toolbar { grid-column: 1 / -1; grid-row: 1; padding: 0; max-width: none; }
+  body.full .wrap { grid-column: 1; grid-row: 2; width: 100%; min-height: 0; padding: 0; container-type: size; }
+  body.full .phone { width: min(1100px, 100cqw, calc((100cqh - 52px) * 1.311475 + 28px)); min-width: 0; padding: 0; margin: 0; transform: none; }
+  body.full .face { padding: 5px; }
+  body.full .screen-shell { padding: 4px; }
+  body.full .lcd { box-sizing: content-box; aspect-ratio: 320 / 244; }
+  body.full .status { height: 24px; min-height: 24px; padding-top: 4px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  body.full .full-controls { grid-column: 2; grid-row: 2; align-self: center; margin: 0; }
 }
-
-/* v0.5.2: independent Bytecoil handheld, not a replica of any specific phone. */
 .phone {
   border-radius: 26px 26px 40px 40px;
   background: linear-gradient(145deg,#314d56 0%,#18333d 24%,#102c35 58%,#355663 100%);
@@ -794,27 +637,20 @@ dialog p { margin: 0 0 20px; }
 .keys { gap: 8px 11px; }
 .key { border-radius: 10px; border: 1px solid #15373d; background: linear-gradient(#dae7da,#95b0aa); color: #11343a; box-shadow: inset 0 2px 2px #fff9,0 3px 2px #071922; }
 .key.nav, .softkey { border-radius: 7px; background: linear-gradient(#c3dcc5,#7fa99e); }
-.key.pressed,.key:active { box-shadow: inset 0 2px 4px #486f6c; }
+.key.pressed, .key:active { box-shadow: inset 0 2px 4px #486f6c; }
 .key.green { color: #126f57; }
 .key.red { color: #ad492c; }
 .model-label { font: 8px/1.2 monospace; letter-spacing: 3px; color: #b4d2c3; opacity:.8; }
 .boot strong { font-family: 'Courier New',monospace; font-size: 2em; letter-spacing: 1px; }
 .boot-mark { font: bold 2.1em/1 monospace; letter-spacing:-2px; animation: boot-pulse .6s steps(2) 2; }
-/* Full display retains its frameless design while handheld style remains distinct. */
 .full .phone { border:0; border-radius:15px; background:none; box-shadow:none; }
 .full .phone:before { display:none; }
 @media (max-width: 600px), (max-width: 960px) and (max-height: 500px) {
-  .modern:not(.full) .brand { font-size:15px; line-height:1; margin-bottom:6px; }
-  .modern:not(.full) .speaker { margin-bottom:5px; }
-  .modern:not(.full) .keys { gap:5px 9px; }
+  body:not(.full) .speaker { margin-bottom:5px; }
 }
-
-/* 0.6.1: size the LCD content, excluding its border. Retain height when the
-   canvas is hidden behind menus. Fixed logical pixels; no composited handset scale. */
 .phone { transform: none; }
 .lcd { box-sizing: content-box; aspect-ratio: 320 / 244; }
 .lcd canvas { width: 100%; height: auto; aspect-ratio: 320 / 244; }
-/* v0.7: local achievements and controller status never intercept game input. */
 .achievement-icon { display:inline-grid; grid-template-columns:repeat(5,1fr); width:25px; height:25px; gap:1px; flex-shrink:0; vertical-align:middle; color:inherit; }
 .achievement-icon i { display:block; background:transparent; }
 .achievement-icon i.on { background:currentColor; }
@@ -826,41 +662,27 @@ dialog p { margin: 0 0 20px; }
 .controller-status { position:fixed; right:max(8px,env(safe-area-inset-right,0px)); bottom:max(6px,env(safe-area-inset-bottom,0px)); z-index:12; pointer-events:none; color:var(--ink); background:var(--paper); border:1px solid var(--ink); padding:3px 5px; font:10px monospace; }
 #achievement-detail .achievement-icon { width:40px; height:40px; margin-bottom:10px; }
 .full[data-show-controls=false][data-scene=game] .full-controls { display:none; }
-/* Layout choices only reposition the full-view D-pad; the handset keeps its keys. */
 @media (max-width:600px), (max-width:960px) and (max-height:500px) {
-  .modern.full { --pad-height:48px; }
-  .modern.full[data-key-size=large] { --pad-height:60px; }
-  .modern.full[data-touch-layout=ergonomic] { --pad-height:56px; }
-  .modern.full[data-touch-layout=ergonomic][data-key-size=large] { --pad-height:64px; }
-  .modern.full .full-controls { grid-template-rows:repeat(3,var(--pad-height)); }
-  .modern.full[data-scene=game] .full-controls { grid-template-rows:repeat(2,var(--pad-height)); }
-  .modern.full .full-controls .key { min-height:var(--pad-height); }
-  .modern.full[data-touch-layout=compact] .phone, .modern.full[data-touch-layout=ergonomic] .phone { align-self:end; }
-  .modern.full[data-touch-layout=compact] .wrap, .modern.full[data-touch-layout=ergonomic] .wrap { align-items:flex-end; }
-  .modern.full[data-touch-layout=ergonomic] .full-controls { grid-template-columns:repeat(3,minmax(64px,104px)); gap:8px; }
-  .modern.full[data-touch-layout=ergonomic] .full-controls .key { border-radius:18px; }
-  .modern:not(.full)[data-key-size=large] .key { min-height:48px; }
-  /* Large handset keys retain their size on short screens by reducing only trim/LCD width. */
+  body.full { --pad-height:48px; }
+  body.full[data-key-size=large] { --pad-height:60px; }
+  body.full[data-touch-layout=ergonomic] { --pad-height:56px; }
+  body.full[data-touch-layout=ergonomic][data-key-size=large] { --pad-height:64px; }
+  body.full[data-scene=game] .full-controls { grid-template-rows:repeat(2,var(--pad-height)); }
+  body.full[data-touch-layout=compact] .phone, body.full[data-touch-layout=ergonomic] .phone { align-self:end; }
+  body.full[data-touch-layout=compact] .wrap, body.full[data-touch-layout=ergonomic] .wrap { align-items:flex-end; }
+  body.full[data-touch-layout=ergonomic] .full-controls { grid-template-columns:repeat(3,minmax(64px,104px)); gap:8px; }
+  body.full[data-touch-layout=ergonomic] .full-controls .key { border-radius:18px; }
   @media (max-height:650px) and (orientation:portrait) {
-    .modern:not(.full)[data-key-size=large] .phone { width:min(244px,100%); padding-top:4px; padding-bottom:4px; }
-    .modern:not(.full)[data-key-size=large] .keys { gap:3px 7px; }
+    body:not(.full)[data-key-size=large] .phone { width:min(244px,100%); padding-top:4px; padding-bottom:4px; }
+    body:not(.full)[data-key-size=large] .keys { gap:3px 7px; }
   }
 }
-/* Landscape controls stay beside the field; align them with its lower edge. */
-@media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
-  .modern.full[data-touch-layout=compact] .full-controls, .modern.full[data-touch-layout=ergonomic] .full-controls { align-self:end; }
-  .modern.full[data-touch-layout=ergonomic] .full-controls { grid-template-columns:repeat(3,68px); gap:6px; }
-}
-/* Button size also applies to Classic; layout placement preserves the physical handset. */
 body[data-key-size=large]:not(.full) .phone .key { min-height:48px; }
 .full[data-key-size=large] .full-controls .key { min-height:60px; }
 .full[data-touch-layout=ergonomic] .full-controls .key { min-height:56px; }
 .full[data-touch-layout=ergonomic][data-key-size=large] .full-controls .key { min-height:64px; }
-
-/* v0.7.1: measured viewport budget; one contiguous field/control group.
-   Canvas pixels and the 0.6.1 LCD content-box/border reserve stay unchanged. */
 @media (max-width:600px), (max-width:960px) and (max-height:500px) {
-  body, body.modern, body.modern.full {
+  body, body.full {
     --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
     --safe-left:env(safe-area-inset-left,0px); --safe-right:env(safe-area-inset-right,0px);
     height:100dvh; min-height:0;
@@ -869,37 +691,33 @@ body[data-key-size=large]:not(.full) .phone .key { min-height:48px; }
     gap:clamp(4px,1dvh,8px); overscroll-behavior:contain;
   }
   .page-header, footer, #comfort { display:none!important; }
-  .toolbar, .modern .toolbar {
+  .toolbar {
     display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
     width:100%; max-width:none; padding:0; gap:4px; flex-shrink:0;
   }
-  .toolbar button, .modern .toolbar button { min-width:0; min-height:44px; padding:4px 2px; font-size:10px; }
-  .modern .toolbar { grid-template-columns:1fr 1fr 1.15fr .8fr; }
-  .wrap, .modern .wrap, .modern.full .wrap {
+  body .toolbar {
+    width:100%; max-width:none; padding:0; flex-shrink:0;
+  }
+  .toolbar button, body .toolbar button { min-width:0; min-height:44px; padding:4px 2px; font-size:10px; }
+  .wrap, body .wrap, body.full .wrap {
     width:100%; flex:0 0 auto; min-height:0; padding:0;
     container-type:normal; align-items:flex-start;
   }
-  .phone, .modern .phone, .full .phone, .modern.full .phone,
-  .modern:not(.full) .phone, .modern:not(.full)[data-key-size=large] .phone {
+  .phone, body .phone, .full .phone, body.full .phone, body:not(.full) .phone, body:not(.full)[data-key-size=large] .phone {
     width:var(--mobile-phone-width,100%); max-width:100%; min-width:0;
     margin:0; transform:none; transition:none; align-self:flex-start;
   }
-  body:not(.full) .phone { padding:8px 8px 10px; }
   body:not(.full) .speaker { height:5px; margin:0 auto 5px; }
   body:not(.full) .brand { font-size:15px; line-height:1; margin-bottom:5px; }
-  body:not(.full) .face, .full .face, .modern.full .face { padding:5px; }
-  body:not(.full) .screen-shell, .full .screen-shell, .modern.full .screen-shell { padding:4px; }
-  body:not(.full) .keys, .modern:not(.full)[data-key-size=large] .keys {
-    margin-top:5px; gap:4px 8px;
-  }
+  .full .face { padding:5px; }
+  .full .screen-shell { padding:4px; }
   body:not(.full) .key { min-height:44px; }
   body:not(.full)[data-key-size=large] .key { min-height:48px; }
-  .status, .modern .status, .modern.full .status, .full .status {
+  .status, body .status, body.full .status, .full .status {
     height:22px; min-height:22px; padding-top:3px; font-size:9px; line-height:16px;
     overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
   }
-  body:not(.full) .model-label { display:block; margin-top:6px; line-height:10px; }
-  .full .full-controls, .modern.full .full-controls {
+  .full .full-controls, body.full .full-controls {
     --pad-height:48px;
     flex:0 0 auto; margin:0; padding:0 0 3px; align-self:center;
     grid-template-columns:repeat(3,minmax(62px,90px)); grid-template-rows:repeat(3,var(--pad-height)); gap:6px;
@@ -907,88 +725,67 @@ body[data-key-size=large]:not(.full) .phone .key { min-height:48px; }
   .full[data-key-size=large] .full-controls { --pad-height:60px; }
   .full[data-touch-layout=ergonomic] .full-controls { --pad-height:56px; grid-template-columns:repeat(3,minmax(64px,104px)); gap:8px; }
   .full[data-touch-layout=ergonomic][data-key-size=large] .full-controls { --pad-height:64px; }
-  .full .full-controls .key, .modern.full .full-controls .key { min-height:var(--pad-height); padding:0; font-size:15px; }
+  .full .full-controls .key, body.full .full-controls .key { min-height:var(--pad-height); padding:0; font-size:15px; }
   .full .full-controls .up { grid-column:2; grid-row:1; }
   .full .full-controls .left { grid-column:1; grid-row:2; }
   .full .full-controls .down { grid-column:2; grid-row:2; }
   .full .full-controls .right { grid-column:3; grid-row:2; }
   .full[data-scene=game] .full-controls { grid-template-rows:repeat(2,var(--pad-height)); }
-  .full[data-scene=game] .full-controls [data-act=back],
-  .full[data-scene=game] .full-controls [data-act=ok],
-  .full[data-scene=game] .full-controls [data-act=pause] { display:none; }
+  .full[data-scene=game] .full-controls [data-act=back], .full[data-scene=game] .full-controls [data-act=ok], .full[data-scene=game] .full-controls [data-act=pause] { display:none; }
   .full[data-scene=game] .wrap { touch-action:none; }
 }
 @media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
-  body.full, body.modern.full {
+  body.full {
     display:grid; grid-template-columns:minmax(0,1fr) 222px;
     grid-template-rows:auto minmax(0,1fr); align-items:start; justify-items:center;
   }
   .toolbar { grid-template-columns:repeat(8,minmax(0,1fr)); }
   .full .toolbar { grid-column:1 / -1; grid-row:1; }
   .full .wrap { grid-column:1; grid-row:2; }
-  .full .full-controls, .modern.full .full-controls,
-  .modern.full[data-touch-layout=compact] .full-controls,
-  .modern.full[data-touch-layout=ergonomic] .full-controls {
+  .full .full-controls {
     grid-column:2; grid-row:2; align-self:start; grid-template-columns:repeat(3,68px); gap:6px;
+  }
+  body.full .full-controls, body.full[data-touch-layout=compact] .full-controls, body.full[data-touch-layout=ergonomic] .full-controls {
+    grid-column:2; grid-row:2; grid-template-columns:repeat(3,68px); gap:6px;
   }
   body:not(.full) .phone {
     display:grid; grid-template-columns:minmax(0,1fr) min(40%,240px);
-    grid-template-rows:auto auto auto; column-gap:10px; padding:6px 8px;
+    grid-template-rows:auto auto auto; column-gap:10px;
   }
-  body:not(.full) .speaker, body:not(.full) .model-label { display:none; }
-  body:not(.full) .brand { grid-column:1; grid-row:1; margin:0; text-align:center; }
+  body:not(.full) .speaker { display:none; }
+  body:not(.full) .brand { grid-column:1; grid-row:1; text-align:center; }
   body:not(.full) .face { grid-column:1; grid-row:2; width:var(--mobile-lcd-width,100%); max-width:100%; justify-self:center; }
   body:not(.full) .status { grid-column:1; grid-row:3; }
-  body:not(.full) .keys { grid-column:2; grid-row:1 / span 3; margin:0; align-self:start; }
+  body:not(.full) .keys { grid-column:2; grid-row:1 / span 3; align-self:start; }
 }
-/* Explicitly supersede earlier Modern handset trim at both short-screen breakpoints. */
 @media (max-width:600px), (max-width:960px) and (max-height:500px) {
-  body.modern:not(.full) .phone, body.modern:not(.full)[data-key-size=large] .phone { padding:8px 8px 10px; }
-  body.modern:not(.full) .face { padding:5px; }
-  body.modern:not(.full) .screen-shell { padding:4px; }
-  body.modern:not(.full) .keys, body.modern:not(.full)[data-key-size=large] .keys { margin-top:5px; gap:4px 8px; }
-  body.modern:not(.full) .model-label { display:block; margin-top:6px; line-height:10px; }
-  body.full .face { padding:3px; }
-  body.full .screen-shell { padding:2px; }
+  body:not(.full) .phone, body:not(.full)[data-key-size=large] .phone { padding:8px 8px 10px; }
+  body:not(.full) .face { padding:5px; }
+  body:not(.full) .screen-shell { padding:4px; }
+  body:not(.full) .keys, body:not(.full)[data-key-size=large] .keys { margin-top:5px; gap:4px 8px; }
+  body:not(.full) .model-label { display:block; margin-top:6px; line-height:10px; }
 }
 @media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
-  body.modern:not(.full) .phone, body.modern:not(.full)[data-key-size=large] .phone { padding:6px 8px; }
-  body.modern:not(.full) .keys { margin:0; }
-  body.modern:not(.full) .model-label { display:none; }
+  body:not(.full) .phone, body:not(.full)[data-key-size=large] .phone { padding:6px 8px; }
+  body:not(.full) .keys { margin:0; }
+  body:not(.full) .model-label { display:none; }
 }
 @media (max-width:600px) and (max-height:650px) and (orientation:portrait) {
-  body:not(.full) .phone, body.modern:not(.full) .phone, body.modern:not(.full)[data-key-size=large] .phone { padding:4px 8px; }
-  body:not(.full) .speaker, body:not(.full) .model-label, body.modern:not(.full) .model-label { display:none; }
-  body:not(.full) .brand, body.modern:not(.full) .brand { margin-bottom:3px; }
-  body:not(.full) .keys, body.modern:not(.full) .keys, body.modern:not(.full)[data-key-size=large] .keys { gap:3px 8px; }
-  body:not(.full) .status, body.modern:not(.full) .status { height:18px; min-height:18px; line-height:14px; }
-}
-@media (max-width:600px), (max-width:960px) and (max-height:500px) {
-  body.modern.full .face { padding:3px; }
-  body.modern.full .screen-shell { padding:2px; }
-}
-/* On very short landscape viewports the toolbar uses a side rail, so the
-   original three-column, five-row handset keyboard still fits at full size. */
-@media (min-width:501px) and (max-width:960px) and (max-height:380px) and (orientation:landscape) {
-  body:not(.full), body.modern:not(.full) {
-    display:grid; grid-template-columns:120px minmax(0,1fr); grid-template-rows:minmax(0,1fr); align-items:start;
-  }
-  body:not(.full) .toolbar, body.modern:not(.full) .toolbar { grid-column:1; grid-row:1; grid-template-columns:repeat(2,minmax(0,1fr)); }
-  body.modern:not(.full) .toolbar #pause, body.modern:not(.full) .toolbar #menu,
-  body.modern:not(.full) .toolbar #view, body.modern:not(.full) .toolbar #more { grid-column:auto; grid-row:auto; }
-  body:not(.full) .wrap { grid-column:2; grid-row:1; }
+  body:not(.full) .phone, body:not(.full)[data-key-size=large] .phone { padding:4px 8px; }
+  body:not(.full) .speaker, body:not(.full) .model-label { display:none; }
+  body:not(.full) .brand { margin-bottom:3px; }
+  body:not(.full) .keys, body:not(.full)[data-key-size=large] .keys { gap:3px 8px; }
+  body:not(.full) .status { height:18px; min-height:18px; line-height:14px; }
 }
 @media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
-  body.modern:not(.full) .brand { margin:0; }
+  body:not(.full) .brand { margin:0; }
 }
 @media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
-  body.modern:not(.full)[data-key-size=large] .keys { margin:0; }
+  body:not(.full)[data-key-size=large] .keys { margin:0; }
 }
-
-/* 0.7.2: one mobile action row for both profiles; secondary actions live in More. */
 @media (max-width:600px), (max-width:960px) and (max-height:500px) {
-  body .toolbar, body.modern .toolbar { display:grid; grid-template-columns:1fr 1fr 1.12fr .8fr; gap:4px; }
-  body .toolbar > button, body.modern .toolbar > button { display:none; }
+  body .toolbar { display:grid; grid-template-columns:1fr 1fr 1.12fr .8fr; gap:4px; }
+  body .toolbar > button { display:none; }
   body .toolbar #pause, body .toolbar #menu, body .toolbar #view, body .toolbar #more {
     display:block; grid-row:1; min-width:0; min-height:44px; padding:4px 2px; font-size:clamp(10px,2.8vw,12px);
   }
@@ -996,54 +793,37 @@ body[data-key-size=large]:not(.full) .phone .key { min-height:48px; }
   body .toolbar #menu { grid-column:2; }
   body .toolbar #view { grid-column:3; }
   body .toolbar #more { grid-column:4; }
-  body.full, body.modern.full { padding-left:max(2px,var(--safe-left)); padding-right:max(2px,var(--safe-right)); }
-  body.full .face, body.modern.full .face { padding:1px; }
-  body.full .screen-shell, body.modern.full .screen-shell { padding:1px; }
-  body.full { --control-drop:clamp(12px,calc((100dvh - 500px) * .10),48px); }
-  body.full[data-touch-layout=compact] { --control-drop:clamp(8px,calc((100dvh - 500px) * .06),32px); }
-  body.full[data-touch-layout=ergonomic] { --control-drop:clamp(12px,calc((100dvh - 500px) * .14),64px); }
-  body.full .full-controls, body.modern.full .full-controls { margin-top:var(--control-drop); }
+  body.full { padding-left:max(2px,var(--safe-left)); padding-right:max(2px,var(--safe-right)); }
+  body.full .full-controls { margin-top:0; }
   #more-panel { max-height:calc(100dvh - 16px - var(--safe-top) - var(--safe-bottom)); padding:16px; overscroll-behavior:contain; }
   #more-panel .more-actions { gap:6px; margin-bottom:10px; }
   #more-panel p { margin-bottom:12px; }
   #more-panel button { touch-action:manipulation; }
 }
 @media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
-  body.full .full-controls, body.modern.full .full-controls,
-  body.modern.full[data-touch-layout=compact] .full-controls, body.modern.full[data-touch-layout=ergonomic] .full-controls { align-self:center; margin-top:0; }
+  body.full .full-controls, body.full[data-touch-layout=compact] .full-controls, body.full[data-touch-layout=ergonomic] .full-controls { align-self:center; margin-top:0; }
 }
-/* Ultra-short landscape retains all 15 real handset keys. The single toolbar row
-   shares the handset's upper-left space, above the LCD and beside the keypad. */
 @media (min-width:501px) and (max-width:960px) and (max-height:380px) and (orientation:landscape) {
-  body:not(.full), body.modern:not(.full) { display:flex; position:relative; }
-  body:not(.full) .toolbar, body.modern:not(.full) .toolbar {
+  body:not(.full) { display:flex; position:relative; }
+  body:not(.full) .toolbar {
     position:absolute; z-index:4; width:var(--handset-toolbar-width,55%);
     left:var(--handset-toolbar-left,16px); top:var(--handset-toolbar-top,12px);
     grid-template-columns:1fr 1fr 1.12fr .8fr;
   }
-  body:not(.full) .toolbar #pause, body.modern:not(.full) .toolbar #pause { grid-column:1; grid-row:1; }
-  body:not(.full) .toolbar #menu, body.modern:not(.full) .toolbar #menu { grid-column:2; grid-row:1; }
-  body:not(.full) .toolbar #view, body.modern:not(.full) .toolbar #view { grid-column:3; grid-row:1; }
-  body:not(.full) .toolbar #more, body.modern:not(.full) .toolbar #more { grid-column:4; grid-row:1; }
-  body:not(.full) .brand, body.modern:not(.full) .brand { padding-top:44px; font-size:12px; line-height:12px; margin:0; }
-  body:not(.full) .status, body.modern:not(.full) .status { min-height:18px; height:18px; line-height:14px; }
+  body:not(.full) .toolbar #pause { grid-column:1; grid-row:1; }
+  body:not(.full) .toolbar #menu { grid-column:2; grid-row:1; }
+  body:not(.full) .toolbar #view { grid-column:3; grid-row:1; }
+  body:not(.full) .toolbar #more { grid-column:4; grid-row:1; }
+  body:not(.full) .brand { padding-top:44px; font-size:12px; line-height:12px; margin:0; }
+  body:not(.full) .status { min-height:18px; height:18px; line-height:14px; }
 }
+
+/* Unified fullscreen: preserve the LCD ratio; place thumb controls above the safe area. */
 @media (max-width:600px), (max-width:960px) and (max-height:500px) {
-  /* Classic gains a toolbar row: keep its D-pad lower as well as growing the LCD. */
-  body.full:not(.modern) { --control-drop:calc(40px + clamp(12px,calc((100dvh - 500px) * .10),48px)); }
-  body.full:not(.modern)[data-touch-layout=compact] { --control-drop:calc(40px + clamp(8px,calc((100dvh - 500px) * .06),32px)); }
-  body.full:not(.modern)[data-touch-layout=ergonomic] { --control-drop:calc(40px + clamp(12px,calc((100dvh - 500px) * .14),64px)); }
+  body.full .face, body.full .screen-shell { padding:0; }
 }
-/* Keep the complete Classic toolbar on short desktop windows, using the same
-   field/control columns already provided by Modern. */
-@media (min-width:961px) and (max-height:850px) {
-  body.full:not(.modern) { height:100dvh; min-height:480px; padding:8px; display:grid; grid-template-columns:minmax(0,1fr) 240px; grid-template-rows:44px minmax(0,1fr); gap:8px; justify-items:center; align-items:stretch; }
-  .full:not(.modern) .page-header, .full:not(.modern) footer { display:none; }
-  .full:not(.modern) .toolbar { grid-column:1 / -1; grid-row:1; padding:0; max-width:none; }
-  .full:not(.modern) .wrap { grid-column:1; grid-row:2; width:100%; min-height:0; padding:0; container-type:size; }
-  .full:not(.modern) .phone { width:min(1100px,100cqw,calc((100cqh - 52px) * 1.311475 + 28px)); min-width:0; margin:0; }
-  .full:not(.modern) .face { padding:5px; }
-  .full:not(.modern) .screen-shell { padding:4px; }
-  .full:not(.modern) .status { height:24px; min-height:24px; padding-top:4px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
-  .full:not(.modern) .full-controls { grid-column:2; grid-row:2; align-self:center; margin:0; }
+@media (max-width:600px) and (orientation:portrait) {
+  body.full { padding-bottom:max(12px,var(--safe-bottom)); }
+  body.full .full-controls { margin-top:auto; }
+  body.full[data-touch-layout=compact] .full-controls { grid-template-columns:repeat(3,minmax(62px,80px)); }
 }

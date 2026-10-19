@@ -1,10 +1,10 @@
-# Spielmodi – Bytecoil 0.6
+# Spielmodi – Bytecoil 0.7.3
 
-Darstellungsprofile **Classic/Modern** verändern die Oberfläche. Die Spielmodi **Classic Snake, Zen Mode, Time Attack, Challenge Mode** verändern die Regeln. Handy/Vollbild, LCD-Thema, Sound und Vibration bleiben unabhängig davon.
+Seit 0.7.3 gibt es eine einheitliche Oberfläche. **Classic Snake, Zen Mode, Time Attack und Challenge Mode** bleiben unveränderte Spielmodi. Handy/Vollbild, LCD-Thema, Sound und Vibration sind davon unabhängig.
 
 ## Auswahl und Fortsetzen
 
-Hauptmenü → Spiele → Modus auswählen → Neues Spiel. Time Attack bietet zusätzlich „Zeitlimit“, Challenge Mode „Herausforderung“. Bei einer laufenden/pausierten Partie wird ein neuer Start bestätigt. Die Modusauswahl allein ersetzt keine Partie. „Spiel fortsetzen“ setzt immer die tatsächlich gespeicherte Sitzung fort, auch wenn inzwischen ein anderer Modus für das nächste Spiel ausgewählt ist. Der aktive Modus steht im Canvas-Kopf; zusätzliche Informationen stehen in dessen zweiter Zeile und im Modern-Komfortbereich, wenn Platz vorhanden ist.
+Hauptmenü → Spiele → Modus auswählen → Neues Spiel. Time Attack bietet zusätzlich „Zeitlimit“, Challenge Mode „Herausforderung“. Bei einer laufenden/pausierten Partie wird ein neuer Start bestätigt. Die Modusauswahl allein ersetzt keine Partie. „Spiel fortsetzen“ setzt immer die tatsächlich gespeicherte Sitzung fort, auch wenn inzwischen ein anderer Modus für das nächste Spiel ausgewählt ist. Der aktive Modus steht im Canvas-Kopf; zusätzliche Informationen stehen in dessen zweiter Zeile und im Komfortbereich, wenn Platz vorhanden ist.
 
 ## Classic Snake
 

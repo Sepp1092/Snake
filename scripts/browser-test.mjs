@@ -1,5 +1,5 @@
 import { toolbarAction } from './toolbar-action.mjs';
-import { chromium, webkit } from '@playwright/test';
+import { chromium, webkit, expect } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile, mkdtemp, rm } from 'node:fs/promises';
@@ -12,6 +12,7 @@ import { testEdges } from './edge-test.mjs';
 import { testV07 } from './v07-test.mjs';
 import { testV071 } from './v071-test.mjs';
 import { testV072 } from './v072-test.mjs';
+import { testV073 } from './v073-test.mjs';
 
 await mkdir('test-results', { recursive: true });
 const root = path.resolve('dist');
@@ -63,7 +64,7 @@ async function frozenPage(context, seed) {
 }
 try {
   browser = await chromium.launch({ headless: true, channel });
-  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) {
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
@@ -170,14 +171,14 @@ try {
     const after = await snapshot(page); assert.equal(after.beat, 0); assert.equal(after.score, 0); assert.equal(after.bonus, null);
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
   });
-  await check('Profile and view are independent; Modern themes and defaults preserve round and record', async () => {
+  await check('Unified view, LCD themes and defaults preserve round and record', async () => {
     await page.locator('#pause').click(); const before = await snapshot(page);
     await page.evaluate(() => localStorage.setItem('snake3310_best', '150'));
-    await toolbarAction(page, 'profile', false);
-    assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('#profile,#more-profile').count(),0);
+    assert.equal(await page.locator('#profile,#more-profile').count(),0);
     assert.equal(await page.locator('#view').getAttribute('aria-pressed'), 'true');
     await page.locator('#view').click();
-    assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('#profile,#more-profile').count(),0);
     assert.equal(await page.locator('#view').getAttribute('aria-pressed'), 'false');
     await toolbarAction(page, 'settings', false);
     await page.locator('.menu-item').filter({ hasText: 'LCD-Darstellung' }).click();
@@ -194,7 +195,7 @@ try {
     assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_vibration')), 'true');
     await page.locator('.menu-item').filter({ hasText: 'Standardeinstellungen' }).click();
     await page.locator('#confirm-yes').click();
-    assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'false');
+    assert.equal(await page.locator('#profile,#more-profile').count(),0);
     assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_best')), '150');
     assert.deepEqual(await snapshot(page), before);
     assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_lcd')), 'olive');
@@ -244,8 +245,8 @@ try {
     assert.ok(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await phone.screenshot({ path: 'test-results/mobile-full-320.png', fullPage: true });
   });
-  await check('Mobile Modern: scrollable settings, large targets, profile independent of full view', async () => {
-    await toolbarAction(phone, 'profile', true); await phone.locator('#more').tap(); await phone.locator('#more-settings').tap();
+  await check('Mobile unified UI: scrollable settings, large targets and independent view', async () => {
+    assert.equal(await phone.locator('#profile,#more-profile').count(),0); await phone.locator('#more').tap(); await phone.locator('#more-settings').tap();
     assert.equal(await phone.locator('#view').getAttribute('aria-pressed'), 'true');
     await phone.locator('.menu-item').filter({ hasText: 'Vibration' }).tap();
     await phone.locator('.menu-item').filter({ hasText: 'Aus' }).tap();
@@ -325,17 +326,27 @@ try {
   await check('PWA update waits without interrupting round; new activation preserves snapshot and highscore', async () => {
     await update.evaluate(() => localStorage.setItem('snake3310_best', '330'));
     await toolbarAction(update, 'resume', false); const before = await snapshot(update);
+    await update.waitForFunction(()=>!!navigator.serviceWorker.controller);
+    await update.evaluate(()=>window.previousWorker=navigator.serviceWorker.controller);
     workerRevision++;
     await update.evaluate(async () => { const r = await navigator.serviceWorker.ready; await r.update(); });
-    await update.waitForFunction(async () => !!(await navigator.serviceWorker.getRegistration()).waiting);
+    // waitForFunction does not await async predicates in this Playwright version.
+    // Poll on the Node side and capture the worker state in the same browser task.
+    await expect.poll(()=>update.evaluate(async()=>{
+      const worker=(await navigator.serviceWorker.getRegistration())?.waiting;
+      return navigator.serviceWorker.controller===window.previousWorker?worker?.state:null;
+    }),{timeout:30000}).toBe('installed');
+    assert.equal(await update.evaluate(()=>navigator.serviceWorker.controller===window.previousWorker),true);
     assert.equal(await update.locator('#lcd').getAttribute('data-phase'), 'playing');
     assert.deepEqual(await snapshot(update), before);
-    const waiting = await update.evaluate(async () => (await navigator.serviceWorker.getRegistration()).waiting.state); assert.equal(waiting, 'installed');
     await update.locator('#pause').click(); const paused = await snapshot(update);
     await update.goto('about:blank');
     // A newly opened uncontrolled page lets us await activation without arbitrary sleeps.
     const probe = await upgrade.newPage(); await probe.goto(url + '/probe.html');
-    await probe.waitForFunction(async () => (await caches.keys()).some(k => k.endsWith('-qa1')) && !(await navigator.serviceWorker.getRegistration('/snake/'))?.waiting);
+    await expect.poll(()=>probe.evaluate(async()=>{
+      const keys=await caches.keys(),registration=await navigator.serviceWorker.getRegistration('/snake/');
+      return keys.some(k=>k.endsWith('-qa1'))&&!registration?.waiting&&registration?.active?.state==='activated'&&!keys.some(k=>k.startsWith('snake3310-/snake/')&&!k.endsWith('-qa1'));
+    }),{timeout:30000}).toBe(true);
     await probe.close(); await update.goto(url + '/snake/'); await update.clock.runFor(1800);
     assert.deepEqual(await snapshot(update), paused); assert.equal(await update.locator('#lcd').getAttribute('data-phase'), 'paused');
     assert.equal(await update.evaluate(() => localStorage.getItem('snake3310_best')), '330');
@@ -368,7 +379,7 @@ try {
       await page.locator('#view').click();
       assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
       assert.deepEqual(await snapshot(page), before);
-      assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'true');
+      assert.equal(await page.locator('#profile,#more-profile').count(),0);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       if (small && height > width) {
         assert.ok(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1), `Handy portrait height at ${width}×${height}`);
@@ -506,7 +517,7 @@ try {
       await page.waitForFunction(() => !!navigator.serviceWorker.controller);
       await context.setOffline(true); await page.reload(); await page.clock.runFor(1800);
       assert.deepEqual(await snapshot(page), before); assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
-      await toolbarAction(page, 'profile', false); await page.locator('#view').click();
+      assert.equal(await page.locator('#profile,#more-profile').count(),0); await page.locator('#view').click();
       await page.screenshot({ path: `test-results/v06-time-${duration}-mobile.png`, fullPage: true });
       await page.locator('#pause').click(); await page.clock.runFor(2000);
       assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'over'); assert.equal(await snapshot(page), null);
@@ -575,7 +586,7 @@ try {
     await page.getByRole('button', { name: '2 Nach oben', exact: true }).tap(); await select();
     assert.equal(await page.locator('#lcd').getAttribute('data-game-mode'), 'timeAttack');
     assert.equal((await snapshot(page)).run.duration, 60);
-    assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'false');
+    assert.equal(await page.locator('#profile,#more-profile').count(),0);
     assert.equal(await page.locator('#view').getAttribute('aria-pressed'), 'false');
     await context.close();
   });
@@ -598,9 +609,10 @@ try {
     await context.close();
   });
   }
-  if (!process.argv.includes('--v072-only')) await testV071({ browser, check, frozenPage, modeFixture, layouts });
-  if (!process.argv.includes('--layout-only')) await testV072({ browser, check, frozenPage, modeFixture, layouts });
-  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) {
+  if (!process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) await testV071({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v073-only')) await testV072({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) await testV073({browser,check,frozenPage,modeFixture,layouts});
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) {
   await testEdges({ browser, check, frozenPage, modeFixture, layouts });
   await testV07({ browser, check, frozenPage, modeFixture, layouts });
   await testEdges({ browser, check, frozenPage, modeFixture, layouts, touchLayouts: ['compact','ergonomic'] });
@@ -608,12 +620,13 @@ try {
   if (process.env.TEST_WEBKIT === 'true' || process.argv.includes('--webkit')) {
     const safari = await webkit.launch({ headless: true });
     try {
-      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) {
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) {
       await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit', touchLayouts: ['standard','compact','ergonomic'] });
       await testV07({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
       }
-      if (!process.argv.includes('--v072-only')) await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
-      if (!process.argv.includes('--layout-only')) await testV072({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v073-only')) await testV072({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) await testV073({browser:safari,check,frozenPage,modeFixture,layouts,engine:'webkit'});
     }
     finally { await safari.close(); }
   }

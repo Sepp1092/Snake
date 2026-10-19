@@ -1,4 +1,8 @@
-# Screenshots – Bytecoil 0.7.2
+# Screenshots – Bytecoil 0.7.3
+
+## 0.7.3 – Einheitliche Oberfläche
+
+[28 Vorher-/Nachher-Bilder mit Messdaten](UNIFIED_UI_V073.md#vorhernachher): Handy und Vollbild, jeweils aktiv, pausiert, Hauptmenü, Mehr-Menü, Achievements und Einstellungen. Gleiche isolierte Testdaten, keine Benutzerdaten.
 
 ## 0.7.2 – Adaptive Toolbar und Vollbild
 

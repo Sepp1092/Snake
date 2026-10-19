@@ -1,10 +1,10 @@
-# Bytecoil – Retro Snake 0.7.2
+# Bytecoil – Retro Snake 0.7.3
 
-Weiterentwicklung von **v0.7.1** mit einzeiliger Smartphone-Toolbar in beiden Profilen und Ansichten, größerem Vollbild-LCD und tiefer liegenden Richtungstasten. [Änderungen, Messwerte, Vergleichsbilder und Grenzen](docs/MOBILE_TOOLBAR_V072.md). Die zwölf lokalen Achievements, Gamepad-Steuerung und anpassbaren Touch-Layouts bleiben erhalten. Classic Snake, Zen, Time Attack und Challenges, Rekorde, Statistiken und Offline-PWA bleiben erhalten. Eine gemeinsame Engine, keine neuen Frameworks, keine Anmeldung und keine externen Laufzeitdienste.
+Weiterentwicklung von **v0.7.2** mit einer einheitlichen, touchfreundlichen Retro-Oberfläche: keine Darstellungsprofil-Auswahl, LCD ohne Akkuzeichen und größerem Vollbild-LCD mit unten erreichbarer Touch-Steuerung. Handy/Vollbild und alle vier Spielmodi bleiben erhalten. [Änderungen, Migration, Messwerte und Vergleichsbilder](docs/UNIFIED_UI_V073.md). Keine neuen Frameworks, externen Dienste oder Abhängigkeiten.
 
 Das LCD behält 320 × 244 logische Pixel mit Randreserve und 26 × 17 Spielfeldzellen. Spieltempo, Kollisionsregeln und alte Speicherformate bleiben kompatibel. [LCD- und Randtests](docs/LCD.md).
 
-**Entwicklungsstand:** Branch `feature/v0.7.2-mobile-toolbar`, Basis `main` auf `3a44d40` (v0.7.1). Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Freigabe über einen Draft-PR; kein automatischer Merge und kein Pages-Deployment.
+**Entwicklungsstand:** Branch `feature/v0.7.3-unified-ui`, Basis `main` auf `40b5342` (v0.7.2). Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Freigabe über einen Draft-PR; kein automatischer Merge und kein Pages-Deployment.
 
 [Achievements](docs/ACHIEVEMENTS.md) · [Controller und Touch-Layouts](docs/CONTROLLER.md) · [Spielmodi und Bedienung](docs/MODES.md) · [Speicherformat und Migration](docs/STORAGE.md) · [Tests](docs/TESTS.md) · [Neue Screenshots](docs/SCREENSHOTS.md)
 
@@ -13,13 +13,13 @@ Das LCD behält 320 × 244 logische Pixel mit Randreserve und 26 × 17 Spielfeld
 
 Zwölf lokale Achievements mit Pixel-Symbolen, Fortschritt und nicht blockierenden Meldungen. Im Hauptmenü **Achievements** öffnen; historische Daten werden nur mit Nachweis übernommen. Standardisierte Bluetooth-/USB-Gamepads bedienen Spiel, Menüs und Dialoge über die Gamepad API. Ohne diese API bleiben Tastatur und Touch verfügbar.
 
-Unter **Einstellungen**: Touch-Layout Standard/Kompakt/Ergonomisch, Tastengröße Normal/Groß, Vollbild-Steuerkreuz ausblenden, Controller und Erfolgsmeldungen aktivieren/deaktivieren. Kompakt und Ergonomisch bringen im mobilen Modern-Vollbild die Richtungstasten näher an das LCD. Darstellungsprofile und Spielmodi bleiben unabhängig; das virtuelle Handy behält seine Tastatur. Keine Änderung an Engine, Rekorden, Snapshotformat oder logischer LCD-Auflösung.
+Unter **Einstellungen**: Touch-Layout Standard/Kompakt/Ergonomisch, Tastengröße Normal/Groß, Vollbild-Steuerkreuz ausblenden, Controller und Erfolgsmeldungen aktivieren/deaktivieren. Alle drei Layouts verankern die Richtungstasten im Smartphone-Hochformat unten. Kompakt verkürzt die horizontale Reichweite, Ergonomisch vergrößert die Tasten. Das virtuelle Handy behält seine vollständige Tastatur. Keine Änderung an Engine, Rekorden, Snapshotformat oder logischer LCD-Auflösung.
 
 ## Bestehende Spielmodi
 
 Hauptmenü → Spiele: **Classic Snake** behält die bisherigen Regeln; **Zen Mode** setzt die Schlange nach Kollision sicher zurück und erhält die Sitzungspunkte; **Time Attack** bietet 60/120/180 aktive Sekunden; **Challenge Mode** bietet Food Hunter, Survivor und Maze Master mit festen Regeln und lokalem Abschlussstatus. Vor dem Challenge-Start wird das Ziel erklärt.
 
-Hauptmenü → **Statistik**: Die erste Zeile wechselt zwischen Gesamt und den vier Modi. **Highscores** zeigt Classic, die drei Time-Attack-Rekorde und Challenge-Abschlüsse. Zen hat bewusst keine kompetitive Rangliste. Profile Classic/Modern und Handy/Vollbild betreffen weiterhin nur die Darstellung.
+Hauptmenü → **Statistik**: Die erste Zeile wechselt zwischen Gesamt und den vier Modi. **Highscores** zeigt Classic, die drei Time-Attack-Rekorde und Challenge-Abschlüsse. Zen hat bewusst keine kompetitive Rangliste. Handy/Vollbild und LCD-Farben betreffen nur die Darstellung. **Classic Snake ist weiterhin ein Spielmodus**, kein Darstellungsprofil.
 
 Version-1-Spielstände aus v0.5.2 werden pausiert als Classic übernommen und beim nächsten Sichern in Version 2 geschrieben. Der alte Classic-Rekord bleibt unter `snake3310_best`. Eine stabile Sitzungs-ID und fortlaufende Checkpoints verhindern Doppelzählung beim Neuladen. Historische Gesamtstatistiken vor v0.6 können nicht nachträglich rekonstruiert werden.
 
@@ -49,7 +49,7 @@ Der Browsertest nutzt unter Windows vorhandenes Chrome, sonst Playwright Chromiu
 
 Nach dem Startbildschirm: **Menü → Spiele → Classic Snake → Neues Spiel**. Die obere Schaltfläche „Neues Spiel“ startet direkt. Menüeinträge sind auch antippbar.
 
-Auf Smartphones in Classic und Modern: **Pause/Weiter · Menü · Handy/Vollbild · Mehr** in einer Zeile. **Mehr** enthält Neues Spiel/Neustart, Profil Classic/Modern, Ton und Einstellungen/Komfortfunktionen. Desktop behält die vollständige Toolbar.
+Auf Smartphones: **Pause/Weiter · Menü · Handy/Vollbild · Mehr** in einer Zeile. **Mehr** enthält Neues Spiel/Neustart, Ton und Einstellungen/Komfortfunktionen. Desktop behält die vollständige Toolbar.
 
 Mehr hält eine laufende Partie vorübergehend an und setzt sie beim Schließen fort; eine zuvor pausierte Partie bleibt pausiert. Gepufferte Richtungen und die verbleibende Zeit bis zum nächsten Schritt bleiben erhalten. Nach einem Browser-/Fokuswechsel wird bewusst manuell fortgesetzt. Tab, Pfeile, Home/End, Enter und Escape bedienen das Mehr-Menü ebenso wie Touch und Maus. Ein ausdrücklich gewählter Neustart benötigt weiterhin eine Bestätigung.
 
@@ -76,7 +76,7 @@ Neun Spielstufen, drei Labyrinthe (Frei, Box, Kreuz), Durchgang oder tödliche R
 
 **Smartphones:** Die Modern-Toolbar belegt eine Zeile mit vier direkt erreichbaren Aktionen. Profilwechsel, Neustart und Einstellungen stehen unter „Mehr“; das Öffnen pausiert die Partie. Kopfbereich, Fußtexte und doppelte Aktionen entfallen auf kleinen Displays. In der großen Spielansicht passen Spielfeld und vier 48-Pixel-Richtungstasten gemeinsam in das Fenster. Im Querformat stehen sie nebeneinander. Safe Areas und dynamische Viewport-Höhen sind berücksichtigt. Klassische Retro-Handy-Optik und Zahlentasten bleiben verfügbar.
 
-**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die mobile Handy- und Vollbildansicht werden in Classic und Modern an Breite und Höhe angepasst. Auf kurzen Querformat-Displays sitzen LCD und die vollständige Handy-Tastatur nebeneinander; bei höchstens 380 Pixel Höhe steht die einzeilige Toolbar oberhalb des LCDs neben der Tastatur. Details und Grenzen: [Mobile Toolbar 0.7.2](docs/MOBILE_TOOLBAR_V072.md). [Screenshots und Messwerte](docs/SCREENSHOTS.md).
+**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die einheitliche Handy- und Vollbildansicht werden an Breite und Höhe angepasst. Auf kurzen Querformat-Displays sitzen LCD und die vollständige Handy-Tastatur nebeneinander; bei höchstens 380 Pixel Höhe steht die einzeilige Toolbar oberhalb des LCDs neben der Tastatur. Details und Grenzen: [Einheitliche Oberfläche 0.7.3](docs/UNIFIED_UI_V073.md). [Screenshots und Messwerte](docs/SCREENSHOTS.md).
 
 **PWA-Release vorbereitet:** [.github/workflows/pages.yml](.github/workflows/pages.yml) installiert reproduzierbar per Lockdatei, prüft Unit-Tests, TypeScript, Build und Browser-/Offline-Tests. Pushes und Pull Requests veröffentlichen nichts. Erst ein manuell gestarteter Workflow mit ausdrücklich aktivierter Veröffentlichung lädt ausschließlich `dist/` zu GitHub Pages. Die GitHub-Pages-Bereitstellung erfordert eine gesonderte Freigabe; vorhandene Bereitstellungen müssen nach einem Commit aktualisiert werden. [Schritt-für-Schritt-Anleitung](docs/GITHUB_PAGES.md) und [Installation auf Android, iPhone und Windows](docs/PWA.md#installation-auf-android-iphone-und-windows).
 
@@ -120,7 +120,7 @@ Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte
 
 ## Qualität und Veröffentlichung
 
-Ergebnis: **72/72 Unit-Tests, 94/94 Chromium-Szenarien und 148/148 im kombinierten Chromium-/WebKit-Lauf** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
+Ergebnis: **76/76 Unit-Tests, Produktionsbuild und 168/168 Browser-Szenarien** (104 Chromium, 64 WebKit), keine Seitenfehler. [Testbericht 0.7.3](docs/TESTS.md). Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 
