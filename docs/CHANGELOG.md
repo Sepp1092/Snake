@@ -1,5 +1,14 @@
 # Changelog – Bytecoil – Retro Snake
 
+## 0.7.2 – Fullscreen Optimization & Adaptive Toolbar (19. Oktober 2026)
+
+- Einzeilige Smartphone-Toolbar mit Pause/Weiter, Menü, Handy/Vollbild und Mehr; Classic/Modern, Hoch-/Querformat und beide Ansichten. Vollständige Toolbar auf Desktop erhalten.
+- Mehr enthält gemeinsame Aktionen für Neues Spiel/Neustart, Profil in beide Richtungen, Ton sowie Einstellungen/Komfort. Synchronisierte Zustände, native Tastatur-/Touch-/Mausbedienung und vorhandene Controller-Dialogbedienung.
+- Vorübergehende Menüpause bewahrt Partie, akzeptierten Richtungspuffer und Restzeit bis zum nächsten Schritt. Schließen stellt den vorherigen Zustand wieder her; Browserwechsel verhindert automatisches Fortsetzen.
+- Mobile Vollbildrahmen reduziert: 14 CSS-Pixel mehr LCD-Breite im geprüften Hochformat. Richtungstasten nutzen freie Höhe darunter; Safe Areas, drei Touch-Layouts und beide Tastengrößen bleiben berücksichtigt.
+- Sehr niedriges Handy-Querformat erhält eine einzelne Toolbar-Zeile oberhalb des LCDs neben der vollständigen Zifferntastatur. Classic-Desktop-Vollbild passt auch in 1366×768.
+- Keine Änderung an Engine, LCD-Bitmap, Randreserve, Speicherformat, Achievements oder Controller-Modul; keine neuen Abhängigkeiten. Ergänzte Regressionen und [Vorher-/Nachher-Bericht](MOBILE_TOOLBAR_V072.md). Kein automatischer Merge oder Pages-Deployment.
+
 ## 0.7.1 – Mobile Layout Optimization (19. Oktober 2026, lokal)
 
 - Gemessene mobile Höhenberechnung statt fester Handybreiten und großer Vollbild-Restflächen; Safe Areas, tatsächliche Menüleisten-/Tastenhöhen und dynamische Viewports berücksichtigen.

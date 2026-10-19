@@ -1,3 +1,4 @@
+import { toolbarAction } from './toolbar-action.mjs';
 import { chromium, webkit } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
@@ -10,6 +11,7 @@ import { capture } from '../src/snapshot.ts';
 import { testEdges } from './edge-test.mjs';
 import { testV07 } from './v07-test.mjs';
 import { testV071 } from './v071-test.mjs';
+import { testV072 } from './v072-test.mjs';
 
 await mkdir('test-results', { recursive: true });
 const root = path.resolve('dist');
@@ -61,7 +63,7 @@ async function frozenPage(context, seed) {
 }
 try {
   browser = await chromium.launch({ headless: true, channel });
-  if (!process.argv.includes('--layout-only')) {
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
@@ -87,7 +89,7 @@ try {
     await page.keyboard.press('ArrowDown'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
   });
   await check('Gameplay: start, buffered turns, pause, resume, restart', async () => {
-    await page.locator('#start').click();
+    await toolbarAction(page, 'start', false);
     await page.evaluate(() => document.activeElement.blur());
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
     await page.keyboard.press('ArrowUp'); await page.keyboard.press('ArrowLeft');
@@ -103,7 +105,7 @@ try {
     assert.equal(await page.locator('canvas').evaluate(c => c.toDataURL()), paused);
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
-    await page.locator('#start').click();
+    await toolbarAction(page, 'start', false);
     await page.locator('#confirm').waitFor({ state: 'visible' });
     await page.locator('#confirm-yes').click();
     assert.match(await page.locator('#status').textContent(), /Punkte: 0/);
@@ -123,7 +125,7 @@ try {
   await check('Fullscreen view and saved preferences', async () => {
     await page.locator('#view').click();
     assert.equal(await page.locator('body').evaluate(e => e.classList.contains('full')), true);
-    await page.locator('#sound').click();
+    await toolbarAction(page, 'sound', false);
     assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_sound')), 'false');
     await page.screenshot({ path: 'test-results/desktop-full.png', fullPage: true });
     await page.reload(); await page.clock.runFor(1800);
@@ -138,7 +140,7 @@ try {
     await context.setOffline(true);
     await page.reload(); await page.clock.runFor(1800);
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
-    await page.locator('#resume').click();
+    await toolbarAction(page, 'resume', false);
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
     await context.setOffline(false);
   });
@@ -158,26 +160,26 @@ try {
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
   });
   await check('Restart confirmation: cancel preserves snapshot; accept resets temporary state', async () => {
-    await page.locator('#start').click();
+    await toolbarAction(page, 'start', false);
     const before = await snapshot(page);
     assert.equal(await page.locator('#confirm').isVisible(), true);
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
     await page.clock.runFor(500); assert.deepEqual(await snapshot(page), before);
     await page.locator('#confirm-no').click(); assert.deepEqual(await snapshot(page), before);
-    await page.locator('#start').click(); await page.locator('#confirm-yes').click();
+    await toolbarAction(page, 'start', false); await page.locator('#confirm-yes').click();
     const after = await snapshot(page); assert.equal(after.beat, 0); assert.equal(after.score, 0); assert.equal(after.bonus, null);
     assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
   });
   await check('Profile and view are independent; Modern themes and defaults preserve round and record', async () => {
     await page.locator('#pause').click(); const before = await snapshot(page);
     await page.evaluate(() => localStorage.setItem('snake3310_best', '150'));
-    await page.locator('#profile').click();
+    await toolbarAction(page, 'profile', false);
     assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'true');
     assert.equal(await page.locator('#view').getAttribute('aria-pressed'), 'true');
     await page.locator('#view').click();
     assert.equal(await page.locator('#profile').getAttribute('aria-pressed'), 'true');
     assert.equal(await page.locator('#view').getAttribute('aria-pressed'), 'false');
-    await page.locator('#settings').click();
+    await toolbarAction(page, 'settings', false);
     await page.locator('.menu-item').filter({ hasText: 'LCD-Darstellung' }).click();
     await page.locator('.menu-item').filter({ hasText: 'Dark LCD' }).click();
     assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_lcd')), 'dark');
@@ -212,7 +214,7 @@ try {
     await phone.screenshot({ path: 'test-results/mobile-menu.png', fullPage: true });
   });
   await check('Smartphone: jitter ignored; keypad and swipe turns act before finger release', async () => {
-    await phone.locator('#start').tap();
+    await toolbarAction(phone, 'start', true);
     const bounds = await phone.locator('#lcd').boundingBox();
     const x = bounds.x + bounds.width / 2, y = bounds.y + bounds.height / 2;
     const cdp = await mobile.newCDPSession(phone);
@@ -243,7 +245,7 @@ try {
     await phone.screenshot({ path: 'test-results/mobile-full-320.png', fullPage: true });
   });
   await check('Mobile Modern: scrollable settings, large targets, profile independent of full view', async () => {
-    await phone.locator('#profile').tap(); await phone.locator('#more').tap(); await phone.locator('#more-settings').tap();
+    await toolbarAction(phone, 'profile', true); await phone.locator('#more').tap(); await phone.locator('#more-settings').tap();
     assert.equal(await phone.locator('#view').getAttribute('aria-pressed'), 'true');
     await phone.locator('.menu-item').filter({ hasText: 'Vibration' }).tap();
     await phone.locator('.menu-item').filter({ hasText: 'Aus' }).tap();
@@ -267,7 +269,7 @@ try {
     await repair.reload(); await repair.clock.runFor(1800);
     await repair.locator('.standby').waitFor(); assert.equal(await snapshot(repair), null);
     assert.equal(await repair.locator('#resume').isVisible(), false);
-    await repair.locator('#start').click(); await repair.locator('#sound').click();
+    await toolbarAction(repair, 'start', false); await toolbarAction(repair, 'sound', false);
     assert.equal(await repair.evaluate(() => localStorage.getItem('snake3310_best')), '240');
     assert.equal(await repair.locator('#lcd').getAttribute('data-phase'), 'playing');
   });
@@ -282,7 +284,7 @@ try {
     }, doomed);
     await repair.reload(); await repair.clock.runFor(1800);
     assertBoardMatches(await snapshot(repair), doomed);
-    await repair.locator('#resume').click();
+    await toolbarAction(repair, 'resume', false);
     await repair.clock.runFor(220);
     assert.equal(await repair.locator('#lcd').getAttribute('data-phase'), 'over'); assert.equal(await snapshot(repair), null);
     const noRound = await recovery.newPage(); await noRound.clock.install(); await noRound.goto(url); await noRound.clock.runFor(1800);
@@ -312,7 +314,7 @@ try {
   const update = await upgrade.newPage(); update.on('pageerror', e => errors.push(e.message));
   await update.clock.install(); await update.goto(url + '/snake/'); await update.clock.runFor(1800);
   await check('Subdirectory: manifest scope, offline round recovery and query navigation', async () => {
-    await update.locator('#start').click(); await update.clock.runFor(220); await update.locator('#pause').click();
+    await toolbarAction(update, 'start', false); await update.clock.runFor(220); await update.locator('#pause').click();
     const before = await snapshot(update);
     await update.evaluate(async () => navigator.serviceWorker.ready); await update.reload(); await update.clock.runFor(1800);
     await update.waitForFunction(() => navigator.serviceWorker.controller?.scriptURL.endsWith('/snake/sw.js'));
@@ -322,7 +324,7 @@ try {
   });
   await check('PWA update waits without interrupting round; new activation preserves snapshot and highscore', async () => {
     await update.evaluate(() => localStorage.setItem('snake3310_best', '330'));
-    await update.locator('#resume').click(); const before = await snapshot(update);
+    await toolbarAction(update, 'resume', false); const before = await snapshot(update);
     workerRevision++;
     await update.evaluate(async () => { const r = await navigator.serviceWorker.ready; await r.update(); });
     await update.waitForFunction(async () => !!(await navigator.serviceWorker.getRegistration()).waiting);
@@ -422,7 +424,7 @@ try {
     try {
       persistent = await chromium.launchPersistentContext(profileDir, { headless: true, channel, viewport: { width: 390, height: 844 } });
       let page = persistent.pages()[0]; await page.clock.install(); await page.goto(url + '/Snake/'); await page.clock.runFor(1800);
-      await page.locator('#start').click(); await page.clock.runFor(440); await page.locator('#pause').click();
+      await toolbarAction(page, 'start', false); await page.clock.runFor(440); await page.locator('#pause').click();
       await page.evaluate(() => localStorage.setItem('snake3310_best', '410')); const before = await snapshot(page);
       await page.evaluate(async () => navigator.serviceWorker.ready); await page.reload(); await page.clock.runFor(1800);
       await page.waitForFunction(() => !!navigator.serviceWorker.controller);
@@ -438,7 +440,7 @@ try {
       assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
       assert.deepEqual(await snapshot(page), before);
       assert.equal(await page.evaluate(() => localStorage.getItem('snake3310_best')), '410');
-      await page.locator('#resume').click(); assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
+      await toolbarAction(page, 'resume', false); assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'playing');
     } finally {
       await persistent?.close();
       // Only delete the fresh test-owned profile inside the verified output directory.
@@ -497,14 +499,14 @@ try {
       const seed = modeFixture('timeAttack', duration); seed.run.elapsedMs = duration * 1000 - 1500.25; seed.score = duration;
       const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
       const page = await frozenPage(context, seed);
-      await page.locator('#resume').click(); await page.clock.runFor(200); await page.locator('#pause').click();
+      await toolbarAction(page, 'resume', false); await page.clock.runFor(200); await page.locator('#pause').click();
       const before = await snapshot(page); assert.equal(before.run.elapsedMs, seed.run.elapsedMs + 200);
       await page.clock.runFor(10000); assert.deepEqual(await snapshot(page), before);
       await page.evaluate(async () => navigator.serviceWorker.ready); await page.reload(); await page.clock.runFor(1800);
       await page.waitForFunction(() => !!navigator.serviceWorker.controller);
       await context.setOffline(true); await page.reload(); await page.clock.runFor(1800);
       assert.deepEqual(await snapshot(page), before); assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'paused');
-      await page.locator('#profile').click(); await page.locator('#view').click();
+      await toolbarAction(page, 'profile', false); await page.locator('#view').click();
       await page.screenshot({ path: `test-results/v06-time-${duration}-mobile.png`, fullPage: true });
       await page.locator('#pause').click(); await page.clock.runFor(2000);
       assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'over'); assert.equal(await snapshot(page), null);
@@ -519,7 +521,7 @@ try {
       if (id === 'survivor') { seed.run.steps = 99; seed.beat = 99; }
       else { seed.run.food = id === 'hunter' ? 9 : 4; seed.score = seed.run.food * 10; seed.beat = seed.run.food; seed.food = { x: 5, y: 8 }; }
       const context = await browser.newContext({ viewport: { width: 1100, height: 950 }, reducedMotion: 'reduce' });
-      const page = await frozenPage(context, seed); await page.locator('#resume').click(); await page.clock.runFor(200);
+      const page = await frozenPage(context, seed); await toolbarAction(page, 'resume', false); await page.clock.runFor(200);
       assert.equal(await page.locator('#lcd').getAttribute('data-phase'), 'won'); assert.equal(await snapshot(page), null);
       assert.equal(await page.evaluate(id => JSON.parse(localStorage.getItem('snake3310_records_v1')).completed[id], id), true);
       await page.screenshot({ path: `test-results/v06-challenge-${id}-success.png`, fullPage: true });
@@ -585,19 +587,20 @@ try {
       OscillatorNode.prototype.start = function (...args) { window.audioStarts++; return original.apply(this, args); };
     });
     const page = await frozenPage(context);
-    await page.locator('#start').click();
+    await toolbarAction(page, 'start', false);
     const count = await page.evaluate(() => window.audioStarts); assert.ok(count > 0);
-    await page.locator('#sound').click(); await page.locator('#pause').click();
+    await toolbarAction(page, 'sound', false); await page.locator('#pause').click();
     assert.equal(await page.evaluate(() => window.audioStarts), count);
     await page.reload(); await page.clock.runFor(1800);
     assert.equal(await page.locator('#sound').getAttribute('aria-pressed'), 'false');
-    await page.locator('#resume').click(); assert.equal(await page.evaluate(() => window.audioStarts), 0);
-    await page.locator('#sound').click(); assert.ok(await page.evaluate(() => window.audioStarts > 0));
+    await toolbarAction(page, 'resume', false); assert.equal(await page.evaluate(() => window.audioStarts), 0);
+    await toolbarAction(page, 'sound', false); assert.ok(await page.evaluate(() => window.audioStarts > 0));
     await context.close();
   });
   }
-  await testV071({ browser, check, frozenPage, modeFixture, layouts });
-  if (!process.argv.includes('--layout-only')) {
+  if (!process.argv.includes('--v072-only')) await testV071({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only')) await testV072({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) {
   await testEdges({ browser, check, frozenPage, modeFixture, layouts });
   await testV07({ browser, check, frozenPage, modeFixture, layouts });
   await testEdges({ browser, check, frozenPage, modeFixture, layouts, touchLayouts: ['compact','ergonomic'] });
@@ -605,11 +608,12 @@ try {
   if (process.env.TEST_WEBKIT === 'true' || process.argv.includes('--webkit')) {
     const safari = await webkit.launch({ headless: true });
     try {
-      if (!process.argv.includes('--layout-only')) {
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) {
       await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit', touchLayouts: ['standard','compact','ergonomic'] });
       await testV07({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
       }
-      await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--v072-only')) await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--layout-only')) await testV072({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
     }
     finally { await safari.close(); }
   }

@@ -1,4 +1,44 @@
-# Tests – Bytecoil 0.7.1
+# Tests – Bytecoil 0.7.2
+
+Basis: `main` **3a44d40** (0.7.1), Branch **feature/v0.7.2-mobile-toolbar**. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
+
+## Abschließende Ergebnisse (19. Oktober 2026)
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| `pnpm run test` / identischer nativer Node-Testbefehl | **72/72**, keine übersprungenen Tests |
+| `pnpm run build` | TypeScript, Vite und Offline-Cache erfolgreich |
+| `$env:BROWSER_CHANNEL='chromium'; node scripts/browser-test.mjs --webkit` | **148/148**, 94 Chromium und 54 WebKit; keine Seitenfehler |
+| Bestehende adaptive Layout-Matrix | **480 aktive/pausierte Zustände**, beide Engines; weiterhin erfolgreich |
+| Bestehende v0.7-Steuerungsmatrix | **288 Zustände**, drei Touch-Layouts und beide Tastengrößen |
+| Visuelle Randmatrix | **216 Darstellungen**, DPR 1/2/3, Classic/Modern und Handy/Vollbild |
+| Echte Clipping-Gegenproben | **24** absichtlich beschnittene Fälle weiterhin erkannt |
+| Neue Toolbar-/Geometriematrix | **48 Ansichten**, sechs Viewports, beide Profile/Ansichten und Engines |
+
+Der vollständige Browserlauf enthält alle bisherigen 126 und 22 neue gruppierte Szenarien; keine alten Prüfungen wurden abgeschaltet. Das zusätzliche `--v072-only` dient nur fokussierter Entwicklung. Der oben genannte Abschlussbefehl verwendet keine Filter. Separat wurde `--layout-only --webkit` mit **10/10** gruppierten Szenarien und 480 Zuständen ausgeführt. Die Rohdaten bestätigen auch im pausierten Zustand genau vier sichtbare Toolbar-Buttons in allen 480 mobilen Layoutzuständen.
+
+Lokaler Produktionsbuild: `index-BnyJYZ-d.js`, `index-D5vwomHf.css`, Offline-Cache **f123246d31bd**, sieben aktuelle Assets. Sämtliche Laufzeitänderungen einschließlich DOM-/Tab-Reihenfolge und Schutz beim Ablauf von Time Attack waren vor diesem Build und dem vollständigen Browserlauf enthalten.
+
+## Neue Regressionen und bestehender Funktionsumfang
+
+- **320×568, 360×740, 390×844, 430×932, 844×390, 1366×768**: beide Profile/Ansichten. Mobile Toolbar exakt vier Buttons in einer 44 Pixel hohen Zeile, Texte passen, Ziele mindestens 44×44, Tab-Reihenfolge Pause → Menü → Ansicht → Mehr. Desktop behält die vollständige Toolbar. Kein Scroll-Überlauf im aktiven Vollbild; Classic/Modern-Handy-LCDs werden gegenüber der eingecheckten 0.7.1-Baseline nicht kleiner. Vollbild-LCD und tiefere Richtungstasten werden ausdrücklich gegen diese Baseline gemessen.
+- Beide Engines prüfen Mehr in Classic/Modern und Handy/Vollbild: temporäre Pause, unveränderte Sitzungs-ID/Schlange/Punkte, erhaltene zwei akzeptierte Richtungen und Resttakt, ausgeschlossene Menüzeit in Time Attack. Profil und Sound funktionieren in beide Richtungen mit synchronen Zuständen. Touch, Maus, Tab/Pfeile/Home/End/Enter/Escape und Controller-B bedienen die Dialoge; ein zuvor pausiertes Spiel bleibt pausiert.
+- Einstellungen/Touch-Layout sind tatsächlich über Mehr erreichbar. Neustart mit Abbruch erhält die Partie; Bestätigen startet genau eine neue. Hintergrundpause verhindert automatisches Fortsetzen. Keine neue Richtung durch Menübedienung und kein Seitenscrollen.
+- Offline auf 320 Pixeln: installierter Service Worker, Netzwerk aus, Reload der gespeicherten Partie, Profil/Sound über Mehr bedienen, unveränderter Snapshot und anschließendes Fortsetzen derselben Runde.
+- Unverändert aktiv: Classic, Zen, Time Attack 60/120/180, drei Challenges, Highscores/Statistik/Migration, Achievements, Controller-Verbindung/Deadzone/Neutralstellung/fehlende API, reale Web-Audio-Oszillatoren, Tastatur/Touch, Save/Restore, Browser-Neustart, Installierbarkeit, Unterverzeichnisbetrieb, wartendes PWA-Update und fehlende JS-/CSS-Assets.
+- Randtests vergleichen die vollständige sichtbare Kontur mit einer gleich gerasterten unbeschnittenen Referenz. Unterste Reihe und alle vier Ecken werden sowohl im Quellraster als auch im Screenshot geprüft. Keine Lockerung von Farben oder Clipping-Erkennung. Safe Areas, Drehung/Rückdrehung, 568×320 und 740×360 bleiben abgedeckt.
+
+Aktuelle Rohdaten: `test-results/browser-report.json` (`failed: null`, `pageErrors: []`), `test-results/v072-layout-report.json`, `test-results/v072-unit-tests.txt` und `test-results/installability.json` (keine Installierbarkeitsfehler). Vergleichsaufnahmen: je 48 Messungen aus 0.7.1 und 0.7.2 sowie **25 ausgewählte Bilder** unter `docs/screenshots/v072/`. Die alten 0.7.1-/0.7.0-Berichte unten bleiben historische Nachweise.
+
+[Änderungen, Messwerte, Dateien und Vorher/Nachher](MOBILE_TOOLBAR_V072.md) · [Screenshots](SCREENSHOTS.md)
+
+## Grenzen und Freigabe
+
+Kein physisches iPhone, kein reales Safari mit Browserleistenanimationen, kein Display-Zoom oder Hardware-Pairing. WebKit-/Safe-Area-/Gamepad-Simulationen ersetzen keine auf iOS installierte PWA. Auf hohen Displays bleibt wegen des proportionalen LCDs freie Fläche unter den Tasten möglich; kurze Mehr-Dialoge dürfen intern scrollen. Keine bekannten offenen Fehler in den geprüften Szenarien. GitHub-Prüfungen folgen auf den Feature-Commit/Draft-PR; diese Ergebnisse beschreiben den lokalen Abschlusslauf. Kein automatischer Merge und kein Pages-Deployment.
+
+---
+
+# Historischer Teststand – Bytecoil 0.7.1
 
 Basis: `main` **e77b00f**, neuer Branch **feature/v0.7.1-mobile-layout**. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine zusätzlichen Abhängigkeiten.
 

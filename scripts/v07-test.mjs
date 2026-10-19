@@ -1,3 +1,4 @@
+import { toolbarAction } from './toolbar-action.mjs';
 import assert from 'node:assert/strict';
 import { emptyRecords } from '../src/records.ts';
 import { perimeterFixture } from './edge-test.mjs';
@@ -41,7 +42,7 @@ export async function testV07({ browser, check, frozenPage, modeFixture, layouts
     const seed=modeFixture('classic'); seed.food={x:5,y:8}; const page=await frozenPage(context,seed);
     const initial=await page.evaluate(()=>JSON.parse(localStorage.getItem('snake3310_achievements_v1')).unlocked);
     assert.ok(initial['snake-master']&&initial['first-bite']&&initial['food-collector']&&initial['challenge-beginner']); assert.equal(initial['perfect-run'],undefined);
-    await page.locator('#resume').click(); await page.clock.runFor(220); assert.equal(await page.locator('#achievement-toast').isVisible(),false);
+    await toolbarAction(page, 'resume', false); await page.clock.runFor(220); assert.equal(await page.locator('#achievement-toast').isVisible(),false);
     for(let i=0;i<2;i++){await page.reload();await page.clock.runFor(1800);}
     assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('snake3310_achievements_v1')).unlocked),initial); await context.close();
   });
@@ -70,7 +71,7 @@ export async function testV07({ browser, check, frozenPage, modeFixture, layouts
     await page.clock.runFor(400); await button(9);
     const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('snake3310_snapshot'))); assert.ok(state.beat>0);
     assert.deepEqual(state.dir,{x:-1,y:0}); // two-turn queue, duplicate up did not consume a slot
-    await page.locator('#start').click(); assert.equal(await page.locator('#confirm').isVisible(),true);
+    await toolbarAction(page, 'start', false); assert.equal(await page.locator('#confirm').isVisible(),true);
     await button(1); assert.equal(await page.locator('#confirm').isVisible(),false);
     await button(9); assert.equal(await page.locator('#lcd').getAttribute('data-phase'),'playing');
     await page.evaluate(()=>window.testPad=null); await page.clock.runFor(32); assert.match(await page.locator('#controller-status').textContent(),/Kein Controller/);
@@ -105,7 +106,7 @@ export async function testV07({ browser, check, frozenPage, modeFixture, layouts
             const bottomVisible=Array.from({length:26},(_,x)=>Array.from(ctx.getImageData(4+x*12+5,238,1,1).data).join()==='83,108,64,255').every(Boolean);
             const cornersVisible=[[5,37],[309,37],[5,238],[309,238]].every(([x,y],i)=>Array.from(ctx.getImageData(x,y,1,1).data).join()===(i===0?'41,62,40,255':'83,108,64,255'));
             return{bottomVisible,cornersVisible,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight,phone:rect(document.querySelector('.phone')),canvas:rect(canvas),lcd:rect(lcd),bitmap:[canvas.width,canvas.height],
-              controls:Array.from(document.querySelectorAll(document.body.classList.contains('full')?'.full-controls .up,.full-controls .down,.full-controls .left,.full-controls .right':'.keys .key')).map(rect)};
+              controlMargin:parseFloat(getComputedStyle(document.querySelector('.full-controls')).marginTop)||0,controls:Array.from(document.querySelectorAll(document.body.classList.contains('full')?'.full-controls .up,.full-controls .down,.full-controls .left,.full-controls .right':'.keys .key')).map(rect)};
           });
           assert.deepEqual(metrics.bitmap,[320,244]); assert.ok(metrics.scrollWidth<=width);
           assert.ok(metrics.bottomVisible&&metrics.cornersVisible);
@@ -116,7 +117,7 @@ export async function testV07({ browser, check, frozenPage, modeFixture, layouts
             assert.ok(metrics.scrollHeight<=height+1,`${profile} ${full} ${touchLayout} ${keySize}: ${metrics.scrollHeight}>${height}`);
             for(const c of metrics.controls)assert.ok(c.bottom<=height+1&&c.y>=0,JSON.stringify(c));
           }
-          if(profile==='modern'&&full&&height>width&&touchLayout!=='standard') assert.ok(Math.min(...metrics.controls.map(c=>c.y))-metrics.phone.bottom<=12,'compact controls stay close to the handset/LCD status');
+          if(profile==='modern'&&full&&height>width&&touchLayout!=='standard') assert.ok(Math.min(...metrics.controls.map(c=>c.y))-metrics.phone.bottom<=metrics.controlMargin+12,'compact controls keep the bounded ergonomic spacing');
           assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('snake3310_snapshot'))),before);
           layouts.push({v07:true,engine,width,height,profile,full,touchLayout,keySize,...metrics});
           if(profile==='modern'&&full&&keySize==='large'&&touchLayout==='ergonomic')await page.screenshot({path:`test-results/v07-${engine}-ergonomic-${width}x${height}.png`,fullPage:true});

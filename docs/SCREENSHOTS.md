@@ -1,4 +1,8 @@
-# Screenshots – Bytecoil 0.7.1
+# Screenshots – Bytecoil 0.7.2
+
+## 0.7.2 – Adaptive Toolbar und Vollbild
+
+[Vorher-/Nachher-Bilder für beide Profile und Ansichten, aktive/pausierte Partie, Toolbar, Mehr-Menü und Messwerte](MOBILE_TOOLBAR_V072.md#vorhernachher). Produktionsbuilds 0.7.1 und 0.7.2 mit derselben künstlichen Randschlange und eingefrorenem Spieltakt; keine echten Benutzerdaten.
 
 ## 0.7.1 – Mobile Layout
 

@@ -1,10 +1,10 @@
-# Bytecoil – Retro Snake 0.7.1
+# Bytecoil – Retro Snake 0.7.2
 
-Weiterentwicklung von **v0.7.0** mit adaptiver Smartphone-Größe für Vollbild und Handy, enger beieinander liegendem LCD und Touch-Steuerung sowie vollständiger Classic-/Modern-Tastatur. [Layout-Änderungen, Vergleichsbilder und Grenzen](docs/MOBILE_LAYOUT_V071.md). Die zwölf lokalen Achievements, Gamepad-Steuerung und anpassbaren Touch-Layouts bleiben erhalten. Classic Snake, Zen, Time Attack und Challenges, Rekorde, Statistiken und Offline-PWA bleiben erhalten. Eine gemeinsame Engine, keine neuen Frameworks, keine Anmeldung und keine externen Laufzeitdienste.
+Weiterentwicklung von **v0.7.1** mit einzeiliger Smartphone-Toolbar in beiden Profilen und Ansichten, größerem Vollbild-LCD und tiefer liegenden Richtungstasten. [Änderungen, Messwerte, Vergleichsbilder und Grenzen](docs/MOBILE_TOOLBAR_V072.md). Die zwölf lokalen Achievements, Gamepad-Steuerung und anpassbaren Touch-Layouts bleiben erhalten. Classic Snake, Zen, Time Attack und Challenges, Rekorde, Statistiken und Offline-PWA bleiben erhalten. Eine gemeinsame Engine, keine neuen Frameworks, keine Anmeldung und keine externen Laufzeitdienste.
 
 Das LCD behält 320 × 244 logische Pixel mit Randreserve und 26 × 17 Spielfeldzellen. Spieltempo, Kollisionsregeln und alte Speicherformate bleiben kompatibel. [LCD- und Randtests](docs/LCD.md).
 
-**Entwicklungsstand:** Branch `feature/v0.7.1-mobile-layout`, Basis `main` auf `e77b00f` (v0.7.0). Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Nach erfolgreichen Tests wird ein Draft-PR erstellt; kein automatischer Merge und kein Pages-Deployment.
+**Entwicklungsstand:** Branch `feature/v0.7.2-mobile-toolbar`, Basis `main` auf `3a44d40` (v0.7.1). Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Freigabe über einen Draft-PR; kein automatischer Merge und kein Pages-Deployment.
 
 [Achievements](docs/ACHIEVEMENTS.md) · [Controller und Touch-Layouts](docs/CONTROLLER.md) · [Spielmodi und Bedienung](docs/MODES.md) · [Speicherformat und Migration](docs/STORAGE.md) · [Tests](docs/TESTS.md) · [Neue Screenshots](docs/SCREENSHOTS.md)
 
@@ -49,7 +49,9 @@ Der Browsertest nutzt unter Windows vorhandenes Chrome, sonst Playwright Chromiu
 
 Nach dem Startbildschirm: **Menü → Spiele → Classic Snake → Neues Spiel**. Die obere Schaltfläche „Neues Spiel“ startet direkt. Menüeinträge sind auch antippbar.
 
-Im mobilen Modern-Profil: **Mehr → Neues Spiel / Neustart**. Pause/Weiter, Menü und Handy-/Vollbildwechsel stehen immer in einer einzigen Toolbar-Zeile bereit.
+Auf Smartphones in Classic und Modern: **Pause/Weiter · Menü · Handy/Vollbild · Mehr** in einer Zeile. **Mehr** enthält Neues Spiel/Neustart, Profil Classic/Modern, Ton und Einstellungen/Komfortfunktionen. Desktop behält die vollständige Toolbar.
+
+Mehr hält eine laufende Partie vorübergehend an und setzt sie beim Schließen fort; eine zuvor pausierte Partie bleibt pausiert. Gepufferte Richtungen und die verbleibende Zeit bis zum nächsten Schritt bleiben erhalten. Nach einem Browser-/Fokuswechsel wird bewusst manuell fortgesetzt. Tab, Pfeile, Home/End, Enter und Escape bedienen das Mehr-Menü ebenso wie Touch und Maus. Ein ausdrücklich gewählter Neustart benötigt weiterhin eine Bestätigung.
 
 | Eingabe | Funktion |
 | --- | --- |
@@ -74,7 +76,7 @@ Neun Spielstufen, drei Labyrinthe (Frei, Box, Kreuz), Durchgang oder tödliche R
 
 **Smartphones:** Die Modern-Toolbar belegt eine Zeile mit vier direkt erreichbaren Aktionen. Profilwechsel, Neustart und Einstellungen stehen unter „Mehr“; das Öffnen pausiert die Partie. Kopfbereich, Fußtexte und doppelte Aktionen entfallen auf kleinen Displays. In der großen Spielansicht passen Spielfeld und vier 48-Pixel-Richtungstasten gemeinsam in das Fenster. Im Querformat stehen sie nebeneinander. Safe Areas und dynamische Viewport-Höhen sind berücksichtigt. Klassische Retro-Handy-Optik und Zahlentasten bleiben verfügbar.
 
-**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die mobile Handy- und Vollbildansicht werden in Classic und Modern an Breite und Höhe angepasst. Auf kurzen Querformat-Displays sitzen LCD und die vollständige Handy-Tastatur nebeneinander; bei höchstens 380 Pixel Höhe wechselt die Aktionsleiste seitlich. Details und Grenzen: [Mobile Layout 0.7.1](docs/MOBILE_LAYOUT_V071.md). [Screenshots und Messwerte](docs/SCREENSHOTS.md).
+**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die mobile Handy- und Vollbildansicht werden in Classic und Modern an Breite und Höhe angepasst. Auf kurzen Querformat-Displays sitzen LCD und die vollständige Handy-Tastatur nebeneinander; bei höchstens 380 Pixel Höhe steht die einzeilige Toolbar oberhalb des LCDs neben der Tastatur. Details und Grenzen: [Mobile Toolbar 0.7.2](docs/MOBILE_TOOLBAR_V072.md). [Screenshots und Messwerte](docs/SCREENSHOTS.md).
 
 **PWA-Release vorbereitet:** [.github/workflows/pages.yml](.github/workflows/pages.yml) installiert reproduzierbar per Lockdatei, prüft Unit-Tests, TypeScript, Build und Browser-/Offline-Tests. Pushes und Pull Requests veröffentlichen nichts. Erst ein manuell gestarteter Workflow mit ausdrücklich aktivierter Veröffentlichung lädt ausschließlich `dist/` zu GitHub Pages. Die GitHub-Pages-Bereitstellung erfordert eine gesonderte Freigabe; vorhandene Bereitstellungen müssen nach einem Commit aktualisiert werden. [Schritt-für-Schritt-Anleitung](docs/GITHUB_PAGES.md) und [Installation auf Android, iPhone und Windows](docs/PWA.md#installation-auf-android-iphone-und-windows).
 
@@ -118,7 +120,7 @@ Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte
 
 ## Qualität und Veröffentlichung
 
-Ergebnis: **72/72 Unit-Tests, 83/83 Chromium-Szenarien und 126/126 im kombinierten Chromium-/WebKit-Lauf** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
+Ergebnis: **72/72 Unit-Tests, 94/94 Chromium-Szenarien und 148/148 im kombinierten Chromium-/WebKit-Lauf** und erfolgreicher TypeScript-/Produktionsbuild. Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 
