@@ -814,3 +814,45 @@ dialog p { margin: 0 0 20px; }
 .phone { transform: none; }
 .lcd { box-sizing: content-box; aspect-ratio: 320 / 244; }
 .lcd canvas { width: 100%; height: auto; aspect-ratio: 320 / 244; }
+/* v0.7: local achievements and controller status never intercept game input. */
+.achievement-icon { display:inline-grid; grid-template-columns:repeat(5,1fr); width:25px; height:25px; gap:1px; flex-shrink:0; vertical-align:middle; color:inherit; }
+.achievement-icon i { display:block; background:transparent; }
+.achievement-icon i.on { background:currentColor; }
+.award-item { display:flex; align-items:center; gap:5px; font-size:.8em; }
+.award-item > span:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.award-item small { display:block; font-size:.78em; letter-spacing:0; }
+.award-item .achievement-icon { width:20px; height:20px; }
+.achievement-toast { position:fixed; left:50%; top:max(56px,calc(env(safe-area-inset-top,0px) + 50px)); transform:translateX(-50%); z-index:15; pointer-events:none; display:flex; align-items:center; gap:9px; max-width:calc(100vw - 24px); padding:8px 12px; border:2px solid var(--ink); color:var(--ink); background:var(--paper); box-shadow:3px 3px 0 #0005; font:11px/1.3 monospace; }
+.controller-status { position:fixed; right:max(8px,env(safe-area-inset-right,0px)); bottom:max(6px,env(safe-area-inset-bottom,0px)); z-index:12; pointer-events:none; color:var(--ink); background:var(--paper); border:1px solid var(--ink); padding:3px 5px; font:10px monospace; }
+#achievement-detail .achievement-icon { width:40px; height:40px; margin-bottom:10px; }
+.full[data-show-controls=false][data-scene=game] .full-controls { display:none; }
+/* Layout choices only reposition the full-view D-pad; the handset keeps its keys. */
+@media (max-width:600px), (max-width:960px) and (max-height:500px) {
+  .modern.full { --pad-height:48px; }
+  .modern.full[data-key-size=large] { --pad-height:60px; }
+  .modern.full[data-touch-layout=ergonomic] { --pad-height:56px; }
+  .modern.full[data-touch-layout=ergonomic][data-key-size=large] { --pad-height:64px; }
+  .modern.full .full-controls { grid-template-rows:repeat(3,var(--pad-height)); }
+  .modern.full[data-scene=game] .full-controls { grid-template-rows:repeat(2,var(--pad-height)); }
+  .modern.full .full-controls .key { min-height:var(--pad-height); }
+  .modern.full[data-touch-layout=compact] .phone, .modern.full[data-touch-layout=ergonomic] .phone { align-self:end; }
+  .modern.full[data-touch-layout=compact] .wrap, .modern.full[data-touch-layout=ergonomic] .wrap { align-items:flex-end; }
+  .modern.full[data-touch-layout=ergonomic] .full-controls { grid-template-columns:repeat(3,minmax(64px,104px)); gap:8px; }
+  .modern.full[data-touch-layout=ergonomic] .full-controls .key { border-radius:18px; }
+  .modern:not(.full)[data-key-size=large] .key { min-height:48px; }
+  /* Large handset keys retain their size on short screens by reducing only trim/LCD width. */
+  @media (max-height:650px) and (orientation:portrait) {
+    .modern:not(.full)[data-key-size=large] .phone { width:min(244px,100%); padding-top:4px; padding-bottom:4px; }
+    .modern:not(.full)[data-key-size=large] .keys { gap:3px 7px; }
+  }
+}
+/* Landscape controls stay beside the field; align them with its lower edge. */
+@media (max-width:960px) and (max-height:500px) and (orientation:landscape) {
+  .modern.full[data-touch-layout=compact] .full-controls, .modern.full[data-touch-layout=ergonomic] .full-controls { align-self:end; }
+  .modern.full[data-touch-layout=ergonomic] .full-controls { grid-template-columns:repeat(3,68px); gap:6px; }
+}
+/* Button size also applies to Classic; layout placement preserves the physical handset. */
+body[data-key-size=large]:not(.full) .phone .key { min-height:48px; }
+.full[data-key-size=large] .full-controls .key { min-height:60px; }
+.full[data-touch-layout=ergonomic] .full-controls .key { min-height:56px; }
+.full[data-touch-layout=ergonomic][data-key-size=large] .full-controls .key { min-height:64px; }

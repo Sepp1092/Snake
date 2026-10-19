@@ -7,12 +7,17 @@ import { Persistence, defaults, type Settings } from './storage.ts';
 import { capture, restore } from './snapshot.ts';
 import { draw, palettes } from './render.ts';
 import { RetroAudio, vibrate, type SoundEvent } from './audio.ts';
+import { Achievements, achievements, achievementProgress, type AchievementId } from './achievements.ts';
+import { GamepadInput, type PadAction } from './gamepad.ts';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 let local: Storage | null = null;
 try { local = window.localStorage; } catch { /* Private browsing fallback. */ }
 const persistence = new Persistence(local), settings = persistence.load();
 const records = new Records(persistence);
+const awards = new Achievements(persistence);
+awards.evaluate(records.data); // Silent, evidence-based migration of historical achievements.
+const pads = new GamepadInput();
 const game = new GameSession({ level: settings.level, maze: settings.maze, walls: settings.walls });
 game.best = persistence.best();
 const saved = persistence.loadSnapshot();
@@ -26,15 +31,39 @@ const canvas = $<HTMLCanvasElement>('game'), screen = $('screen'), lcd = $('lcd'
 let mode: 'boot' | 'standby' | 'menu' | 'game' = 'boot';
 let nextTick = 0, lastScreen = '', notice = '', lastSave = 0, recordSignalled = false;
 let statsFilter = 0, displayedSecond = -1;
+let initializing = true;
 const dialog = $<HTMLDialogElement>('confirm');
 const intro = $<HTMLDialogElement>('challenge-intro');
 const morePanel = $<HTMLDialogElement>('more-panel');
+const achievementDialog = $<HTMLDialogElement>('achievement-detail');
+let padStatus = 'Kein Controller erkannt', padSeen = false, lastPadPoll = -Infinity;
+const awardQueue: AchievementId[] = [];
+let awardTimer: ReturnType<typeof setTimeout> | undefined;
+function pixelIcon(rows: readonly string[]) {
+  return `<span class="achievement-icon" aria-hidden="true">${rows.join('').split('').map(bit => `<i${bit === '1' ? ' class="on"' : ''}></i>`).join('')}</span>`;
+}
+function announce(ids: AchievementId[]) {
+  if (!settings.achievementNotifications) return;
+  awardQueue.push(...ids);
+  if (awardTimer !== undefined || !awardQueue.length) return;
+  const show = () => {
+    const id = awardQueue.shift(), toast = $('achievement-toast');
+    if (!id || !settings.achievementNotifications) { toast.hidden = true; awardTimer = undefined; return; }
+    const a = achievements.find(a => a.id === id)!;
+    toast.innerHTML = `${pixelIcon(a.icon)}<span>Erfolg freigeschaltet<br><strong>${a.name}</strong></span>`;
+    toast.hidden = false;
+    awardTimer = setTimeout(show, 2400);
+  };
+  show();
+}
 const compactLayout = window.matchMedia('(max-width: 600px), (max-width: 960px) and (max-height: 500px)');
 let pending: (() => void) | null = null;
 const feedback = (event: SoundEvent) => { audio.signal(settings.sound, settings.volume, event); vibrate(settings.vibration, event); };
 const hasRound = () => game.phase === 'playing' || game.phase === 'paused';
 function saveRound() {
   game.advanceClock(); records.sync(game); game.best = records.best(game.run);
+  const added = awards.evaluate(records.data, game);
+  if (!initializing) announce(added);
   const snapshot = capture(game);
   if (snapshot) persistence.saveSnapshot(snapshot);
   else if (game.phase === 'over' || game.phase === 'won') persistence.clearSnapshot();
@@ -68,6 +97,14 @@ function applySettings() {
   for (const [name, color] of Object.entries(colors)) document.documentElement.style.setProperty('--' + name, color);
   document.body.classList.toggle('full', settings.full);
   document.body.classList.toggle('modern', settings.profile === 'modern');
+  document.body.dataset.touchLayout = settings.touchLayout;
+  document.body.dataset.keySize = settings.keySize;
+  document.body.dataset.showControls = String(settings.showControls);
+  // A hidden D-pad always leaves swipe input available. No input is generated here.
+  if (!settings.showControls && settings.control === 'keys') settings.control = 'both';
+  gesture = null;
+  document.querySelectorAll('.pressed').forEach(e => e.classList.remove('pressed'));
+  if (!settings.achievementNotifications) { awardQueue.length = 0; clearTimeout(awardTimer); awardTimer = undefined; $('achievement-toast').hidden = true; }
   if (morePanel.open) morePanel.close();
   $('profile').textContent = settings.profile === 'modern' ? 'Profil: Modern' : 'Profil: Classic';
   $('profile').setAttribute('aria-pressed', String(settings.profile === 'modern'));
@@ -87,7 +124,7 @@ compactLayout.addEventListener('change', () => {
   updateViewLabel();
   if (!compactLayout.matches && morePanel.open) morePanel.close();
 });
-function save() { persistence.save(settings); applySettings(); }
+function save() { if (!settings.showControls && settings.control === 'keys') settings.control = 'both'; persistence.save(settings); applySettings(); }
 function newGame() {
   game.start(settings.gameMode, settings.duration, settings.challenge, { level: settings.level, maze: settings.maze, walls: settings.walls });
   game.best = records.best(game.run); recordSignalled = false; mode = 'game'; nextTick = performance.now() + game.interval;
@@ -110,6 +147,9 @@ function render() {
   menu.hasSaved = hasRound();
   menu.selectedMode = settings.gameMode;
   if (mode === 'menu') {
+  const progress = awards.progress(records.data, game);
+  menu.achievements = achievements.map(a => ({ label: `${awards.unlocked[a.id] !== undefined ? '●' : '○'} ${a.name}`, icon: a.icon,
+    detail: `${awards.unlocked[a.id] !== undefined ? 'Frei' : 'Gesperrt'} · ${achievementProgress(a.id, progress[a.id])}`, action: 'achievement', value: a.id }));
   const modes: (GameMode | 'total')[] = ['total', 'classic', 'zen', 'timeAttack', 'challenge'];
   const filter = modes[statsFilter], counters = filter === 'total' ? records.total() : records.data.modes[filter];
   menu.statistics = [
@@ -127,13 +167,14 @@ function render() {
   if (mode === 'boot') screen.innerHTML = '<div class="boot"><div class="boot-mark" aria-hidden="true">▟▚▞</div><strong>BYTECOIL</strong><span>RETRO SNAKE ARCADE</span><button data-act="ok">Willkommen</button></div>';
   else if (mode === 'standby') screen.innerHTML = '<div class="lcd-top"><span>▂▄▆█</span><span>▰▰▰ ▯</span></div><div class="standby"><span>PIXEL HANDHELD</span><strong>Retro Snake</strong><span>Bereit für eine neue Runde?</span><div class="pixel-snake">▰▰▰▰<br>▰<br>▰▰▰ &nbsp;▪</div></div><div class="softlabels"><button data-act="ok">Menü</button><span>BC-01</span></div>';
   else if (mode === 'menu') {
-    const items = menu.items, start = settings.profile === 'modern' ? 0 : Math.max(0, Math.min(current.index - 2, items.length - 4));
-    const list = items.slice(start, settings.profile === 'modern' ? items.length : start + 4).map((item, offset) => {
+    const items = menu.items, pageSize = current.id === 'achievements' ? 2 : 4;
+    const start = settings.profile === 'modern' ? 0 : Math.max(0, Math.min(current.index - (pageSize === 2 ? 1 : 2), items.length - pageSize));
+    const list = items.slice(start, settings.profile === 'modern' ? items.length : start + pageSize).map((item, offset) => {
       const selected = current.index === start + offset;
       const checked = item.action && item.value !== undefined && String(settings[item.action as keyof Settings]) === String(item.value);
-      return `<button class="menu-item ${selected ? 'selected' : ''}" data-index="${start + offset}" aria-current="${selected ? 'true' : 'false'}">${checked ? '●' : item.menu ? '›' : '·'} ${item.label}</button>`;
+      return `<button class="menu-item ${selected ? 'selected' : ''}${item.icon ? ' award-item' : ''}" data-index="${start + offset}" aria-current="${selected ? 'true' : 'false'}">${item.icon ? pixelIcon(item.icon) : checked ? '●' : item.menu ? '›' : '·'} <span>${item.label}${item.detail ? `<small>${item.detail}</small>` : ''}</span></button>`;
     }).join('');
-    screen.innerHTML = `<div class="lcd-top"><strong>${current.id === 'snake' ? modeNames[settings.gameMode] : titles[current.id]}</strong><span>${items.length ? `${current.index + 1}/${items.length}` : '★'}</span></div><div class="menu-content">${list}</div><div class="softlabels"><button data-act="ok">${items.length ? 'Wählen' : 'OK'}</button><button data-act="back">Zurück</button></div>`;
+    screen.innerHTML = `<div class="lcd-top"><strong>${current.id === 'snake' ? modeNames[settings.gameMode] : titles[current.id]}</strong><span>${current.id === 'achievements' ? `${awards.count()}/12` : items.length ? `${current.index + 1}/${items.length}` : '★'}</span></div><div class="menu-content">${list}</div><div class="softlabels"><button data-act="ok">${items.length ? 'Wählen' : 'OK'}</button><button data-act="back">Zurück</button></div>`;
     if (settings.profile === 'modern') {
       const selected = screen.querySelector<HTMLElement>('.selected'), list = screen.querySelector<HTMLElement>('.menu-content');
       if (selected && list) list.scrollTop = Math.max(0, selected.offsetTop - list.offsetTop - list.clientHeight / 2);
@@ -149,6 +190,7 @@ function render() {
   if (document.body.dataset.scene !== mode) document.body.dataset.scene = mode;
   const messages = { ready: 'Bereit', playing: `${modeNames[game.run.mode]} · Punkte: ${game.score}`, paused: 'Pausiert · 5: Weiter · Menü: Optionen', over: `${game.run.outcome === 'timeout' ? 'Zeit vorbei' : 'Game Over'} · ${game.score} Punkte`, won: `${game.run.outcome === 'success' ? 'Challenge geschafft!' : 'Gewonnen!'} · ${game.score} Punkte` };
   setText(status, notice || (mode === 'game' ? messages[game.phase] : mode === 'menu' ? `${titles[current.id]} · ▲ ▼ wählen · 5 bestätigen` : 'Ein Klassiker. Eine Runde geht noch.'));
+  if (mode === 'menu' && current.id === 'controller') setText(status, padStatus);
   const label = `Retro Snake · ${messages[game.phase]}`;
   if (canvas.getAttribute('aria-label') !== label) canvas.setAttribute('aria-label', label);
   setText($('pause'), game.phase === 'paused' ? 'Weiter' : 'Pause');
@@ -158,6 +200,13 @@ function render() {
 function selectMenu() {
   const item = menu.select();
   if (!item) { menu.back(); render(); return; }
+  if (item.action === 'achievement') {
+    const a = achievements.find(a => a.id === item.value)!;
+    $('achievement-title').textContent = a.name; $('achievement-description').textContent = a.description;
+    $('achievement-icon').innerHTML = pixelIcon(a.icon);
+    $('achievement-progress').textContent = `${awards.unlocked[a.id] !== undefined ? 'Freigeschaltet' : 'Gesperrt'} · ${achievementProgress(a.id, awards.progress(records.data, game)[a.id])}`;
+    achievementDialog.showModal(); return;
+  }
   if (item.action === 'chooseMode') { settings.gameMode = item.value as GameMode; save(); render(); return; }
   if (item.action === 'cycleStats') { statsFilter = (statsFilter + 1) % 5; menu.current.index = 0; render(); return; }
   if (item.action === 'challenge') { settings.challenge = item.value as Settings['challenge']; save(); requestNewGame(); return; }
@@ -181,14 +230,19 @@ function selectMenu() {
       case 'volume': settings.volume = Number(item.value); break;
       case 'vibration': settings.vibration = item.value === 'true'; break;
       case 'duration': settings.duration = Number(item.value) as Settings['duration']; break;
+      case 'touchLayout': settings.touchLayout = item.value as Settings['touchLayout']; break;
+      case 'keySize': settings.keySize = item.value as Settings['keySize']; break;
+      case 'controller': settings.controller = item.value === 'true'; pads.suspend(); break;
+      case 'achievementNotifications': settings.achievementNotifications = item.value === 'true'; break;
+      case 'showControls': settings.showControls = item.value === 'true'; break;
     }
     save(); menu.back();
     notice = ['level', 'maze', 'walls'].includes(item.action) && game.phase === 'paused' ? 'Gespeichert · gilt ab dem nächsten Spiel' : 'Gespeichert';
   }
   render();
 }
-function act(action: string, source: 'key' | 'touch' = 'key') {
-  if (dialog.open || morePanel.open || intro.open || action === 'noop') return;
+function act(action: string, source: 'key' | 'touch' | 'gamepad' = 'key') {
+  if (dialog.open || morePanel.open || intro.open || achievementDialog.open || action === 'noop') return;
   if (action === 'sound') { settings.sound = !settings.sound; save(); feedback('menu'); render(); return; }
   if (action === 'restart') { requestNewGame(); return; }
   if (mode === 'boot') { finishBoot(); return; }
@@ -213,7 +267,7 @@ function act(action: string, source: 'key' | 'touch' = 'key') {
   }
 }
 document.addEventListener('keydown', e => {
-  if (dialog.open || morePanel.open || intro.open) return;
+  if (dialog.open || morePanel.open || intro.open || achievementDialog.open) return;
   if (e.ctrlKey || e.metaKey || e.altKey || (e.target instanceof HTMLElement && (e.target.matches('input,select,textarea') || e.target.isContentEditable))) return;
   const action = ({ arrowup: 'up', w: 'up', '2': 'up', arrowdown: 'down', s: 'down', '8': 'down', arrowleft: 'left', a: 'left', '4': 'left', arrowright: 'right', d: 'right', '6': 'right', ' ': 'pause', '0': 'pause', enter: 'ok', '5': 'ok', escape: 'back', backspace: 'back', '*': 'restart', '#': 'sound' } as Record<string, string>)[e.key.toLowerCase()];
   // Native buttons retain Enter/Space activation when explicitly focused.
@@ -233,7 +287,7 @@ screen.addEventListener('click', e => {
 });
 let gesture: { x: number; y: number; id: number; moved: boolean } | null = null;
 lcd.addEventListener('pointerdown', e => {
-  if (dialog.open || morePanel.open || intro.open || mode !== 'game' || settings.control === 'keys' || !e.isPrimary || e.button !== 0) return;
+  if (dialog.open || morePanel.open || intro.open || achievementDialog.open || mode !== 'game' || settings.control === 'keys' || !e.isPrimary || e.button !== 0) return;
   e.preventDefault(); lcd.setPointerCapture(e.pointerId); gesture = { x: e.clientX, y: e.clientY, id: e.pointerId, moved: false };
 });
 lcd.addEventListener('pointermove', e => {
@@ -246,6 +300,7 @@ lcd.addEventListener('pointermove', e => {
 lcd.addEventListener('pointerup', e => { if (gesture?.id === e.pointerId) { if (!gesture.moved && game.phase !== 'playing') act('ok'); gesture = null; } });
 for (const event of ['pointercancel', 'lostpointercapture']) lcd.addEventListener(event, () => { gesture = null; });
 $('start').onclick = requestNewGame;
+$('achievement-close').onclick = () => achievementDialog.close();
 $('challenge-start').onclick = () => { intro.close(); newGame(); };
 $('challenge-cancel').onclick = () => intro.close();
 $('restart').onclick = requestNewGame;
@@ -264,10 +319,20 @@ $('pause').onclick = () => { if (game.phase === 'paused') resume(); else toggleP
 $('menu').onclick = showMenu;
 $('sound').onclick = () => act('sound');
 $('view').onclick = () => { settings.full = !settings.full; save(); render(); };
-window.addEventListener('blur', () => pause(true));
-document.addEventListener('visibilitychange', () => { if (document.hidden) pause(true); });
+window.addEventListener('blur', () => { pads.suspend(); pause(true); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { pads.suspend(); pause(true); } });
 window.addEventListener('pagehide', () => { if (game.phase === 'playing') pause(true); else if (game.phase === 'paused') saveRound(); });
 function tick(now: number) {
+  if (now - lastPadPoll >= 16) {
+    lastPadPoll = now;
+    const input = pads.poll(settings.controller && typeof navigator.getGamepads === 'function' ? () => navigator.getGamepads() : undefined, settings.controller, !document.hidden && document.hasFocus());
+    const label = !settings.controller ? 'Controller aus' : !input.supported ? 'Gamepad API nicht verfügbar' : input.standard ? 'Controller verbunden' : input.connected ? 'Controller ohne Standardbelegung' : 'Kein Controller erkannt';
+    padSeen ||= input.connected > 0;
+    if (label !== padStatus) { padStatus = label; setText($('controller-status'), label); if (mode === 'menu' && menu.current.id === 'controller') setText(status, label); }
+    const hidden = !padSeen && !input.connected;
+    if ($('controller-status').hidden !== hidden) $('controller-status').hidden = hidden;
+    for (const action of input.actions) padAction(action);
+  }
   if (mode === 'game' && game.phase === 'playing') {
     if (game.advanceClock(now)) { saveRound(); feedback('over'); render(); }
     else if (now >= nextTick) {
@@ -286,7 +351,23 @@ function tick(now: number) {
   }
   requestAnimationFrame(tick);
 }
+function padAction(action: PadAction) {
+  const activeDialog = [dialog, morePanel, intro, achievementDialog].find(d => d.open);
+  if (activeDialog) {
+    const buttons = Array.from(activeDialog.querySelectorAll<HTMLButtonElement>('button:not([disabled])'));
+    if (action === 'back') { if (activeDialog === dialog) $('confirm-no').click(); else activeDialog.close(); return; }
+    if (action === 'ok') { (document.activeElement instanceof HTMLButtonElement && activeDialog.contains(document.activeElement) ? document.activeElement : buttons[0])?.click(); return; }
+    if (['up','down','left','right'].includes(action)) {
+      const index = buttons.indexOf(document.activeElement as HTMLButtonElement), delta = action === 'up' || action === 'left' ? -1 : 1;
+      buttons[(index + delta + buttons.length) % buttons.length]?.focus();
+    }
+    return;
+  }
+  if (action === 'pause' && game.phase === 'paused') { resume(); return; }
+  act(action, 'gamepad');
+}
 if (saved && hasRound()) saveRound();
+initializing = false;
 applySettings(); render(); requestAnimationFrame(tick);
 setTimeout(() => { if (mode === 'boot') finishBoot(); }, 1700);
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {

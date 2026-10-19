@@ -1,4 +1,14 @@
-# Entwicklungsfreigabe v0.6
+# v0.7 – Entwicklungsbranch und Freigabe
+
+Basis des neuen Branches `feature/v0.7-achievements-controls` ist der aktualisierte GitHub-main-Stand `79c00f9` einschließlich der v0.6.1-Korrekturen. Nach lokalen Abschlussprüfungen werden die Änderungen committed und dürfen gemäß Auftrag als Entwicklungsbranch mit Review-PR veröffentlicht werden. Das ist keine Freigabe für einen Merge oder ein Pages-Deployment.
+
+Der vorhandene Workflow prüft Pushes und Pull Requests. Veröffentlichung bleibt an den expliziten manuellen Workflow-Aufruf mit Publish-Zustimmung auf dem Standardbranch gebunden; der Feature-Branch kann damit kein Pages-Release auslösen. Diagnoseartefakte enthalten künstliche Testdaten, keine Benutzerprofile oder Zugangsdaten. Echte iPhone-/Controller-Gerätetests vor einer separaten Release-Freigabe durchführen. [Entwicklungsbericht](DEVELOPMENT_V07.md), [Tests](TESTS.md).
+
+Die folgenden Abschnitte dokumentieren frühere Entwicklungs- und Veröffentlichungsstände; ihre Versionsangaben sind historisch.
+
+---
+
+## Historische Entwicklungsfreigabe v0.6
 
 Der lokale Entwicklungscheckout basiert auf `Sepp1092/Snake` Commit `059debfdb68502d668092df4c2c434be9333dd2d`. Alle Änderungen liegen auf `feature/v0.6-game-modes`; sie wurden nicht auf GitHub gepusht, nicht mit `main` zusammengeführt und nicht veröffentlicht. Die öffentliche v0.5.2 bleibt unverändert.
 
