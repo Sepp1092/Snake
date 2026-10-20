@@ -1,6 +1,8 @@
 # PWA und spätere Veröffentlichung
 
-Version 0.7.3 verändert weder Scope noch Service-Worker-Protokoll oder Spielstandformat. Beide alten Profilwerte führen zur gleichen gecachten Oberfläche; `snake3310_profile` bleibt unangetastet und wird nicht mehr gelesen oder geschrieben. Die Browserprüfungen laden gespeicherte Partien mit Rekorden, Achievements und Komfortoptionen offline erneut und bedienen das Mehr-Menü. Der Update-Test wartet tatsächlich auf einen installierten wartenden Worker, hält den bisherigen Controller bis zum Verlassen der Seite fest und prüft anschließend Aktivierung und Entfernung des alten Scope-Caches. Veröffentlichung bleibt separat manuell freizugeben. Kein Test einer auf echter iPhone-Hardware installierten PWA.
+Version 0.7.4 verändert weder Scope noch Service-Worker-Protokoll oder Spielstandformat. Beide alten Profilwerte führen zur gleichen gecachten Oberfläche; `snake3310_profile` bleibt unangetastet und wird nicht mehr gelesen oder geschrieben. Die Browserprüfungen laden gespeicherte Partien mit Rekorden, Achievements und Komfortoptionen offline erneut und bedienen das Mehr-Menü. Der Update-Test wartet tatsächlich auf einen installierten wartenden Worker, hält den bisherigen Controller bis zum Verlassen der Seite fest und prüft anschließend Aktivierung und Entfernung des alten Scope-Caches. Veröffentlichung bleibt separat manuell freizugeben. Kein Test einer auf echter iPhone-Hardware installierten PWA.
+
+Das neue Vollbildlayout verwendet CSS-Abstände, `100dvh` und die bestehenden Safe Areas. Der vorhandene Größenfitter reserviert jetzt auch den endlichen CSS-Abstand vor dem Steuerkreuz; er erzeugt keine neue Eingabe und verändert kein gespeichertes Spiel. Stark verkürzte Querformatfenster dürfen zugunsten vollständiger Tasten scrollen. [Layoutmessungen und Einschränkungen](FULLSCREEN_CONTROLS_V074.md).
 
 ## Bereits vorhanden
 

@@ -1,5 +1,14 @@
 # Changelog – Bytecoil – Retro Snake
 
+## 0.7.4 – Fullscreen Layout & Mobile Controls Optimization (20. Oktober 2026)
+
+- Smartphone-Hochformat als zusammenhängende Einheit: Toolbar → LCD → Status → Steuerkreuz. Automatische untere Verankerung entfernt, responsiver Abstand 16–24 CSS-Pixel; freie Höhe bleibt unter der Steuerung.
+- Bereits verfügbare LCD-Breite erhalten: keine erzwungene Vergrößerung, Streckung oder Änderung von Bitmap, 26×17 Zellen, Pixel-Skalierung und v0.6.1-Randreserve.
+- Bestehender Größenfitter reserviert zusätzlich den endlichen CSS-Steuerungsabstand. Safe Areas, dynamische Höhe, drei Touch-Layouts, beide Tastengrößen und Handyansicht bleiben erhalten.
+- Unter 280 Pixel hoher Smartphone-Queransicht sicherer Scroll-Fallback für vollständige große Spiel-/Menütasten statt Überlappung. Übliche Zielgrößen bleiben im aktiven Vollbild ohne Scrollen.
+- Browserprüfungen für zusammenhängende Anordnung, reale negative Abstandsproben, wechselnde Höhe, Safe Areas, pausierten Ansichtswechsel, schnelle Touch-Wendungen und extrem kurze Fenster. Alte untere Verankerungsprüfungen auf die neue Abstandsregel umgestellt; keine Tests deaktiviert.
+- [Messwerte, 20 Vergleichsbilder, Dateien und Grenzen](FULLSCREEN_CONTROLS_V074.md). Eigener Entwicklungsbranch/Draft-PR, kein automatischer Merge oder Pages-Deployment.
+
 ## 0.7.3 – Unified UI, LCD Cleanup & Fullscreen Optimization (20. Oktober 2026)
 
 - Eine gemeinsame Oberfläche mit der bisherigen touchfreundlichen Menüführung. Profil-Buttons, Profil-Menü, bedingtes Rendering, Profileinstellung im aktiven Settings-Modell und `.modern`-/`.modern-only`-CSS entfernt. Classic Snake bleibt als Spielmodus erhalten.

@@ -1,3 +1,4 @@
+import {assertFullscreenStack} from './fullscreen-stack.mjs';
 import { toolbarAction } from './toolbar-action.mjs';
 import assert from 'node:assert/strict';
 import { emptyRecords } from '../src/records.ts';
@@ -105,7 +106,7 @@ export async function testV07({ browser, check, frozenPage, modeFixture, layouts
             const ctx=canvas.getContext('2d');
             const bottomVisible=Array.from({length:26},(_,x)=>Array.from(ctx.getImageData(4+x*12+5,238,1,1).data).join()==='83,108,64,255').every(Boolean);
             const cornersVisible=[[5,37],[309,37],[5,238],[309,238]].every(([x,y],i)=>Array.from(ctx.getImageData(x,y,1,1).data).join()===(i===0?'41,62,40,255':'83,108,64,255'));
-            return{bottomVisible,cornersVisible,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight,phone:rect(document.querySelector('.phone')),canvas:rect(canvas),lcd:rect(lcd),bitmap:[canvas.width,canvas.height],
+            return{status:rect(document.querySelector('.status')),bottomVisible,cornersVisible,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight,phone:rect(document.querySelector('.phone')),canvas:rect(canvas),lcd:rect(lcd),bitmap:[canvas.width,canvas.height],
               bottomInset:parseFloat(getComputedStyle(document.body).paddingBottom),controlMargin:parseFloat(getComputedStyle(document.querySelector('.full-controls')).marginTop)||0,controls:Array.from(document.querySelectorAll(document.body.classList.contains('full')?'.full-controls .up,.full-controls .down,.full-controls .left,.full-controls .right':'.keys .key')).map(rect)};
           });
           assert.deepEqual(metrics.bitmap,[320,244]); assert.ok(metrics.scrollWidth<=width);
@@ -118,7 +119,7 @@ export async function testV07({ browser, check, frozenPage, modeFixture, layouts
             for(const c of metrics.controls)assert.ok(c.bottom<=height+1&&c.y>=0,JSON.stringify(c));
           }
           if(full&&height>width&&touchLayout==='compact')assert.ok(metrics.controls.every(c=>c.width<=80.1),'compact keys retain a narrower horizontal reach');
-          if(full&&height>width) assert.ok(Math.abs(height-Math.max(...metrics.controls.map(c=>c.bottom))-metrics.bottomInset)<=4,'all layouts retain the lower thumb zone');
+          if(full&&height>width) {assertFullscreenStack({status:metrics.status,controls:metrics.controls[0]});assert.ok(Math.max(...metrics.controls.map(c=>c.bottom))<=height-metrics.bottomInset+4,'all layouts respect the lower safe area');}
           assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('snake3310_snapshot'))),before);
           layouts.push({v07:true,engine,width,height,profile,full,touchLayout,keySize,...metrics});
           if(profile==='modern'&&full&&keySize==='large'&&touchLayout==='ergonomic')await page.screenshot({path:`test-results/v07-${engine}-ergonomic-${width}x${height}.png`,fullPage:true});

@@ -1,4 +1,56 @@
-# Tests – Bytecoil 0.7.3
+# Tests – Bytecoil 0.7.4
+
+Basis: main **6457008**, vollständig übernommene 0.7.3, Branch **feature/v0.7.4-fullscreen-controls**. Abschluss am 20. Oktober 2026. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| Sämtliche Unit-Tests | **76/76**, keine übersprungenen Tests |
+| Produktionsbuild | TypeScript, Vite und Offline-Cache erfolgreich |
+| Vollständiger ungefilterter Browserlauf | **186/186**, 113 Chromium und 73 WebKit; keine Seitenfehler |
+| Bestehende adaptive Matrix | **480** aktive/pausierte Layoutzustände, beide Ansichten, alle drei Touch-Layouts und beide Tastengrößen |
+| Bestehende Steuerungsmatrix | **288** Zustände |
+| Strenge Randmatrix | **216** Darstellungen mit DPR 1/2/3, **24** reale Clipping-Gegenproben |
+| Bisherige gemeinsame UI und Migration | **48** Geometrieeinträge; alte Profilwerte, Spielstand, Rekorde, Achievements und Offline-Neuladen |
+| Bisheriger LCD-Header | **80** Renderprüfungen, vier Modi × fünf Paletten × beide Ansichten × beide Engines; bemalte Akku-Fläche als Gegenprobe |
+| Neue v0.7.4-Anordnung | **48** aktive/pausierte Geometrieeinträge, sechs Viewports und beide Ansichten in beiden Engines |
+| Neue weitere Prüfungen | je Engine dynamische Höhe/Safe Areas/Gegenproben, extremes Querformat und schnelle Touch-Wendungen/pausierter Ansichtswechsel |
+
+## Reproduktion
+
+```powershell
+node --experimental-strip-types --test tests/*.test.ts
+pnpm run build
+$env:BROWSER_CHANNEL='chromium'
+node scripts/browser-test.mjs --webkit
+```
+
+Der Unit-Befehl entspricht dem package.json-Skript. Der vollständige Browserlauf enthält alle bisherigen 168 Szenarien plus 18 neue. Keine Tests deaktiviert oder übersprungen. `--v074-only` ist nur eine zusätzliche fokussierte Entwicklungsoption; der Standardlauf bleibt vollständig. Der neue Testblock bestand zuvor 18/18 Szenarien in Chromium/WebKit. Maßgeblich ist der anschließende vollständige Lauf des finalen Produktionsbuilds.
+
+Finale Artefakte: **index-EuDBrO-o.js**, **index-5ReGZqj7.css**, Offline-Cache **e5a91737a1d4**, sieben Assets. Keine nachträglichen Laufzeitänderungen nach diesem Build.
+
+## Was ausdrücklich geprüft wurde
+
+- 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Toolbar einzeilig/vier Hauptaktionen auf Smartphones, vollständig sichtbare Tasten ohne Überlappung, kein horizontaler Überlauf und im aktiven üblichen Vollbild kein Seitenscrollen.
+- Im Hochformat Statusbox → obere Pfeiltaste **16–32 CSS-Pixel**, im tatsächlichen Standardlayout rund 17/22/24/24 Pixel. Unverändertes 320×244-Bitmap, scharfe Pixel-Skalierung, proportionaler Canvas, bestehende Breite und LCD-Randreserve. Handy-Proportionen werden mit dem echten v0.7.3-Build verglichen.
+- Reale CSS-Gegenproben mit `margin-top:auto` und negativer Marge müssen vom selben Abstandsprüfer erkannt werden. Anschließend wieder korrektes Layout. Der Test würde den ursprünglichen großen Leerraum weiterhin erkennen.
+- Wechselnde Hochformathöhen 640/740/568/844 mit Ergonomisch/Groß, Safe Areas 24/34/12/12 Pixel, Drehung auf 844×390 und zurück. Partie bleibt pausiert und identisch, alle großen Tasten mindestens 64 Pixel hoch, kein Scrollen auf diesen üblichen Größen.
+- Extremfall 568×220 mit Ergonomisch/Groß: im Spiel und Menü kein Überdecken von Toolbar/LCD. Ein ggf. notwendiger Dokument-Scrollbereich umfasst sämtliche Tasten; die letzte Taste wird tatsächlich vollständig in den sichtbaren Bereich gescrollt.
+- Zwei schnelle echte Touch-Taps vor dem nächsten Schritt führen zu zwei aufeinanderfolgenden Richtungswechseln. Nach zwei Schritten wird per Pause ein aktueller Snapshot geschrieben und der erwartete Kopf-/Richtungszustand geprüft. Pausierter Handy-/Vollbildwechsel bewahrt die Partie; eine verbotene Umkehrung nach Fortsetzen bleibt abgelehnt. Keine Änderung des bisherigen bewussten Puffer-Resets bei manueller Pause. Periodische Autosaves werden nicht fälschlich als Live-Enginezustand ausgewertet; nach Fortsetzen bleibt der Test deutlich zwischen dem ersten und zweiten möglichen Schritt inklusive Animationsframe-Abstand.
+- Bestehende Spielmodi, Statistik, Rekorde, Achievements, Touch/Gesten, Keyboard, simulierte Gamepads, echte Audio-Oszillatoren, Vibrations-API, fehlende APIs, Pause/Neustart, Speicher-Migration, Browser-Neustart, Installierbarkeit und Offline-PWA bleiben aktiv geprüft. Mehr bewahrt temporären Pausezustand, akzeptierte Eingaben und Restzeit. Asynchroner PWA-Updatetest prüft weiterhin wartenden/aktiven Worker und Cache-Wechsel.
+
+Die früheren Assertions für untere Verankerung beziehungsweise zwingendes Abwärtsverschieben sind durch die neue ausdrücklich geforderte Abstandsregel ersetzt; sichere Unterkante, Überlappung, Raster-/Farbprüfungen und sämtliche Funktionsprüfungen bleiben erhalten. Kein Abschwächen von Clipping-Farbgrenzen; die Randtestdateien sind unverändert.
+
+## Nachweise und Grenzen
+
+Rohdaten: `test-results/browser-report.json` mit **1134** Layout-/Geometrieeinträgen, `failed:null` und `pageErrors:[]`; `test-results/v074-unit-tests.txt`; `test-results/installability.json`. Entwicklungszwischenstände bleiben nur im ignorierten Testausgabeordner. 20 kuratierte Bilder und 48 Vorher-/Nachher-Messungen unter `docs/screenshots/v074/`.
+
+[Layoutbericht, Messwerte und Bilder](FULLSCREEN_CONTROLS_V074.md) · [Vollständige geänderte Dateiliste](CHANGED_FILES_V074.md).
+
+Kein echtes iPhone/Safari und keine installierte iOS-PWA auf Hardware. Browserleistenanimationen, Display-Zoom, physisches Controller-Pairing und Vibration sind nicht auf Geräten geprüft. Safe Areas, dynamische Höhe und Controller-API werden simuliert. Übliche Queransicht bleibt aus Platzgründen seitlich; extrem niedrige Fenster dürfen sicher scrollen. Die Desktop-Handyansicht behält ihren bisherigen normalen Dokument-Scrollbereich. GitHub-Actions-Prüfungen folgen nach dem Feature-Commit; dieser Bericht dokumentiert den lokalen Abschluss. Kein automatischer Merge oder Pages-Deployment.
+
+---
+
+# Historischer Teststand – Bytecoil 0.7.3
 
 Basis: `main` **40b5342**, Branch **feature/v0.7.3-unified-ui**. Windows, Node 24.19.0, pnpm 11.25.0, TypeScript 5.9.3, Vite 7.3.7, Playwright 1.64.1, Chromium 156.0.8078.4 und WebKit 27.2. Keine neuen Abhängigkeiten.
 

@@ -13,6 +13,8 @@ import { testV07 } from './v07-test.mjs';
 import { testV071 } from './v071-test.mjs';
 import { testV072 } from './v072-test.mjs';
 import { testV073 } from './v073-test.mjs';
+import { testV074 } from './v074-test.mjs';
+const onlyV074=process.argv.includes('--v074-only');
 
 await mkdir('test-results', { recursive: true });
 const root = path.resolve('dist');
@@ -64,7 +66,7 @@ async function frozenPage(context, seed) {
 }
 try {
   browser = await chromium.launch({ headless: true, channel });
-  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) {
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only') && !onlyV074) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
@@ -609,10 +611,11 @@ try {
     await context.close();
   });
   }
-  if (!process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) await testV071({ browser, check, frozenPage, modeFixture, layouts });
-  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v073-only')) await testV072({ browser, check, frozenPage, modeFixture, layouts });
-  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) await testV073({browser,check,frozenPage,modeFixture,layouts});
-  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) {
+  if (!process.argv.includes('--v072-only') && !process.argv.includes('--v073-only') && !onlyV074) await testV071({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v073-only') && !onlyV074) await testV072({ browser, check, frozenPage, modeFixture, layouts });
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !onlyV074) await testV073({browser,check,frozenPage,modeFixture,layouts});
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) await testV074({browser,check,frozenPage,modeFixture,layouts});
+  if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only') && !onlyV074) {
   await testEdges({ browser, check, frozenPage, modeFixture, layouts });
   await testV07({ browser, check, frozenPage, modeFixture, layouts });
   await testEdges({ browser, check, frozenPage, modeFixture, layouts, touchLayouts: ['compact','ergonomic'] });
@@ -620,13 +623,14 @@ try {
   if (process.env.TEST_WEBKIT === 'true' || process.argv.includes('--webkit')) {
     const safari = await webkit.launch({ headless: true });
     try {
-      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) {
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only') && !onlyV074) {
       await testEdges({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit', touchLayouts: ['standard','compact','ergonomic'] });
       await testV07({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
       }
-      if (!process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
-      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v073-only')) await testV072({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
-      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only')) await testV073({browser:safari,check,frozenPage,modeFixture,layouts,engine:'webkit'});
+      if (!process.argv.includes('--v072-only') && !process.argv.includes('--v073-only') && !onlyV074) await testV071({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v073-only') && !onlyV074) await testV072({ browser: safari, check, frozenPage, modeFixture, layouts, engine: 'webkit' });
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !onlyV074) await testV073({browser:safari,check,frozenPage,modeFixture,layouts,engine:'webkit'});
+      if (!process.argv.includes('--layout-only') && !process.argv.includes('--v072-only') && !process.argv.includes('--v073-only')) await testV074({browser:safari,check,frozenPage,modeFixture,layouts,engine:'webkit'});
     }
     finally { await safari.close(); }
   }

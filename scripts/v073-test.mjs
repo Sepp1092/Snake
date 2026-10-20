@@ -3,6 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {emptyRecords} from '../src/records.ts';
 import {palettes} from '../src/render.ts';
 import {perimeterFixture} from './edge-test.mjs';
+import {assertFullscreenStack} from './fullscreen-stack.mjs';
 
 const rgb=hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)).concat(255);
 export async function testV073({browser,check,frozenPage,modeFixture,layouts,engine='chrome'}) {
@@ -16,13 +17,13 @@ export async function testV073({browser,check,frozenPage,modeFixture,layouts,eng
         const p=await frozenPage(c,perimeterFixture(modeFixture));
         assert.equal(await p.locator('#profile,#more-profile,.modern-only').count(),0);
         assert.equal(await p.locator('body').evaluate(b=>b.classList.contains('modern')),false);
-        const m=await p.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return{x:b.x,y:b.y,width:b.width,height:b.height,bottom:b.bottom,right:b.right};};return{canvas:r('canvas'),phone:r('.phone'),controls:r('.full-controls'),scroll:[document.documentElement.scrollWidth,document.documentElement.scrollHeight],image:document.querySelector('canvas').toDataURL(),classes:document.body.className};});
+        const m=await p.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return{x:b.x,y:b.y,width:b.width,height:b.height,bottom:b.bottom,right:b.right};};return{status:r('.status'),canvas:r('canvas'),phone:r('.phone'),controls:r('.full-controls'),scroll:[document.documentElement.scrollWidth,document.documentElement.scrollHeight],image:document.querySelector('canvas').toDataURL(),classes:document.body.className};});
         const old=baseline.find(b=>b.width===width&&b.profile==='modern'&&b.full===full&&!b.active);
         assert.ok(m.scroll[0]<=width);if(width<=960||full)assert.ok(m.scroll[1]<=height+1);
         assert.ok(Math.abs(m.canvas.width/m.canvas.height-320/244)<.001);
         if(width<=960&&full)assert.ok(m.canvas.width>old.canvas.width+.5,'LCD grows within unchanged geometry');
         if(width<=960&&!full)assert.ok(m.canvas.width>=old.canvas.width-.5,'handset LCD retained');
-        if(width<=600&&height>width&&full){assert.ok(Math.abs(height-m.controls.bottom-12)<.5,'controls sit above lower inset');assert.ok(m.controls.y-m.phone.bottom>=12);}
+        if(width<=600&&height>width&&full){assertFullscreenStack(m);assert.ok(m.controls.bottom<=height-12+.5,'controls fit above lower inset');}
         comparisons.push({full,canvas:m.canvas,phone:m.phone,controls:m.controls,image:m.image,classes:m.classes});
         await p.locator('#pause').tap();await p.locator('#view').tap();await p.locator('#view').tap();await p.locator('#pause').tap();
         assert.equal(await p.evaluate(()=>localStorage.getItem('snake3310_profile')),legacy);

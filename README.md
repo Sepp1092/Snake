@@ -1,10 +1,10 @@
-# Bytecoil – Retro Snake 0.7.3
+# Bytecoil – Retro Snake 0.7.4
 
-Weiterentwicklung von **v0.7.2** mit einer einheitlichen, touchfreundlichen Retro-Oberfläche: keine Darstellungsprofil-Auswahl, LCD ohne Akkuzeichen und größerem Vollbild-LCD mit unten erreichbarer Touch-Steuerung. Handy/Vollbild und alle vier Spielmodi bleiben erhalten. [Änderungen, Migration, Messwerte und Vergleichsbilder](docs/UNIFIED_UI_V073.md). Keine neuen Frameworks, externen Dienste oder Abhängigkeiten.
+Weiterentwicklung von **v0.7.3**: Im Smartphone-Vollbild folgen LCD, kompakte Statuszeile und Steuerkreuz direkt aufeinander. Der Abstand zur oberen Pfeiltaste beträgt im Hochformat 16–24 CSS-Pixel; freie Höhe bleibt unter den Tasten. Das bereits fast bildschirmbreite LCD, die gemeinsame Oberfläche und die Handyansicht bleiben erhalten. [Layoutänderungen, Messwerte und Vergleichsbilder](docs/FULLSCREEN_CONTROLS_V074.md). Keine neuen Frameworks, Dienste oder Abhängigkeiten.
 
 Das LCD behält 320 × 244 logische Pixel mit Randreserve und 26 × 17 Spielfeldzellen. Spieltempo, Kollisionsregeln und alte Speicherformate bleiben kompatibel. [LCD- und Randtests](docs/LCD.md).
 
-**Entwicklungsstand:** Branch `feature/v0.7.3-unified-ui`, Basis `main` auf `40b5342` (v0.7.2). Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Freigabe über einen Draft-PR; kein automatischer Merge und kein Pages-Deployment.
+**Entwicklungsstand:** Branch `feature/v0.7.4-fullscreen-controls`, Basis `main` auf `6457008` (vollständig übernommene v0.7.3). Der Arbeitscheckout liegt lokal unter `bytecoil-v06`. Freigabe über einen Draft-PR; kein automatischer Merge und kein Pages-Deployment.
 
 [Achievements](docs/ACHIEVEMENTS.md) · [Controller und Touch-Layouts](docs/CONTROLLER.md) · [Spielmodi und Bedienung](docs/MODES.md) · [Speicherformat und Migration](docs/STORAGE.md) · [Tests](docs/TESTS.md) · [Neue Screenshots](docs/SCREENSHOTS.md)
 
@@ -13,7 +13,7 @@ Das LCD behält 320 × 244 logische Pixel mit Randreserve und 26 × 17 Spielfeld
 
 Zwölf lokale Achievements mit Pixel-Symbolen, Fortschritt und nicht blockierenden Meldungen. Im Hauptmenü **Achievements** öffnen; historische Daten werden nur mit Nachweis übernommen. Standardisierte Bluetooth-/USB-Gamepads bedienen Spiel, Menüs und Dialoge über die Gamepad API. Ohne diese API bleiben Tastatur und Touch verfügbar.
 
-Unter **Einstellungen**: Touch-Layout Standard/Kompakt/Ergonomisch, Tastengröße Normal/Groß, Vollbild-Steuerkreuz ausblenden, Controller und Erfolgsmeldungen aktivieren/deaktivieren. Alle drei Layouts verankern die Richtungstasten im Smartphone-Hochformat unten. Kompakt verkürzt die horizontale Reichweite, Ergonomisch vergrößert die Tasten. Das virtuelle Handy behält seine vollständige Tastatur. Keine Änderung an Engine, Rekorden, Snapshotformat oder logischer LCD-Auflösung.
+Unter **Einstellungen**: Touch-Layout Standard/Kompakt/Ergonomisch, Tastengröße Normal/Groß, Vollbild-Steuerkreuz ausblenden, Controller und Erfolgsmeldungen aktivieren/deaktivieren. Alle drei Layouts ordnen die Richtungstasten im Smartphone-Hochformat direkt unter der LCD-Statuszeile an. Kompakt verkürzt die horizontale Reichweite, Ergonomisch vergrößert die Tasten. Das virtuelle Handy behält seine vollständige Tastatur. Keine Änderung an Engine, Rekorden, Snapshotformat oder logischer LCD-Auflösung.
 
 ## Bestehende Spielmodi
 
@@ -76,7 +76,7 @@ Neun Spielstufen, drei Labyrinthe (Frei, Box, Kreuz), Durchgang oder tödliche R
 
 **Smartphones:** Die Modern-Toolbar belegt eine Zeile mit vier direkt erreichbaren Aktionen. Profilwechsel, Neustart und Einstellungen stehen unter „Mehr“; das Öffnen pausiert die Partie. Kopfbereich, Fußtexte und doppelte Aktionen entfallen auf kleinen Displays. In der großen Spielansicht passen Spielfeld und vier 48-Pixel-Richtungstasten gemeinsam in das Fenster. Im Querformat stehen sie nebeneinander. Safe Areas und dynamische Viewport-Höhen sind berücksichtigt. Klassische Retro-Handy-Optik und Zahlentasten bleiben verfügbar.
 
-**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die einheitliche Handy- und Vollbildansicht werden an Breite und Höhe angepasst. Auf kurzen Querformat-Displays sitzen LCD und die vollständige Handy-Tastatur nebeneinander; bei höchstens 380 Pixel Höhe steht die einzeilige Toolbar oberhalb des LCDs neben der Tastatur. Details und Grenzen: [Einheitliche Oberfläche 0.7.3](docs/UNIFIED_UI_V073.md). [Screenshots und Messwerte](docs/SCREENSHOTS.md).
+**Geprüfte Größen:** 320×568, 360×740, 390×844, 430×932, 844×390 und 1366×768. Die einheitliche Handy- und Vollbildansicht werden an Breite und Höhe angepasst. Auf kurzen Querformat-Displays sitzen LCD und die vollständige Handy-Tastatur nebeneinander; bei höchstens 380 Pixel Höhe steht die einzeilige Toolbar oberhalb des LCDs neben der Tastatur. Details und Grenzen: [Vollbildlayout 0.7.4](docs/FULLSCREEN_CONTROLS_V074.md). [Screenshots und Messwerte](docs/SCREENSHOTS.md).
 
 **PWA-Release vorbereitet:** [.github/workflows/pages.yml](.github/workflows/pages.yml) installiert reproduzierbar per Lockdatei, prüft Unit-Tests, TypeScript, Build und Browser-/Offline-Tests. Pushes und Pull Requests veröffentlichen nichts. Erst ein manuell gestarteter Workflow mit ausdrücklich aktivierter Veröffentlichung lädt ausschließlich `dist/` zu GitHub Pages. Die GitHub-Pages-Bereitstellung erfordert eine gesonderte Freigabe; vorhandene Bereitstellungen müssen nach einem Commit aktualisiert werden. [Schritt-für-Schritt-Anleitung](docs/GITHUB_PAGES.md) und [Installation auf Android, iPhone und Windows](docs/PWA.md#installation-auf-android-iphone-und-windows).
 
@@ -120,7 +120,7 @@ Die bisherigen `snake3310_*`-Schlüssel werden weiterverwendet. Bestehende Werte
 
 ## Qualität und Veröffentlichung
 
-Ergebnis: **76/76 Unit-Tests, Produktionsbuild und 168/168 Browser-Szenarien** (104 Chromium, 64 WebKit), keine Seitenfehler. [Testbericht 0.7.3](docs/TESTS.md). Ausgeführt über `pnpm run test`, `pnpm run build` und `pnpm run test:browser`, da die Entwicklungsumgebung kein npm bereitstellt. Die Skripte sind identisch. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
+Ergebnis: **76/76 Unit-Tests, Produktionsbuild und 186/186 Browser-Szenarien** (113 Chromium, 73 WebKit), keine Seitenfehler. [Testbericht 0.7.4](docs/TESTS.md). Der lokale Abschluss verwendet den identischen nativen Unit-Befehl aus package.json, `pnpm run build` und den vollständigen Browserbefehl `node scripts/browser-test.mjs --webkit`. Desktop und mobile Chrome-/WebKit-Darstellung wurden geprüft. Die WebKit-Matrix läuft zusätzlich mit `pnpm run test:browser:webkit` (vorher `pnpm exec playwright install webkit`). Ein reguläres temporäres Browserprofil bestand Installierbarkeitsprüfung, vollständigen Browser-Neustart und Offline-Fortsetzen. Testumfang und Grenzen: [Testbericht](docs/TESTS.md).
 
 Der Build enthält bereits Manifest, Icons und einen versionierten Service Worker. Nach dem ersten vollständigen Online-Laden funktioniert er offline. `dist/` später auf einem statischen **HTTPS**-Host veröffentlichen. Details zu Installation, Updates, Unterverzeichnissen und Einschränkungen: [PWA-Veröffentlichung](docs/PWA.md). Es wurde kein öffentlicher Deployment durchgeführt.
 
