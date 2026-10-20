@@ -1,3 +1,4 @@
+import {assertFullscreenStack} from './fullscreen-stack.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {perimeterFixture} from './edge-test.mjs';
@@ -11,7 +12,7 @@ export async function testV072({browser,check,frozenPage,modeFixture,layouts,eng
         await c.addInitScript(s=>{for(const[k,v]of Object.entries(s))localStorage.setItem('snake3310_'+k,String(v));},{profile,full});
         const p=await frozenPage(c,perimeterFixture(modeFixture));await p.locator('#pause').tap();
         const m=await p.evaluate(()=>{const r=e=>{const b=e.getBoundingClientRect();return{x:b.x,y:b.y,width:b.width,height:b.height,right:b.right,bottom:b.bottom};};return{
-          toolbar:r(document.querySelector('.toolbar')),canvas:r(document.querySelector('canvas')),phone:r(document.querySelector('.phone')),controls:r(document.querySelector('.full-controls')),
+          status:r(document.querySelector('.status')),toolbar:r(document.querySelector('.toolbar')),canvas:r(document.querySelector('canvas')),phone:r(document.querySelector('.phone')),controls:r(document.querySelector('.full-controls')),
           buttons:Array.from(document.querySelectorAll('.toolbar button')).filter(e=>e.getBoundingClientRect().height).map(e=>({id:e.id,...r(e),client:e.clientWidth,scroll:e.scrollWidth})).sort((a,b)=>a.x-b.x),
           keys:Array.from(document.querySelectorAll(document.body.classList.contains('full')?'.full-controls .key':'.keys .key')).filter(e=>e.getBoundingClientRect().height).map(r),
           scroll:[document.documentElement.scrollWidth,document.documentElement.scrollHeight]};});
@@ -21,7 +22,7 @@ export async function testV072({browser,check,frozenPage,modeFixture,layouts,eng
           for(const b of m.buttons){assert.equal(b.y,m.buttons[0].y);assert.ok(b.width>=44&&b.height>=44&&b.scroll<=b.client+1);}
           assert.ok(m.scroll[1]<=height+1);for(const b of[m.phone,m.canvas,...m.keys])assert.ok(b.x>=0&&b.y>=0&&b.right<=width+.2&&b.bottom<=height+.2,JSON.stringify({width,height,profile,full,b}));
           for(const k of m.keys)assert.ok(k.width>=44&&k.height>=44);
-          if(full){assert.ok(m.canvas.width>old.canvas.width+.5,`${profile} ${width} LCD must grow`);assert.ok(m.controls.y>old.controls.y+2,`${profile} ${width} controls must move down: ${m.controls.y} <= ${old.controls.y}`);}
+          if(full){assert.ok(m.canvas.width>old.canvas.width+.5,`${profile} ${width} LCD must grow`);if(height>width)assertFullscreenStack(m);else assert.ok(m.controls.y>old.controls.y+2,`${profile} ${width} landscape controls retain their position`);}
           else assert.ok(m.canvas.width>=old.canvas.width-.5,'handset LCD must not shrink');
           await p.locator('#pause').focus();for(const id of ['menu','view','more']){await p.keyboard.press('Tab');assert.equal(await p.evaluate(()=>document.activeElement.id),id,'toolbar Tab order follows the visual order');}
           const before=await p.evaluate(()=>JSON.parse(localStorage.getItem('snake3310_snapshot')));

@@ -1,0 +1,1634 @@
+[
+  {
+    "width": 320,
+    "height": 568,
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 31.921875,
+      "y": 91.671875,
+      "width": 256.15625,
+      "height": 195.3125,
+      "right": 288.078125,
+      "bottom": 286.984375
+    },
+    "lcd": {
+      "x": 28.921875,
+      "y": 88.671875,
+      "width": 262.15625,
+      "height": 201.3125,
+      "right": 291.078125,
+      "bottom": 289.984375
+    },
+    "phone": {
+      "x": 7.921875,
+      "y": 53.671875,
+      "width": 304.15625,
+      "height": 508.3125,
+      "right": 312.078125,
+      "bottom": 561.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 308,
+      "height": 44,
+      "right": 314,
+      "bottom": 48
+    },
+    "status": {
+      "x": 17.921875,
+      "y": 300.984375,
+      "width": 284.15625,
+      "height": 18,
+      "right": 302.078125,
+      "bottom": 318.984375
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      320,
+      568
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 31.921875,
+      "y": 91.671875,
+      "width": 256.15625,
+      "height": 195.3125,
+      "right": 288.078125,
+      "bottom": 286.984375
+    },
+    "lcd": {
+      "x": 28.921875,
+      "y": 88.671875,
+      "width": 262.15625,
+      "height": 201.3125,
+      "right": 291.078125,
+      "bottom": 289.984375
+    },
+    "phone": {
+      "x": 7.921875,
+      "y": 53.671875,
+      "width": 304.15625,
+      "height": 508.3125,
+      "right": 312.078125,
+      "bottom": 561.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 308,
+      "height": 44,
+      "right": 314,
+      "bottom": 48
+    },
+    "status": {
+      "x": 17.921875,
+      "y": 300.984375,
+      "width": 284.15625,
+      "height": 18,
+      "right": 302.078125,
+      "bottom": 318.984375
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      320,
+      568
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 58.671875,
+      "width": 306,
+      "height": 233.3125,
+      "right": 313,
+      "bottom": 291.984375
+    },
+    "lcd": {
+      "x": 4,
+      "y": 55.671875,
+      "width": 312,
+      "height": 239.3125,
+      "right": 316,
+      "bottom": 294.984375
+    },
+    "phone": {
+      "x": 2,
+      "y": 53.671875,
+      "width": 316,
+      "height": 265.3125,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 316,
+      "height": 44,
+      "right": 318,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 296.984375,
+      "width": 316,
+      "height": 22,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "controls": {
+      "x": 19,
+      "y": 451,
+      "width": 282,
+      "height": 105,
+      "right": 301,
+      "bottom": 556
+    },
+    "up": {
+      "x": 115,
+      "y": 451,
+      "width": 90,
+      "height": 48,
+      "right": 205,
+      "bottom": 499
+    },
+    "controlMargin": "126.344px",
+    "scroll": [
+      320,
+      568
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 58.671875,
+      "width": 306,
+      "height": 233.3125,
+      "right": 313,
+      "bottom": 291.984375
+    },
+    "lcd": {
+      "x": 4,
+      "y": 55.671875,
+      "width": 312,
+      "height": 239.3125,
+      "right": 316,
+      "bottom": 294.984375
+    },
+    "phone": {
+      "x": 2,
+      "y": 53.671875,
+      "width": 316,
+      "height": 265.3125,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 316,
+      "height": 44,
+      "right": 318,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 296.984375,
+      "width": 316,
+      "height": 22,
+      "right": 318,
+      "bottom": 318.984375
+    },
+    "controls": {
+      "x": 19,
+      "y": 451,
+      "width": 282,
+      "height": 105,
+      "right": 301,
+      "bottom": 556
+    },
+    "up": {
+      "x": 115,
+      "y": 451,
+      "width": 90,
+      "height": 48,
+      "right": 205,
+      "bottom": 499
+    },
+    "controlMargin": "126.344px",
+    "scroll": [
+      320,
+      568
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 30,
+      "y": 109.390625,
+      "width": 300,
+      "height": 228.75,
+      "right": 330,
+      "bottom": 338.140625
+    },
+    "lcd": {
+      "x": 27,
+      "y": 106.390625,
+      "width": 306,
+      "height": 234.75,
+      "right": 333,
+      "bottom": 341.140625
+    },
+    "phone": {
+      "x": 6,
+      "y": 55.390625,
+      "width": 348,
+      "height": 587.75,
+      "right": 354,
+      "bottom": 643.140625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 348,
+      "height": 44,
+      "right": 354,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 352.140625,
+      "width": 328,
+      "height": 22,
+      "right": 344,
+      "bottom": 374.140625
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      360,
+      740
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 30,
+      "y": 109.390625,
+      "width": 300,
+      "height": 228.75,
+      "right": 330,
+      "bottom": 338.140625
+    },
+    "lcd": {
+      "x": 27,
+      "y": 106.390625,
+      "width": 306,
+      "height": 234.75,
+      "right": 333,
+      "bottom": 341.140625
+    },
+    "phone": {
+      "x": 6,
+      "y": 55.390625,
+      "width": 348,
+      "height": 587.75,
+      "right": 354,
+      "bottom": 643.140625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 348,
+      "height": 44,
+      "right": 354,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 352.140625,
+      "width": 328,
+      "height": 22,
+      "right": 344,
+      "bottom": 374.140625
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      360,
+      740
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 60.390625,
+      "width": 346,
+      "height": 263.8125,
+      "right": 353,
+      "bottom": 324.203125
+    },
+    "lcd": {
+      "x": 4,
+      "y": 57.390625,
+      "width": 352,
+      "height": 269.8125,
+      "right": 356,
+      "bottom": 327.203125
+    },
+    "phone": {
+      "x": 2,
+      "y": 55.390625,
+      "width": 356,
+      "height": 295.8125,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 356,
+      "height": 44,
+      "right": 358,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 329.203125,
+      "width": 356,
+      "height": 22,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "controls": {
+      "x": 39,
+      "y": 623,
+      "width": 282,
+      "height": 105,
+      "right": 321,
+      "bottom": 728
+    },
+    "up": {
+      "x": 135,
+      "y": 623,
+      "width": 90,
+      "height": 48,
+      "right": 225,
+      "bottom": 671
+    },
+    "controlMargin": "264.406px",
+    "scroll": [
+      360,
+      740
+    ]
+  },
+  {
+    "width": 360,
+    "height": 740,
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 60.390625,
+      "width": 346,
+      "height": 263.8125,
+      "right": 353,
+      "bottom": 324.203125
+    },
+    "lcd": {
+      "x": 4,
+      "y": 57.390625,
+      "width": 352,
+      "height": 269.8125,
+      "right": 356,
+      "bottom": 327.203125
+    },
+    "phone": {
+      "x": 2,
+      "y": 55.390625,
+      "width": 356,
+      "height": 295.8125,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 356,
+      "height": 44,
+      "right": 358,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 329.203125,
+      "width": 356,
+      "height": 22,
+      "right": 358,
+      "bottom": 351.203125
+    },
+    "controls": {
+      "x": 39,
+      "y": 623,
+      "width": 282,
+      "height": 105,
+      "right": 321,
+      "bottom": 728
+    },
+    "up": {
+      "x": 135,
+      "y": 623,
+      "width": 90,
+      "height": 48,
+      "right": 225,
+      "bottom": 671
+    },
+    "controlMargin": "264.406px",
+    "scroll": [
+      360,
+      740
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 361.625
+    },
+    "lcd": {
+      "x": 27,
+      "y": 107,
+      "width": 336,
+      "height": 257.625,
+      "right": 363,
+      "bottom": 364.625
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 610.625,
+      "right": 384,
+      "bottom": 666.625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 375.625,
+      "width": 358,
+      "height": 22,
+      "right": 374,
+      "bottom": 397.625
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      390,
+      844
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 330,
+      "height": 251.625,
+      "right": 360,
+      "bottom": 361.625
+    },
+    "lcd": {
+      "x": 27,
+      "y": 107,
+      "width": 336,
+      "height": 257.625,
+      "right": 363,
+      "bottom": 364.625
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 378,
+      "height": 610.625,
+      "right": 384,
+      "bottom": 666.625
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 378,
+      "height": 44,
+      "right": 384,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 375.625,
+      "width": 358,
+      "height": 22,
+      "right": 374,
+      "bottom": 397.625
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      390,
+      844
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 376,
+      "height": 286.6875,
+      "right": 383,
+      "bottom": 347.6875
+    },
+    "lcd": {
+      "x": 4,
+      "y": 58,
+      "width": 382,
+      "height": 292.6875,
+      "right": 386,
+      "bottom": 350.6875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 386,
+      "height": 318.6875,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 386,
+      "height": 44,
+      "right": 388,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 352.6875,
+      "width": 386,
+      "height": 22,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "controls": {
+      "x": 54,
+      "y": 727,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 832
+    },
+    "up": {
+      "x": 150,
+      "y": 727,
+      "width": 90,
+      "height": 48,
+      "right": 240,
+      "bottom": 775
+    },
+    "controlMargin": "344.312px",
+    "scroll": [
+      390,
+      844
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 376,
+      "height": 286.6875,
+      "right": 383,
+      "bottom": 347.6875
+    },
+    "lcd": {
+      "x": 4,
+      "y": 58,
+      "width": 382,
+      "height": 292.6875,
+      "right": 386,
+      "bottom": 350.6875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 386,
+      "height": 318.6875,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 386,
+      "height": 44,
+      "right": 388,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 352.6875,
+      "width": 386,
+      "height": 22,
+      "right": 388,
+      "bottom": 374.6875
+    },
+    "controls": {
+      "x": 54,
+      "y": 727,
+      "width": 282,
+      "height": 105,
+      "right": 336,
+      "bottom": 832
+    },
+    "up": {
+      "x": 150,
+      "y": 727,
+      "width": 90,
+      "height": 48,
+      "right": 240,
+      "bottom": 775
+    },
+    "controlMargin": "344.312px",
+    "scroll": [
+      390,
+      844
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 370,
+      "height": 282.125,
+      "right": 400,
+      "bottom": 392.125
+    },
+    "lcd": {
+      "x": 27,
+      "y": 107,
+      "width": 376,
+      "height": 288.125,
+      "right": 403,
+      "bottom": 395.125
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 418,
+      "height": 641.125,
+      "right": 424,
+      "bottom": 697.125
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 418,
+      "height": 44,
+      "right": 424,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 406.125,
+      "width": 398,
+      "height": 22,
+      "right": 414,
+      "bottom": 428.125
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      430,
+      932
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 30,
+      "y": 110,
+      "width": 370,
+      "height": 282.125,
+      "right": 400,
+      "bottom": 392.125
+    },
+    "lcd": {
+      "x": 27,
+      "y": 107,
+      "width": 376,
+      "height": 288.125,
+      "right": 403,
+      "bottom": 395.125
+    },
+    "phone": {
+      "x": 6,
+      "y": 56,
+      "width": 418,
+      "height": 641.125,
+      "right": 424,
+      "bottom": 697.125
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 418,
+      "height": 44,
+      "right": 424,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 406.125,
+      "width": 398,
+      "height": 22,
+      "right": 414,
+      "bottom": 428.125
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      430,
+      932
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 416,
+      "height": 317.1875,
+      "right": 423,
+      "bottom": 378.1875
+    },
+    "lcd": {
+      "x": 4,
+      "y": 58,
+      "width": 422,
+      "height": 323.1875,
+      "right": 426,
+      "bottom": 381.1875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 426,
+      "height": 349.1875,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 426,
+      "height": 44,
+      "right": 428,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 383.1875,
+      "width": 426,
+      "height": 22,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "controls": {
+      "x": 74,
+      "y": 815,
+      "width": 282,
+      "height": 105,
+      "right": 356,
+      "bottom": 920
+    },
+    "up": {
+      "x": 170,
+      "y": 815,
+      "width": 90,
+      "height": 48,
+      "right": 260,
+      "bottom": 863
+    },
+    "controlMargin": "401.812px",
+    "scroll": [
+      430,
+      932
+    ]
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 7,
+      "y": 61,
+      "width": 416,
+      "height": 317.1875,
+      "right": 423,
+      "bottom": 378.1875
+    },
+    "lcd": {
+      "x": 4,
+      "y": 58,
+      "width": 422,
+      "height": 323.1875,
+      "right": 426,
+      "bottom": 381.1875
+    },
+    "phone": {
+      "x": 2,
+      "y": 56,
+      "width": 426,
+      "height": 349.1875,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 426,
+      "height": 44,
+      "right": 428,
+      "bottom": 48
+    },
+    "status": {
+      "x": 2,
+      "y": 383.1875,
+      "width": 426,
+      "height": 22,
+      "right": 428,
+      "bottom": 405.1875
+    },
+    "controls": {
+      "x": 74,
+      "y": 815,
+      "width": 282,
+      "height": 105,
+      "right": 356,
+      "bottom": 920
+    },
+    "up": {
+      "x": 170,
+      "y": 815,
+      "width": 90,
+      "height": 48,
+      "right": 260,
+      "bottom": 863
+    },
+    "controlMargin": "401.812px",
+    "scroll": [
+      430,
+      932
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 132.40625,
+      "y": 89,
+      "width": 329.171875,
+      "height": 250.984375,
+      "right": 461.578125,
+      "bottom": 339.984375
+    },
+    "lcd": {
+      "x": 129.40625,
+      "y": 86,
+      "width": 335.171875,
+      "height": 256.984375,
+      "right": 464.578125,
+      "bottom": 342.984375
+    },
+    "phone": {
+      "x": 6,
+      "y": 52,
+      "width": 832,
+      "height": 331.984375,
+      "right": 838,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 832,
+      "height": 44,
+      "right": 838,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 353.984375,
+      "width": 562,
+      "height": 22,
+      "right": 578,
+      "bottom": 375.984375
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      844,
+      390
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 132.40625,
+      "y": 89,
+      "width": 329.171875,
+      "height": 250.984375,
+      "right": 461.578125,
+      "bottom": 339.984375
+    },
+    "lcd": {
+      "x": 129.40625,
+      "y": 86,
+      "width": 335.171875,
+      "height": 256.984375,
+      "right": 464.578125,
+      "bottom": 342.984375
+    },
+    "phone": {
+      "x": 6,
+      "y": 52,
+      "width": 832,
+      "height": 331.984375,
+      "right": 838,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 6,
+      "y": 4,
+      "width": 832,
+      "height": 44,
+      "right": 838,
+      "bottom": 48
+    },
+    "status": {
+      "x": 16,
+      "y": 353.984375,
+      "width": 562,
+      "height": 22,
+      "right": 578,
+      "bottom": 375.984375
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      844,
+      390
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 112.28125,
+      "y": 57,
+      "width": 393.4375,
+      "height": 299.984375,
+      "right": 505.71875,
+      "bottom": 356.984375
+    },
+    "lcd": {
+      "x": 109.28125,
+      "y": 54,
+      "width": 399.4375,
+      "height": 305.984375,
+      "right": 508.71875,
+      "bottom": 359.984375
+    },
+    "phone": {
+      "x": 107.28125,
+      "y": 52,
+      "width": 403.4375,
+      "height": 331.984375,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 840,
+      "height": 44,
+      "right": 842,
+      "bottom": 48
+    },
+    "status": {
+      "x": 107.28125,
+      "y": 361.984375,
+      "width": 403.4375,
+      "height": 22,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "controls": {
+      "x": 623,
+      "y": 165.5,
+      "width": 216,
+      "height": 105,
+      "right": 839,
+      "bottom": 270.5
+    },
+    "up": {
+      "x": 697,
+      "y": 165.5,
+      "width": 68,
+      "height": 48,
+      "right": 765,
+      "bottom": 213.5
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      844,
+      390
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 112.28125,
+      "y": 57,
+      "width": 393.4375,
+      "height": 299.984375,
+      "right": 505.71875,
+      "bottom": 356.984375
+    },
+    "lcd": {
+      "x": 109.28125,
+      "y": 54,
+      "width": 399.4375,
+      "height": 305.984375,
+      "right": 508.71875,
+      "bottom": 359.984375
+    },
+    "phone": {
+      "x": 107.28125,
+      "y": 52,
+      "width": 403.4375,
+      "height": 331.984375,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "toolbar": {
+      "x": 2,
+      "y": 4,
+      "width": 840,
+      "height": 44,
+      "right": 842,
+      "bottom": 48
+    },
+    "status": {
+      "x": 107.28125,
+      "y": 361.984375,
+      "width": 403.4375,
+      "height": 22,
+      "right": 510.71875,
+      "bottom": 383.984375
+    },
+    "controls": {
+      "x": 623,
+      "y": 165.5,
+      "width": 216,
+      "height": 105,
+      "right": 839,
+      "bottom": 270.5
+    },
+    "up": {
+      "x": 697,
+      "y": 165.5,
+      "width": 68,
+      "height": 48,
+      "right": 765,
+      "bottom": 213.5
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      844,
+      390
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "full": false,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 505,
+      "y": 273.390625,
+      "width": 356,
+      "height": 271.4375,
+      "right": 861,
+      "bottom": 544.828125
+    },
+    "lcd": {
+      "x": 502,
+      "y": 270.390625,
+      "width": 362,
+      "height": 277.4375,
+      "right": 864,
+      "bottom": 547.828125
+    },
+    "phone": {
+      "x": 453,
+      "y": 174.796875,
+      "width": 460,
+      "height": 744.625,
+      "right": 913,
+      "bottom": 919.421875
+    },
+    "toolbar": {
+      "x": 352.90625,
+      "y": 66,
+      "width": 660.171875,
+      "height": 56,
+      "right": 1013.078125,
+      "bottom": 122
+    },
+    "status": {
+      "x": 480,
+      "y": 575.828125,
+      "width": 406,
+      "height": 27,
+      "right": 886,
+      "bottom": 602.828125
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      1366,
+      1045
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "full": false,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 505,
+      "y": 273.390625,
+      "width": 356,
+      "height": 271.4375,
+      "right": 861,
+      "bottom": 544.828125
+    },
+    "lcd": {
+      "x": 502,
+      "y": 270.390625,
+      "width": 362,
+      "height": 277.4375,
+      "right": 864,
+      "bottom": 547.828125
+    },
+    "phone": {
+      "x": 453,
+      "y": 174.796875,
+      "width": 460,
+      "height": 744.625,
+      "right": 913,
+      "bottom": 919.421875
+    },
+    "toolbar": {
+      "x": 354.84375,
+      "y": 66,
+      "width": 656.296875,
+      "height": 56,
+      "right": 1011.140625,
+      "bottom": 122
+    },
+    "status": {
+      "x": 480,
+      "y": 575.828125,
+      "width": 406,
+      "height": 27,
+      "right": 886,
+      "bottom": 602.828125
+    },
+    "controls": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "up": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      1366,
+      1045
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "full": true,
+    "active": false,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 134.078125,
+      "y": 74,
+      "width": 849.828125,
+      "height": 647.984375,
+      "right": 983.90625,
+      "bottom": 721.984375
+    },
+    "lcd": {
+      "x": 131.078125,
+      "y": 71,
+      "width": 855.828125,
+      "height": 653.984375,
+      "right": 986.90625,
+      "bottom": 724.984375
+    },
+    "phone": {
+      "x": 120.078125,
+      "y": 60,
+      "width": 877.828125,
+      "height": 699.984375,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "toolbar": {
+      "x": 364.21875,
+      "y": 8,
+      "width": 637.5625,
+      "height": 44,
+      "right": 1001.78125,
+      "bottom": 52
+    },
+    "status": {
+      "x": 120.078125,
+      "y": 735.984375,
+      "width": 877.828125,
+      "height": 24,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "controls": {
+      "x": 1123,
+      "y": 322,
+      "width": 230,
+      "height": 176,
+      "right": 1353,
+      "bottom": 498
+    },
+    "up": {
+      "x": 1203,
+      "y": 322,
+      "width": 70,
+      "height": 52,
+      "right": 1273,
+      "bottom": 374
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      1366,
+      768
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "full": true,
+    "active": true,
+    "version": "Bytecoil – Retro Snake 0.7.3",
+    "canvas": {
+      "x": 134.078125,
+      "y": 74,
+      "width": 849.828125,
+      "height": 647.984375,
+      "right": 983.90625,
+      "bottom": 721.984375
+    },
+    "lcd": {
+      "x": 131.078125,
+      "y": 71,
+      "width": 855.828125,
+      "height": 653.984375,
+      "right": 986.90625,
+      "bottom": 724.984375
+    },
+    "phone": {
+      "x": 120.078125,
+      "y": 60,
+      "width": 877.828125,
+      "height": 699.984375,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "toolbar": {
+      "x": 366.15625,
+      "y": 8,
+      "width": 633.6875,
+      "height": 44,
+      "right": 999.84375,
+      "bottom": 52
+    },
+    "status": {
+      "x": 120.078125,
+      "y": 735.984375,
+      "width": 877.828125,
+      "height": 24,
+      "right": 997.90625,
+      "bottom": 759.984375
+    },
+    "controls": {
+      "x": 1123,
+      "y": 322,
+      "width": 230,
+      "height": 176,
+      "right": 1353,
+      "bottom": 498
+    },
+    "up": {
+      "x": 1203,
+      "y": 322,
+      "width": 70,
+      "height": 52,
+      "right": 1273,
+      "bottom": 374
+    },
+    "controlMargin": "0px",
+    "scroll": [
+      1366,
+      768
+    ]
+  }
+]

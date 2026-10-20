@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { perimeterFixture } from './edge-test.mjs';
+import { assertFullscreenStack } from './fullscreen-stack.mjs';
 
 export async function testV071({ browser, check, frozenPage, modeFixture, layouts, engine='chrome' }) {
   for (const [width,height] of [[320,568],[360,740],[390,844],[430,932],[844,390]]) {
@@ -18,7 +19,7 @@ export async function testV071({ browser, check, frozenPage, modeFixture, layout
               const r=e=>{const b=e.getBoundingClientRect();return{x:b.x,y:b.y,width:b.width,height:b.height,right:b.right,bottom:b.bottom};};
               const all=s=>Array.from(document.querySelectorAll(s)).filter(e=>e.getBoundingClientRect().height>0).map(r);
               const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
-              return{bottomInset:parseFloat(getComputedStyle(document.body).paddingBottom),toolbar:r(document.querySelector('.toolbar')),phone:r(document.querySelector('.phone')),canvas:r(canvas),lcd:r(canvas.parentElement),
+              return{status:r(document.querySelector('.status')),bottomInset:parseFloat(getComputedStyle(document.body).paddingBottom),toolbar:r(document.querySelector('.toolbar')),phone:r(document.querySelector('.phone')),canvas:r(canvas),lcd:r(canvas.parentElement),
                 keys:all(document.body.classList.contains('full')?'.full-controls .key':'.keys .key'),
                 toolbarButtons:Array.from(document.querySelectorAll('.toolbar button')).filter(e=>e.getBoundingClientRect().height>0).map(e=>({text:e.textContent,width:e.clientWidth,scroll:e.scrollWidth})),controlMargin:parseFloat(getComputedStyle(document.querySelector('.full-controls')).marginTop)||0,controls:r(document.querySelector('.full-controls')),scroll:[document.documentElement.scrollWidth,document.documentElement.scrollHeight],
                 sourceCorners:[[5,37],[309,37],[5,238],[309,238]].map(([x,y])=>Array.from(ctx.getImageData(x,y,1,1).data)),bitmap:[canvas.width,canvas.height]};
@@ -33,7 +34,7 @@ export async function testV071({ browser, check, frozenPage, modeFixture, layout
             }
             for(const k of m.keys)assert.ok(k.right<=m.canvas.x+.1||k.x>=m.canvas.right-.1||k.bottom<=m.canvas.y+.1||k.y>=m.canvas.bottom-.1,tag+' key overlaps LCD');
             assert.ok(m.phone.y-m.toolbar.bottom>=0&&m.phone.y-m.toolbar.bottom<=9,tag+' top gap');
-            if(full&&height>width){assert.ok(m.controls.y-m.phone.bottom>=4,tag+' separate LCD and thumb zone');assert.ok(Math.abs(height-m.controls.bottom-m.bottomInset)<=.5,tag+' bottom-anchored safe controls');}
+            if(full&&height>width){assertFullscreenStack(m,tag);assert.ok(m.controls.bottom<=height-m.bottomInset+.5,tag+' controls respect the lower safe area');}
             assert.deepEqual(m.bitmap,[320,244]);assert.ok(Math.abs(m.canvas.width/m.canvas.height-320/244)<.001);
             assert.ok(m.canvas.bottom<=m.lcd.bottom-2.9);
             // Paused overlay covers the centre only. The occupied lower row and corners remain visible.

@@ -20,7 +20,10 @@ export function installMobileLayout() {
     const gap = parseFloat(css.rowGap) || 0;
     const full = body.classList.contains('full');
     const landscape = innerWidth > innerHeight;
-    const controlHeight = full && !landscape && getComputedStyle(controls).display !== 'none' ? controls.getBoundingClientRect().height : 0;
+    const controlStyle = getComputedStyle(controls);
+    // The finite CSS stack margin must fit too; it never depends on leftover height.
+    const controlHeight = full && !landscape && controlStyle.display !== 'none'
+      ? controls.getBoundingClientRect().height + (parseFloat(controlStyle.marginTop) || 0) : 0;
     const insetToolbar = !full && landscape && innerWidth > 500 && innerHeight <= 380;
     const budget = insetToolbar ? available : available - toolbar.getBoundingClientRect().height - controlHeight - gap * (controlHeight ? 2 : 1);
     const wrap = document.querySelector<HTMLElement>('.wrap')!;

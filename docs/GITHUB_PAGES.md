@@ -1,6 +1,6 @@
-# v0.7.3 – Entwicklungsbranch und Freigabe
+# v0.7.4 – Entwicklungsbranch und Freigabe
 
-Basis: `main` auf `40b5342` (0.7.2), Branch `feature/v0.7.3-unified-ui`. Nach erfolgreichen Unit-, Build- und vollständigen Browserprüfungen folgt ein eigener Commit mit Draft-PR nach `main`. Kein automatischer Merge und keine Pages-Veröffentlichung. Die vorhandenen Workflow-Bedingungen werden nicht verändert. [UI-/Migrationsbericht](UNIFIED_UI_V073.md) · [Tests](TESTS.md).
+Basis: `main` auf `6457008` (übernommene 0.7.3), Branch `feature/v0.7.4-fullscreen-controls`. Nach erfolgreichen Unit-, Build- und vollständigen Browserprüfungen folgt ein eigener Commit mit Draft-PR nach `main`. Kein automatischer Merge und keine Pages-Veröffentlichung. Die vorhandenen Workflow-Bedingungen werden nicht verändert. [Layoutbericht](FULLSCREEN_CONTROLS_V074.md) · [Tests](TESTS.md).
 
 ## Historische Entwicklungsfreigabe v0.7
 

@@ -1,4 +1,8 @@
-# Screenshots – Bytecoil 0.7.3
+# Screenshots – Bytecoil 0.7.4
+
+## 0.7.4 – Zusammenhängende Vollbild-Bedienung
+
+[20 Vorher-/Nachher-Bilder mit CSS-Pixelmessungen](FULLSCREEN_CONTROLS_V074.md#vorhernachher): Vollbild auf 320×568, 390×844, 430×932 und 844×390, zusätzlich die unveränderte Handyansicht auf 390×844; jeweils aktiv und pausiert.
 
 ## 0.7.3 – Einheitliche Oberfläche
 
